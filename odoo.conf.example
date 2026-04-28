@@ -1,0 +1,8 @@
+# Exemple : le dossier addons_path doit contenir le répertoire parent de laplatine_invoice_payment_info
+# (ici odoo18-addons-dorevia), sinon le module ne charge pas et la vue « Info facture » provoque
+# une erreur « field is undefined » dans le navigateur.
+#
+# Copier vers votre odoo.conf réel ou fusionner avec votre section [options].
+
+[options]
+addons_path = /usr/lib/python3/dist-packages/odoo/addons,/chemin/absolu/vers/odoo18-addons-dorevia

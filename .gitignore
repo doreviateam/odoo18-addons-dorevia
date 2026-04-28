@@ -1,0 +1,18 @@
+# Python / Odoo
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Environnements locaux
+.env
+.venv/

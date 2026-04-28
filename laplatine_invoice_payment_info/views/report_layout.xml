@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="external_layout_standard_laplatine_logo_size"
+        inherit_id="web.external_layout_standard"
+    >
+        <xpath
+            expr="//img[contains(concat(' ', normalize-space(@class), ' '), ' o_company_logo_small ')]"
+            position="attributes"
+        >
+            <attribute name="style">max-height: 120px; max-width: 320px; width: auto;</attribute>
+        </xpath>
+    </template>
+
+    <template
+        id="external_layout_big_laplatine_logo_size"
+        inherit_id="web.external_layout_striped"
+    >
+        <xpath
+            expr="//img[contains(concat(' ', normalize-space(@class), ' '), ' o_company_logo_big ')]"
+            position="attributes"
+        >
+            <attribute name="style">max-height: 140px; max-width: 360px; width: auto;</attribute>
+        </xpath>
+    </template>
+
+    <template
+        id="external_layout_boxed_laplatine_logo_size"
+        inherit_id="web.external_layout_boxed"
+    >
+        <xpath
+            expr="//img[contains(concat(' ', normalize-space(@class), ' '), ' o_company_logo_big ')]"
+            position="attributes"
+        >
+            <attribute name="style">max-height: 140px; max-width: 360px; width: auto;</attribute>
+        </xpath>
+    </template>
+
+    <template
+        id="external_layout_bold_laplatine_logo_size"
+        inherit_id="web.external_layout_bold"
+    >
+        <xpath
+            expr="//img[contains(concat(' ', normalize-space(@class), ' '), ' o_company_logo_big ')]"
+            position="attributes"
+        >
+            <attribute name="style">max-height: 140px; max-width: 360px; width: auto;</attribute>
+        </xpath>
+    </template>
+
+    <template
+        id="external_layout_folder_laplatine_logo_size"
+        inherit_id="web.external_layout_folder"
+    >
+        <xpath
+            expr="//img[contains(concat(' ', normalize-space(@class), ' '), ' o_company_logo_big ')]"
+            position="attributes"
+        >
+            <attribute name="style">max-height: 140px; max-width: 360px; width: auto;</attribute>
+        </xpath>
+    </template>
+
+    <template
+        id="external_layout_wave_laplatine_logo_size"
+        inherit_id="web.external_layout_wave"
+    >
+        <xpath
+            expr="//img[contains(concat(' ', normalize-space(@class), ' '), ' o_company_logo ')]"
+            position="attributes"
+        >
+            <attribute name="style">max-height: 140px; max-width: 360px; width: auto;</attribute>
+        </xpath>
+    </template>
+
+    <template
+        id="external_layout_bubble_laplatine_logo_size"
+        inherit_id="web.external_layout_bubble"
+    >
+        <xpath
+            expr="//img[contains(concat(' ', normalize-space(@class), ' '), ' o_company_logo ')]"
+            position="attributes"
+        >
+            <attribute name="style">max-height: 140px; max-width: 360px; width: auto;</attribute>
+        </xpath>
+    </template>
+</odoo>

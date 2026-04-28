@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="report_invoice_document_laplatine_payment_info"
+        inherit_id="account.report_invoice_document"
+    >
+        <xpath
+            expr="//t[@t-foreach='payments_vals']/tr/td[not(@class)]/i/*[last()]"
+            position="after"
+        >
+            <t t-if="payment_vals.get('laplatine_display_payment_mode_label')">
+                <t t-out="' par %s' % payment_vals['laplatine_display_payment_mode_label']"/>
+            </t>
+        </xpath>
+    </template>
+</odoo>
