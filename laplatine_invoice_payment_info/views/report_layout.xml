@@ -8,7 +8,7 @@
             expr="//img[contains(concat(' ', normalize-space(@class), ' '), ' o_company_logo_small ')]"
             position="attributes"
         >
-            <attribute name="style">max-height: 120px; max-width: 320px; width: auto;</attribute>
+            <attribute name="style">height: 170px; max-width: 420px; width: auto; object-fit: contain;</attribute>
         </xpath>
     </template>
 
@@ -20,7 +20,7 @@
             expr="//img[contains(concat(' ', normalize-space(@class), ' '), ' o_company_logo_big ')]"
             position="attributes"
         >
-            <attribute name="style">max-height: 140px; max-width: 360px; width: auto;</attribute>
+            <attribute name="style">height: 180px; max-width: 440px; width: auto; object-fit: contain;</attribute>
         </xpath>
     </template>
 
@@ -32,7 +32,7 @@
             expr="//img[contains(concat(' ', normalize-space(@class), ' '), ' o_company_logo_big ')]"
             position="attributes"
         >
-            <attribute name="style">max-height: 140px; max-width: 360px; width: auto;</attribute>
+            <attribute name="style">height: 180px; max-width: 440px; width: auto; object-fit: contain;</attribute>
         </xpath>
     </template>
 
@@ -44,7 +44,7 @@
             expr="//img[contains(concat(' ', normalize-space(@class), ' '), ' o_company_logo_big ')]"
             position="attributes"
         >
-            <attribute name="style">max-height: 140px; max-width: 360px; width: auto;</attribute>
+            <attribute name="style">height: 180px; max-width: 440px; width: auto; object-fit: contain;</attribute>
         </xpath>
     </template>
 
@@ -56,7 +56,7 @@
             expr="//img[contains(concat(' ', normalize-space(@class), ' '), ' o_company_logo_big ')]"
             position="attributes"
         >
-            <attribute name="style">max-height: 140px; max-width: 360px; width: auto;</attribute>
+            <attribute name="style">height: 180px; max-width: 440px; width: auto; object-fit: contain;</attribute>
         </xpath>
     </template>
 
@@ -68,7 +68,7 @@
             expr="//img[contains(concat(' ', normalize-space(@class), ' '), ' o_company_logo ')]"
             position="attributes"
         >
-            <attribute name="style">max-height: 140px; max-width: 360px; width: auto;</attribute>
+            <attribute name="style">height: 180px; max-width: 440px; width: auto; object-fit: contain;</attribute>
         </xpath>
     </template>
 
@@ -80,7 +80,7 @@
             expr="//img[contains(concat(' ', normalize-space(@class), ' '), ' o_company_logo ')]"
             position="attributes"
         >
-            <attribute name="style">max-height: 140px; max-width: 360px; width: auto;</attribute>
+            <attribute name="style">height: 180px; max-width: 440px; width: auto; object-fit: contain;</attribute>
         </xpath>
     </template>
 </odoo>
