@@ -7,7 +7,7 @@ Module Odoo 18 CE — **État mensuel de facturation client** pour la SARL La Pl
 | Élément | Statut |
 |---------|--------|
 | Version | `18.0.1.1.1` (V1.1 gelée) |
-| Commit GitHub | `9906544` — [odoo18-addons-dorevia](https://github.com/doreviateam/odoo18-addons-dorevia/tree/9906544) |
+| Référence Git | branche `main`, version `18.0.1.1.1` — [odoo18-addons-dorevia](https://github.com/doreviateam/odoo18-addons-dorevia) |
 | GO technique | ✅ — 16 tests, 0 échec, 0 erreur |
 | GO fonctionnel représentatif | ✅ |
 | GO visuel / impression | ✅ |
@@ -278,5 +278,5 @@ docker compose up -d odoo
 
 - GO technique, fonctionnel représentatif, visuel et clôture lab.
 - Retouche finale : statuts en retard en texte rouge gras (sans fond).
-- Version `18.0.1.1.1` commitée et poussée (commit de clôture `9906544`).
+- Version `18.0.1.1.1` publiée sur `main` (lab : commit figé dans `addons-lock.tsv`).
 - Production : décision séparée sur GO explicite.
