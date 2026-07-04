@@ -13,7 +13,7 @@ Module Odoo 18 CE — **État mensuel de facturation client** pour la SARL La Pl
 | GO visuel / impression | ✅ |
 | GO clôture lab | ✅ |
 | Confirmation usage Ethel / Véréna | Ultérieure — non bloquante |
-| Déploiement production | ⏸ — GO explicite requis |
+| Déploiement production | ⏸ — GO explicite requis — voir [`DEPLOIEMENT_PRODUCTION.md`](DEPLOIEMENT_PRODUCTION.md) |
 
 Spécification détaillée : [`SPECIFICATION_V1.md`](SPECIFICATION_V1.md)  
 Artefacts de recette : [`outputs/laplatine_customer_statement_visual_qa/`](../../../outputs/laplatine_customer_statement_visual_qa/)
