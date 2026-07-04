@@ -9,7 +9,7 @@
 | Emplacement | `addons/odoo18-addons-dorevia/laplatine_customer_statement` |
 | Nom fonctionnel | État de facturation client |
 | Version livrée | **V1.1 — `18.0.1.1.1`** (gelée) |
-| Commit GitHub | `b7e40e8` |
+| Commit GitHub | `10db9e6` |
 | Statut | **V1.1 validée et clôturée** — confirmation usage Ethel / Véréna ultérieure |
 | Utilisatrices principales | Ethel et Véréna |
 
@@ -398,6 +398,6 @@ Exemple :
 - Période par défaut : fenêtre glissante 90 jours.
 - Statuts avec retard + bloc de synthèse (montant à régler / en retard).
 - Retouche visuelle finale : statuts en texte rouge gras, fond réservé à la synthèse.
-- Version `18.0.1.1.1` — commit `b7e40e8` sur `odoo18-addons-dorevia`.
+- Version `18.0.1.1.1` — commit `10db9e6` sur `odoo18-addons-dorevia`.
 - XLSX format maître ; PDF via tableur ; PDF natif Odoo hors périmètre.
 - Production : GO explicite requis.
