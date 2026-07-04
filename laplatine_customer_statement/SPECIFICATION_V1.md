@@ -7,9 +7,10 @@
 | Projet | SARL La Platine — Odoo 18 Community |
 | Module technique | `laplatine_customer_statement` |
 | Emplacement | `addons/odoo18-addons-dorevia/laplatine_customer_statement` |
-| Nom fonctionnel provisoire | État mensuel de facturation client |
-| Version de cadrage | V1 — **gelée** (2026-07-04) |
-| Statut | V1 techniquement terminée — recette métier utilisatrices en attente |
+| Nom fonctionnel | État de facturation client |
+| Version livrée | **V1.1 — `18.0.1.1.1`** (gelée) |
+| Commit GitHub | `b7e40e8` |
+| Statut | **V1.1 validée et clôturée** — confirmation usage Ethel / Véréna ultérieure |
 | Utilisatrices principales | Ethel et Véréna |
 
 ## 2. Contexte
@@ -391,16 +392,12 @@ Exemple :
 
 ## 19. Historique
 
-### 4 juillet 2026
+### 4 juillet 2026 — clôture V1.1
 
-- Création du chantier `laplatine_customer_statement`.
-- Identification du besoin comme état mensuel de facturation.
-- Choix de la fenêtre glissante 90 jours comme période par défaut (post-recette
-  métier, remplace le mois civil N-1).
-- Ajustement post-recette métier : statuts avec retard + bloc de synthèse
-  (version `18.0.1.1.0`).
-- Inclusion des factures payées.
-- Exclusion des avoirs par défaut.
-- Choix du format XLSX.
-- Exigence de mise en page A4 sur une ou plusieurs pages.
-- Aucun développement métier engagé à ce stade.
+- Cadrage, développement, recettes technique, visuelle et métier représentative.
+- Période par défaut : fenêtre glissante 90 jours.
+- Statuts avec retard + bloc de synthèse (montant à régler / en retard).
+- Retouche visuelle finale : statuts en texte rouge gras, fond réservé à la synthèse.
+- Version `18.0.1.1.1` — commit `b7e40e8` sur `odoo18-addons-dorevia`.
+- XLSX format maître ; PDF via tableur ; PDF natif Odoo hors périmètre.
+- Production : GO explicite requis.

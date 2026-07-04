@@ -2,19 +2,30 @@
 
 Module Odoo 18 CE — **État mensuel de facturation client** pour la SARL La Platine.
 
-## Statut V1
+## Statut V1.1
 
 | Élément | Statut |
 |---------|--------|
-| Version | `18.0.1.1.1` |
-| Périmètre V1 | **Gelé** — ajustements post-recette métier (statut retard + synthèse) |
-| GO technique | ✅ |
-| GO recette visuelle interne | ✅ (XLSX regénéré ; PDF/PNG à reconverter si besoin) |
-| GO démonstration métier (lab) | En cours — recette métier représentative |
-| Déploiement production | ❌ — interdit sans GO explicite post-recette métier |
+| Version | `18.0.1.1.1` (V1.1 gelée) |
+| Commit GitHub | `b7e40e8` — [odoo18-addons-dorevia](https://github.com/doreviateam/odoo18-addons-dorevia) |
+| GO technique | ✅ — 16 tests, 0 échec, 0 erreur |
+| GO fonctionnel représentatif | ✅ |
+| GO visuel / impression | ✅ |
+| GO clôture lab | ✅ |
+| Confirmation usage Ethel / Véréna | Ultérieure — non bloquante |
+| Déploiement production | ⏸ — GO explicite requis |
 
 Spécification détaillée : [`SPECIFICATION_V1.md`](SPECIFICATION_V1.md)  
 Artefacts de recette : [`outputs/laplatine_customer_statement_visual_qa/`](../../../outputs/laplatine_customer_statement_visual_qa/)
+
+### Décisions finales V1.1
+
+- Période par défaut : **90 derniers jours**, modifiable.
+- Factures payées, partielles et ouvertes incluses ; **avoirs exclus**.
+- Statuts : Payée, À payer, En retard, partiellement payée (± en retard).
+- Bloc synthèse : total facturé, réglé, **montant à régler à La Platine**, **dont en retard**.
+- **XLSX = format maître** ; impression ou PDF via le tableur (LibreOffice / Excel).
+- PDF natif Odoo : **hors périmètre**.
 
 ## Objectif
 
@@ -172,11 +183,11 @@ Exemple : `Etat_facturation_EMD_2026-06.xlsx`
 | CA-07 | Exactitude des montants par facture | Test automatisé |
 | CA-08 | Exactitude des totaux | Test automatisé |
 | CA-09 | Fichier `.xlsx` ouvrable | Test automatisé |
-| CA-10 | Impression A4 paysage, 1 page en largeur | Recette visuelle interne ✅ |
-| CA-11 | En-têtes répétés sur pages suivantes | Recette visuelle interne ✅ |
-| CA-12 | Impression sans retraitement manuel | Recette visuelle interne ✅ |
-| CA-13 | Statuts avec notion de retard | Tests automatisés |
-| CA-14 | Bloc de synthèse (à régler / en retard) | Tests automatisés |
+| CA-10 | Impression A4 paysage, 1 page en largeur | Recette visuelle ✅ |
+| CA-11 | En-têtes répétés sur pages suivantes | Recette visuelle ✅ |
+| CA-12 | Impression sans retraitement manuel | Recette visuelle ✅ |
+| CA-13 | Statuts avec notion de retard | Tests + recette visuelle ✅ |
+| CA-14 | Bloc de synthèse (à régler / en retard) | Tests + recette visuelle ✅ |
 
 ## Dépendances
 
@@ -263,8 +274,9 @@ docker compose up -d odoo
 - Bloc de synthèse : montant à régler et montant en retard.
 - Version `18.0.1.1.0` — 16 tests automatisés.
 
-### 2026-07-04 — Retouche visuelle V1.1
+### 2026-07-04 — Clôture V1.1
 
-- Statuts « en retard » : texte rouge foncé gras uniquement (sans fond coloré).
-- Fond rouge pâle conservé sur la ligne de synthèse « Dont montant en retard ».
-- Version `18.0.1.1.1`.
+- GO technique, fonctionnel représentatif, visuel et clôture lab.
+- Retouche finale : statuts en retard en texte rouge gras (sans fond).
+- Version `18.0.1.1.1` commitée et poussée (`b7e40e8`).
+- Production : décision séparée sur GO explicite.
