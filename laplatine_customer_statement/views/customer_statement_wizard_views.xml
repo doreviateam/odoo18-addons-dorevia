@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_laplatine_customer_statement_wizard_form" model="ir.ui.view">
+        <field name="name">laplatine.customer.statement.wizard.form</field>
+        <field name="model">laplatine.customer.statement.wizard</field>
+        <field name="arch" type="xml">
+            <form string="État de facturation">
+                <group>
+                    <field name="partner_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </group>
+                <footer>
+                    <button
+                        name="action_generate_xlsx"
+                        type="object"
+                        string="Générer le fichier Excel"
+                        class="btn-primary"
+                    />
+                    <button special="cancel" string="Annuler" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_laplatine_customer_statement_wizard" model="ir.actions.act_window">
+        <field name="name">État de facturation</field>
+        <field name="res_model">laplatine.customer.statement.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_partner_id': active_id}</field>
+    </record>
+</odoo>
