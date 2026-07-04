@@ -4,26 +4,42 @@
 **Commit Git de référence** : `62546160532a2307dc7494a0b4cacb19f1532103`  
 **Dépôt** : [doreviateam/odoo18-addons-dorevia](https://github.com/doreviateam/odoo18-addons-dorevia) — branche `main`  
 **Commit production actuel** : `c06a386d883f4e1c2ccfed94cce0721a3cfd1609`  
+**Commit déployé en production** : `4ba7befb8c1cb00d34b271b9081ad87dccd585ed`  
 **Date de rédaction** : 2026-07-04  
-**Dernière révision** : 2026-07-05 — stratégie A retenue, pré-vol infra validé
+**Dernière révision** : 2026-07-05 — déploiement exécuté, GO production fonctionnel MOA
 
 ---
 
-## ⚠️ Statut actuel : STOP production
-
-**Aucun déploiement ne doit être exécuté sans GO explicite de la MOA** (Maîtrise d'ouvrage — décision métier La Platine).
-
-Cette procédure est **validée et prête à exécuter sur GO MOA explicite**. Elle n'autorise pas le déploiement tant qu'un GO MOA écrit n'a pas été formalisé (date, décideur, périmètre).
+## Statut production — V1.1 en service
 
 | Élément | Statut |
 |---------|--------|
 | Clôture documentaire lab | ✅ |
 | Pré-vol infrastructure prod | ✅ |
-| Analyse Git `c06a386` → `6254616` | ✅ |
+| Déploiement exécuté (2026-07-04) | ✅ — stratégie A |
+| Module en production | `18.0.1.1.1` — `installed` |
+| GO production fonctionnel MOA | ✅ — 2026-07-05 |
+| Confirmation usage Ethel / Véréna | Ultérieure — non bloquante |
+| Chantier logo PDF | Reporté — GO MOA séparé |
+
+> Cette procédure documente l'intervention réalisée. Toute **nouvelle** intervention (mise à jour module, rollback, autre environnement) requiert un GO MOA explicite.
+
+---
+
+## ⚠️ Archive — contexte pré-déploiement
+
+**Aucun déploiement ne doit être exécuté sans GO explicite de la MOA** (Maîtrise d'ouvrage — décision métier La Platine).
+
+**Aucun déploiement supplémentaire** ne doit être exécuté sans GO explicite de la MOA.
+
+Cette procédure a servi au déploiement du 2026-07-04. Elle reste la référence pour rollback ou réplication.
+
+| Élément | Statut (historique pré-déploiement) |
+|---------|--------|
 | Stratégie de livraison | ✅ **Option A retenue** |
-| Commit module cible | `6254616` |
+| Commit module cible | `6254616` / procédure `4ba7bef` |
 | Procédure préparatoire | ✅ **GO — validée** |
-| Déploiement production | **STOP — en attente GO MOA d'exécution** |
+| Déploiement production (avant exécution) | **STOP — en attente GO MOA d'exécution** |
 
 ---
 
@@ -568,29 +584,31 @@ done
 
 ---
 
-## 12. Journal d'intervention (modèle)
+## 12. Journal d'intervention — déploiement 2026-07-04
 
 | Champ | Valeur |
 |-------|--------|
-| Date / heure début | |
-| Date / heure fin | |
-| Opérateur | |
-| GO MOA d'exécution (réf.) | |
-| Stratégie | Option A — checkout détaché `6254616`, `-i` seul |
+| Date / heure début | 2026-07-04 22:36 UTC |
+| Date / heure fin | 2026-07-04 22:38 UTC |
+| Opérateur | Dorevia (intervention automatisée) |
+| GO MOA d'exécution (réf.) | Session 2026-07-04 — GO MOA explicite |
+| GO production fonctionnel MOA | **GO — 2026-07-05** |
+| Stratégie | Option A — checkout détaché `4ba7bef`, `-i` seul |
 | Commit avant intervention | `c06a386` |
-| Commit déployé | `6254616` |
+| Commit déployé | `4ba7bef` |
 | Version module | `18.0.1.1.1` |
 | Type opération | `-i laplatine_customer_statement` **uniquement** |
 | `-u laplatine_invoice_payment_info` / `-u all` | Non — confirmé |
-| Odoo arrêté avant sauvegardes | Oui / Non |
-| Test connexion DB préalable | OK / Échec |
-| Sauvegarde PG | `$BACKUP_DIR/...` |
-| Sauvegarde filestore | `$BACKUP_DIR/...` |
+| Odoo arrêté avant sauvegardes | Oui |
+| Test connexion DB préalable | OK — `odoo_prod@db_prod:5432` |
+| Sauvegarde PG | `/opt/laplatine/backups/20260704_223642_pre_laplatine_customer_statement/laplatine_prod.dump` |
+| Sauvegarde filestore | `.../filestore_laplatine_prod.tar.gz` |
 | Écart disque logo XML | Oui — `report_layout.xml` sur disque ≠ base ; **non chargé** |
 | Chantier logo PDF | Reporté — traitement séparé |
-| Résultat recette | GO / NO-GO |
-| Rollback effectué | Oui / Non |
-| Observations | |
+| Résultat recette technique | GO — XLSX généré (SAVEUR KARAYB, 19 factures) |
+| Résultat recette MOA | **GO production fonctionnel — 2026-07-05** |
+| Rollback effectué | Non |
+| Observations | Erreurs préexistantes `calendar_public_holiday` / `hr_holidays_public` — hors périmètre |
 
 ---
 
@@ -607,5 +625,6 @@ done
 
 ## 14. Rappel final
 
-> **Production en STOP** jusqu'à **GO MOA d'exécution** explicite.  
-> Stratégie A validée ; procédure prête. Ce document ne constitue pas une autorisation de déploiement.
+> **V1.1 en production** — GO fonctionnel MOA 2026-07-05.  
+> Module `laplatine_customer_statement` `18.0.1.1.1` opérationnel sur `https://prod.sarl-la-platine.fr`.  
+> Toute nouvelle intervention (mise à jour, rollback) requiert un GO MOA explicite.

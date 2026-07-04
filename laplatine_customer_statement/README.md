@@ -8,12 +8,14 @@ Module Odoo 18 CE — **État mensuel de facturation client** pour la SARL La Pl
 |---------|--------|
 | Version | `18.0.1.1.1` (V1.1 gelée) |
 | Référence Git | branche `main`, version `18.0.1.1.1` — [odoo18-addons-dorevia](https://github.com/doreviateam/odoo18-addons-dorevia) |
+| Commit déployé en production | `4ba7befb8c1cb00d34b271b9081ad87dccd585ed` |
 | GO technique | ✅ — 16 tests, 0 échec, 0 erreur |
 | GO fonctionnel représentatif | ✅ |
 | GO visuel / impression | ✅ |
 | GO clôture lab | ✅ |
 | Confirmation usage Ethel / Véréna | Ultérieure — non bloquante |
-| Déploiement production | ⏸ — GO explicite requis — voir [`DEPLOIEMENT_PRODUCTION.md`](DEPLOIEMENT_PRODUCTION.md) |
+| Déploiement production | ✅ — `18.0.1.1.1` installé le 2026-07-04 — voir [`DEPLOIEMENT_PRODUCTION.md`](DEPLOIEMENT_PRODUCTION.md) |
+| GO production fonctionnel | ✅ — MOA, 2026-07-05 |
 
 Spécification détaillée : [`SPECIFICATION_V1.md`](SPECIFICATION_V1.md)  
 Artefacts de recette : [`outputs/laplatine_customer_statement_visual_qa/`](../../../outputs/laplatine_customer_statement_visual_qa/)
@@ -280,3 +282,15 @@ docker compose up -d odoo
 - Retouche finale : statuts en retard en texte rouge gras (sans fond).
 - Version `18.0.1.1.1` publiée sur `main` (lab : commit figé dans `addons-lock.tsv`).
 - Production : décision séparée sur GO explicite.
+
+### 2026-07-04 — Déploiement production
+
+- Stratégie A : checkout détaché `4ba7bef`, `-i laplatine_customer_statement` uniquement.
+- URL : `https://prod.sarl-la-platine.fr` — module `installed` en `18.0.1.1.1`.
+- Sauvegardes : `/opt/laplatine/backups/20260704_223642_pre_laplatine_customer_statement/`.
+- Écart logo XML sur disque non chargé en base (chantier séparé).
+
+### 2026-07-05 — GO production fonctionnel
+
+- Verdict MOA : **GO production fonctionnel** pour V1.1 (`18.0.1.1.1`).
+- Chantier clôturé côté production ; confirmation usage Ethel / Véréna reste ultérieure.

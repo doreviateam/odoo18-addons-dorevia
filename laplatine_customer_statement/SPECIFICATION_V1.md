@@ -10,7 +10,8 @@
 | Nom fonctionnel | État de facturation client |
 | Version livrée | **V1.1 — `18.0.1.1.1`** (gelée) |
 | Référence Git | branche `main`, version `18.0.1.1.1` |
-| Statut | **V1.1 validée et clôturée** — confirmation usage Ethel / Véréna ultérieure |
+| Commit déployé en production | `4ba7befb8c1cb00d34b271b9081ad87dccd585ed` |
+| Statut | **V1.1 en production** — GO fonctionnel MOA 2026-07-05 — confirmation usage Ethel / Véréna ultérieure |
 | Utilisatrices principales | Ethel et Véréna |
 
 ## 2. Contexte
@@ -401,3 +402,14 @@ Exemple :
 - Version `18.0.1.1.1` publiée sur `main`.
 - XLSX format maître ; PDF via tableur ; PDF natif Odoo hors périmètre.
 - Production : GO explicite requis.
+
+### 4 juillet 2026 — déploiement production
+
+- Intervention stratégie A sur `prod.sarl-la-platine.fr`.
+- Commit déployé en production : `4ba7befb8c1cb00d34b271b9081ad87dccd585ed`, module installé `18.0.1.1.1`.
+- Recette post-installation automatisée : GO.
+
+### 5 juillet 2026 — GO production fonctionnel
+
+- Verdict MOA : module opérationnel en production.
+- Périmètre V1.1 clôturé ; évolution logo PDF et V2 hors périmètre.
