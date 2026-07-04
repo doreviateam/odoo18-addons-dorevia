@@ -1,10 +1,11 @@
 # Procédure de déploiement production — `laplatine_customer_statement`
 
 **Version module cible** : `18.0.1.1.1` (V1.1)  
-**Commit Git de référence** : `499ea95997d05a8c2faba3032d1164c067afb580`  
+**Commit Git de référence** : `62546160532a2307dc7494a0b4cacb19f1532103`  
 **Dépôt** : [doreviateam/odoo18-addons-dorevia](https://github.com/doreviateam/odoo18-addons-dorevia) — branche `main`  
+**Commit production actuel** : `c06a386d883f4e1c2ccfed94cce0721a3cfd1609`  
 **Date de rédaction** : 2026-07-04  
-**Dernière révision** : 2026-07-05 — corrections cohérence sauvegardes, checkout Git, test DB
+**Dernière révision** : 2026-07-05 — stratégie A retenue, pré-vol infra validé
 
 ---
 
@@ -17,9 +18,12 @@ Cette procédure est **validée et prête à exécuter sur GO MOA explicite**. E
 | Élément | Statut |
 |---------|--------|
 | Clôture documentaire lab | ✅ |
-| Commit module validé | `499ea95` |
+| Pré-vol infrastructure prod | ✅ |
+| Analyse Git `c06a386` → `6254616` | ✅ |
+| Stratégie de livraison | ✅ **Option A retenue** |
+| Commit module cible | `6254616` |
 | Procédure préparatoire | ✅ **GO — validée** |
-| Déploiement production | **STOP — en attente GO MOA** |
+| Déploiement production | **STOP — en attente GO MOA d'exécution** |
 
 ---
 
@@ -27,7 +31,22 @@ Cette procédure est **validée et prête à exécuter sur GO MOA explicite**. E
 
 Installer ou mettre à jour **uniquement** le module `laplatine_customer_statement` sur l'environnement Odoo 18 CE de production La Platine, sans modifier les autres modules ni le périmètre fonctionnel V1.1.
 
-**Hors périmètre** : évolutions V2, PDF natif Odoo, modification des autres modules Dorevia.
+**Hors périmètre** : évolutions V2, PDF natif Odoo, mise à jour `laplatine_invoice_payment_info`, évolution taille logo PDF (chantier séparé).
+
+### 1.1 Stratégie de livraison retenue — option A
+
+Analyse Git entre `c06a386` (production actuelle) et `6254616` (cible) :
+
+- **Ajout principal** : module `laplatine_customer_statement` + documentation.
+- **Effet de bord sur disque** : `laplatine_invoice_payment_info/views/report_layout.xml` (taille logos PDF, commit `76dca4d`) — **sans impact base** tant qu'aucune mise à jour de ce module n'est lancée.
+
+**Décision retenue** :
+
+1. Checkout détaché sur `62546160532a2307dc7494a0b4cacb19f1532103`.
+2. Installation **uniquement** : `-i laplatine_customer_statement`.
+3. **Interdit** : `-u laplatine_invoice_payment_info`, `-u all`, ou toute mise à jour globale.
+4. Le fichier XML logo présent sur disque après checkout **n'est pas chargé en base** — à consigner au journal d'intervention.
+5. L'évolution de taille du logo sera traitée dans un **chantier séparé**, sur GO MOA dédié.
 
 ---
 
@@ -47,23 +66,24 @@ Installer ou mettre à jour **uniquement** le module `laplatine_customer_stateme
 ### 2.2 Variables d'environnement (à adapter)
 
 ```bash
-export PROD_ROOT="/chemin/vers/projet-odoo-production"   # racine compose / déploiement
-export DB_NAME="laplatine_prod"                            # nom exact de la base prod
-export DB_SERVICE="db"                                     # nom du service PostgreSQL dans compose.yml
-export DB_USER="odoo_prod"                                 # utilisateur PostgreSQL
-export ODOO_SERVICE="odoo"                                 # nom du service dans compose.yml
-export PROD_URL="https://odoo.example.com"                 # URL production (contrôle HTTP)
-export BACKUP_DIR="/chemin/vers/sauvegardes/$(date +%Y%m%d_%H%M%S)_pre_laplatine_customer_statement"
-export DOREVIA_REPO="$PROD_ROOT/addons/odoo18-addons-dorevia"   # ou chemin réel en prod
-export FILESTORE_SRC="$PROD_ROOT/data/filestore_prod"      # chemin hôte du filestore — confirmer en prod
-export TARGET_COMMIT="499ea95997d05a8c2faba3032d1164c067afb580"
+export PROD_ROOT="/opt/laplatine"
+export DB_NAME="laplatine_prod"
+export DB_SERVICE="db_prod"
+export DB_USER="odoo_prod"
+export ODOO_SERVICE="odoo_prod"
+export PROD_URL="https://prod.sarl-la-platine.fr"
+export BACKUP_DIR="/opt/laplatine/backups/$(date +%Y%m%d_%H%M%S)_pre_laplatine_customer_statement"
+export DOREVIA_REPO="/opt/laplatine/addons/odoo18-addons-dorevia"
+export FILESTORE_SRC="/opt/laplatine/data/filestore_prod"
+export TARGET_COMMIT="62546160532a2307dc7494a0b4cacb19f1532103"
+export PROD_COMMIT_BEFORE="c06a386d883f4e1c2ccfed94cce0721a3cfd1609"
 export MODULE="laplatine_customer_statement"
 export MODULE_VERSION="18.0.1.1.1"
 ```
 
 ### 2.3 Checklist pré-vol (avant toute action)
 
-- [ ] **GO MOA obtenu et archivé** (mail, ticket ou PV de réunion)
+- [ ] **GO MOA d'exécution obtenu et archivé** (distinct du GO stratégie technique)
 - [ ] Fenêtre d'intervention validée (indisponibilité Odoo acceptée)
 - [ ] Espace disque suffisant pour sauvegarde PG + filestore
 - [ ] Accès GitHub / clone du dépôt Dorevia opérationnel
@@ -212,7 +232,7 @@ ls -lh "$BACKUP_DIR/filestore_${DB_NAME}.tar.gz"
 - [ ] Contenu listable (`filestore/...` ou structure équivalente Odoo 18)
 - [ ] Horodatage aligné avec la sauvegarde PostgreSQL (même fenêtre, Odoo arrêté)
 
-### 6.2 Récupération du commit `499ea95`
+### 6.2 Récupération du commit `6254616` (checkout détaché — stratégie A)
 
 La production doit exécuter un **commit précis**, pas suivre automatiquement `main`. Utiliser un checkout **détaché** après contrôle d'un working tree propre.
 
@@ -246,7 +266,7 @@ test "$(git rev-parse HEAD)" = "$TARGET_COMMIT" \
 **Résultat attendu** :
 
 ```
-499ea95997d05a8c2faba3032d1164c067afb580
+62546160532a2307dc7494a0b4cacb19f1532103
 ```
 
 #### Vérifications du code déployé
@@ -265,9 +285,10 @@ Sur le lab, le commit est figé dans `addons-lock.tsv`. En production, consigner
 **Critères de passage** :
 
 - [ ] Working tree Git propre avant checkout
-- [ ] HEAD = `499ea95997d05a8c2faba3032d1164c067afb580` (mode détaché)
+- [ ] HEAD = `62546160532a2307dc7494a0b4cacb19f1532103` (mode détaché)
 - [ ] Version manifest = `18.0.1.1.1`
 - [ ] Répertoire visible dans `addons_path` (montage volume — pas de redémarrage requis pour le chemin seul)
+- [ ] **Écart disque connu** : `laplatine_invoice_payment_info/views/report_layout.xml` diffère de la base — **ne pas `-u` ce module**
 
 ---
 
@@ -311,11 +332,13 @@ docker compose run --rm --no-deps \
 
 ---
 
-## 8. Installation ciblée du module
+## 8. Installation ciblée du module (stratégie A)
 
 **Prérequis** : test connexion DB réussi (§7).
 
-### 8.1 Première installation (module absent en prod)
+**Production La Platine** : première installation — le module est absent de la base.
+
+### 8.1 Commande autorisée — `-i` uniquement
 
 ```bash
 cd "$PROD_ROOT"
@@ -330,31 +353,46 @@ docker compose run --rm --no-deps \
   --no-http
 ```
 
-### 8.2 Mise à jour (module déjà installé, version antérieure)
+### 8.2 Commandes interdites
+
+Ne **pas** exécuter :
 
 ```bash
-cd "$PROD_ROOT"
+# INTERDIT — effet de bord logos PDF (report_layout.xml)
+-u laplatine_invoice_payment_info
 
-docker compose run --rm --no-deps \
-  "$ODOO_SERVICE" \
-  odoo \
-  --config=/etc/odoo/odoo.conf \
-  --database="$DB_NAME" \
-  -u "$MODULE" \
-  --stop-after-init \
-  --no-http
+# INTERDIT — risque de mise à jour involontaire d'autres modules
+-u all
+
+# INTERDIT — mise à jour globale implicite
+-u base,web,account,...
 ```
 
-### 8.3 Redémarrage Odoo
+En cas de doute, n'utiliser que le flag **`-i laplatine_customer_statement`** explicitement.
+
+### 8.3 Mise à jour ultérieure (hors périmètre intervention initiale)
+
+Si le module est déjà installé lors d'une intervention future, remplacer `-i` par `-u "$MODULE"` **uniquement** — jamais `-u all`.
+
+### 8.4 Redémarrage Odoo
 
 ```bash
 docker compose up -d "$ODOO_SERVICE"
 ```
 
+### 8.5 Note logo PDF (stratégie A)
+
+Après checkout `6254616`, le fichier `laplatine_invoice_payment_info/views/report_layout.xml` sur disque contient des styles de logo agrandis (`76dca4d`). Comme **aucune** mise à jour de `laplatine_invoice_payment_info` n'est lancée :
+
+- les vues PDF facture en base restent celles de `c06a386` ;
+- le comportement PDF production est **inchangé** ;
+- l'évolution taille logo = **chantier séparé**, sur GO MOA dédié.
+
 **Critères de passage immédiat** :
 
-- [ ] Commande `-i` ou `-u` terminée avec code de sortie `0`
+- [ ] Commande `-i laplatine_customer_statement` terminée avec code de sortie `0`
 - [ ] Aucune traceback Python dans la sortie console
+- [ ] Aucune commande `-u laplatine_invoice_payment_info` ni `-u all` exécutée
 - [ ] Service Odoo redémarré
 
 ---
@@ -491,8 +529,9 @@ rm -rf "$FILESTORE_SRC"
 mkdir -p "$(dirname "$FILESTORE_SRC")"
 tar -xzf "$BACKUP_DIR/filestore_${DB_NAME}.tar.gz" -C "$(dirname "$FILESTORE_SRC")"
 
-# 4. (Optionnel) Revenir au commit Dorevia antérieur si le code avait été modifié
-# cd "$DOREVIA_REPO" && git checkout --detach <commit_precedent>
+# 4. Revenir au commit Dorevia antérieur (stratégie A : c06a386)
+cd "$DOREVIA_REPO"
+git checkout --detach "$PROD_COMMIT_BEFORE"
 
 # 5. Redémarrer Odoo
 docker compose up -d "$ODOO_SERVICE"
@@ -536,14 +575,19 @@ done
 | Date / heure début | |
 | Date / heure fin | |
 | Opérateur | |
-| GO MOA (réf.) | |
-| Commit déployé | `499ea95` |
+| GO MOA d'exécution (réf.) | |
+| Stratégie | Option A — checkout détaché `6254616`, `-i` seul |
+| Commit avant intervention | `c06a386` |
+| Commit déployé | `6254616` |
 | Version module | `18.0.1.1.1` |
-| Type opération | `-i` première install / `-u` mise à jour |
+| Type opération | `-i laplatine_customer_statement` **uniquement** |
+| `-u laplatine_invoice_payment_info` / `-u all` | Non — confirmé |
 | Odoo arrêté avant sauvegardes | Oui / Non |
 | Test connexion DB préalable | OK / Échec |
 | Sauvegarde PG | `$BACKUP_DIR/...` |
 | Sauvegarde filestore | `$BACKUP_DIR/...` |
+| Écart disque logo XML | Oui — `report_layout.xml` sur disque ≠ base ; **non chargé** |
+| Chantier logo PDF | Reporté — traitement séparé |
 | Résultat recette | GO / NO-GO |
 | Rollback effectué | Oui / Non |
 | Observations | |
@@ -563,5 +607,5 @@ done
 
 ## 14. Rappel final
 
-> **Production en STOP** jusqu'à GO MOA explicite.  
-> La procédure est **validée et prête** ; elle ne constitue pas une autorisation de déploiement.
+> **Production en STOP** jusqu'à **GO MOA d'exécution** explicite.  
+> Stratégie A validée ; procédure prête. Ce document ne constitue pas une autorisation de déploiement.
