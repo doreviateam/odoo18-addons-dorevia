@@ -32,3 +32,9 @@ des commandes ou réceptions, sans circuit spécifique à un article.
 ## Dépendances
 
 - `stock`, `purchase`, `purchase_stock`, `mrp`
+
+## Dette technique
+
+Paramètres temporairement exposés sur `res.company` en raison du conflit de
+validation `facturx_level` sur la base lab ; migration vers `res.config.settings`
+à réaliser lorsque le socle le permettra.
