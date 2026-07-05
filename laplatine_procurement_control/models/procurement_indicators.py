@@ -106,12 +106,6 @@ class LaplatineProcurementIndicators(models.AbstractModel):
         virtual_available = self._get_virtual_available(product, warehouse)
         consumption = self._compute_consumption(product, warehouse, company, today, params)
         orderpoint_info = self._resolve_orderpoint(product, warehouse)
-        seller = self._get_seller(product, company, today)
-        supplier_delay = seller.delay if seller else None
-        supplier_missing = not seller
-        reception = self._get_next_reception(product, company)
-        confirmed_po_qty = self._get_confirmed_po_qty(product, company)
-
         orderpoint = orderpoint_info["orderpoint"]
         min_qty_exploitable = orderpoint_info["status"] == "ok"
         min_qty = (
@@ -124,6 +118,14 @@ class LaplatineProcurementIndicators(models.AbstractModel):
             if orderpoint
             else 0.0
         )
+        procurement_qty = self._get_procurement_qty(
+            product, orderpoint, min_qty, max_qty
+        )
+        seller = self._get_seller(product, company, today, procurement_qty)
+        supplier_delay = seller.delay if seller else None
+        supplier_missing = not seller
+        reception = self._get_next_reception(product, company)
+        confirmed_po_qty = self._get_confirmed_po_qty(product, company)
         daily_consumption = consumption["daily_consumption"]
         history_insufficient = consumption["history_insufficient"]
         zero_consumption_observed = (
@@ -352,11 +354,15 @@ class LaplatineProcurementIndicators(models.AbstractModel):
 
     @api.model
     def _resolve_orderpoint(self, product, warehouse):
+        internal_location_ids = self._get_internal_location_ids(warehouse)
+        if not internal_location_ids:
+            return {"orderpoint": False, "status": "missing"}
+
         orderpoints = self.env["stock.warehouse.orderpoint"].search(
             [
                 ("product_id", "=", product.id),
                 ("warehouse_id", "=", warehouse.id),
-                ("location_id", "=", warehouse.lot_stock_id.id),
+                ("location_id", "in", internal_location_ids),
             ]
         )
         if not orderpoints:
@@ -372,10 +378,30 @@ class LaplatineProcurementIndicators(models.AbstractModel):
         return {"orderpoint": orderpoint, "status": "ok"}
 
     @api.model
-    def _get_seller(self, product, company, today):
+    def _get_procurement_qty(self, product, orderpoint, min_qty, max_qty):
+        if not orderpoint:
+            return None
+        if max_qty > 0:
+            return max_qty
+        if min_qty > 0:
+            return min_qty
+        converted_max = self._convert_qty(
+            product, orderpoint.product_max_qty, product.uom_id
+        )
+        if converted_max > 0:
+            return converted_max
+        converted_min = self._convert_qty(
+            product, orderpoint.product_min_qty, product.uom_id
+        )
+        return converted_min if converted_min > 0 else None
+
+    @api.model
+    def _get_seller(self, product, company, today, procurement_qty=None):
+        if not procurement_qty or procurement_qty <= 0:
+            return False
         return product._select_seller(
             partner_id=False,
-            quantity=1.0,
+            quantity=procurement_qty,
             date=today,
             uom_id=product.uom_po_id,
             params={"company_id": company.id},

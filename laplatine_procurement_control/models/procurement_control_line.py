@@ -128,7 +128,6 @@ class LaplatineProcurementControlLine(models.Model):
             else:
                 line.stale_warning_message = False
 
-    @api.model
     def action_refresh(self):
         if not self.env.user.has_group(
             "laplatine_procurement_control.group_procurement_control_manager"
