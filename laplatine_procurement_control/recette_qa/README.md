@@ -36,4 +36,8 @@ Sans redémarrage après upgrade, l’UI peut encore exécuter l’ancien code (
 
 Référentiel recette MOA : [`../GUIDE_RECETTE_MOA_LAB_PROCUREMENT_CONTROL_V1.md`](../GUIDE_RECETTE_MOA_LAB_PROCUREMENT_CONTROL_V1.md)
 
+Clôture V1 consommation MP : [`../NOTE_CLOTURE_V1_CONSOMMATION_MP.md`](../NOTE_CLOTURE_V1_CONSOMMATION_MP.md)
+
+Déploiement production : [`../GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md`](../GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md)
+
 Production : **STOP** — aucun GO déploiement.
