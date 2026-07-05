@@ -1,4 +1,5 @@
-from odoo import fields, models
+# -*- coding: utf-8 -*-
+from odoo import api, fields, models
 
 
 class LaplatineProcurementControlLine(models.Model):
@@ -20,6 +21,11 @@ class LaplatineProcurementControlLine(models.Model):
         default=lambda self: self.env.company,
         index=True,
     )
+    qty_available = fields.Float(string="Stock disponible", readonly=True)
+    daily_consumption = fields.Float(string="Conso moyenne / jour", readonly=True)
+    min_qty = fields.Float(string="Minimum réappro", readonly=True)
+    order_deadline_date = fields.Date(string="Date limite commande", readonly=True)
+    next_reception_date = fields.Date(string="Prochaine réception", readonly=True)
     risk_status = fields.Selection(
         selection=[
             ("insufficient_data", "Données insuffisantes"),
@@ -49,6 +55,49 @@ class LaplatineProcurementControlLine(models.Model):
         ),
     ]
 
+    @api.model
     def action_refresh(self):
-        """Rafraîchissement explicite — logique métier à implémenter avec la matrice §12.3."""
+        company = self.env.company
+        indicators = self.env["laplatine.procurement.indicators"]
+        products = indicators.get_eligible_products(company)
+        now = fields.Datetime.now()
+        refreshed_ids = []
+
+        for product in products:
+            evaluation = indicators.evaluate_product(product, company)
+            risk_input = evaluation["risk_input"]
+            vals = {
+                "product_id": product.id,
+                "company_id": company.id,
+                "qty_available": risk_input.qty_available,
+                "daily_consumption": risk_input.daily_consumption,
+                "min_qty": risk_input.min_qty if risk_input.min_qty_exploitable else 0.0,
+                "order_deadline_date": risk_input.order_deadline_date,
+                "next_reception_date": risk_input.next_reception_date,
+                "risk_status": evaluation["risk_status"],
+                "risk_reason": evaluation["risk_reason"],
+                "action_recommended": evaluation["action_recommended"],
+                "last_refresh": now,
+                "refreshed_by_id": self.env.user.id,
+            }
+            line = self.search(
+                [
+                    ("product_id", "=", product.id),
+                    ("company_id", "=", company.id),
+                ],
+                limit=1,
+            )
+            if line:
+                line.write(vals)
+                refreshed_ids.append(line.id)
+            else:
+                refreshed_ids.append(self.create(vals).id)
+
+        obsolete_lines = self.search(
+            [
+                ("company_id", "=", company.id),
+                ("id", "not in", refreshed_ids),
+            ]
+        )
+        obsolete_lines.unlink()
         return True

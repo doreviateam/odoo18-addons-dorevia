@@ -5,7 +5,22 @@
         <field name="model">laplatine.procurement.control.line</field>
         <field name="arch" type="xml">
             <list string="Pilotage approvisionnements" create="false" edit="false">
+                <header>
+                    <button
+                        name="action_refresh"
+                        type="object"
+                        string="Actualiser"
+                        class="btn-primary"
+                        display="always"
+                        groups="laplatine_procurement_control.group_procurement_control_manager"
+                    />
+                </header>
                 <field name="product_id"/>
+                <field name="qty_available"/>
+                <field name="daily_consumption"/>
+                <field name="min_qty"/>
+                <field name="order_deadline_date"/>
+                <field name="next_reception_date"/>
                 <field name="risk_status"/>
                 <field name="risk_reason"/>
                 <field name="action_recommended"/>
@@ -24,6 +39,11 @@
                     <group>
                         <field name="product_id"/>
                         <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="qty_available"/>
+                        <field name="daily_consumption"/>
+                        <field name="min_qty"/>
+                        <field name="order_deadline_date"/>
+                        <field name="next_reception_date"/>
                         <field name="risk_status"/>
                         <field name="risk_reason"/>
                         <field name="action_recommended"/>
