@@ -14,6 +14,7 @@ Module Odoo 18 CE — **Pilotage des approvisionnements** pour la SARL La Platin
 | GO MOA spec V1 | ✅ |
 | Arbitrage `watch_lead_days` | ✅ **7 jours** (défaut société, paramétrable) |
 | GO développement | ✅ |
+| Recette MOA lab | [`GUIDE_RECETTE_MOA_LAB_PROCUREMENT_CONTROL_V1.md`](GUIDE_RECETTE_MOA_LAB_PROCUREMENT_CONTROL_V1.md) |
 | Déploiement production | ⏸ — STOP jusqu'à GO MOA explicite |
 
 Spécification détaillée : [`SPECIFICATION_V1.md`](SPECIFICATION_V1.md)
