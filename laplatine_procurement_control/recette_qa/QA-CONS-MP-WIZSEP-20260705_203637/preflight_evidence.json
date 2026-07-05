@@ -1,0 +1,67 @@
+{
+  "run_id": "QA-CONS-MP-WIZSEP-20260705_203637",
+  "generated_at": "2026-07-05T18:38:13.182891",
+  "database": "laplatine_prod",
+  "url_lab": "http://127.0.0.1:18018",
+  "production": "STOP",
+  "module": {
+    "installed_version": "18.0.1.5.0",
+    "latest_version": "18.0.1.5.0",
+    "state": "installed",
+    "expected": "18.0.1.5.0"
+  },
+  "operator": {
+    "login": "qa_wizsep_operator_20260705",
+    "password": "WizSep!2026",
+    "groups": [
+      "Adresse de livraison",
+      "Caractéristiques techniques",
+      "Demander une signature sur vos bons de livraison",
+      "Déverrouillé par défaut",
+      "Envoyer un rappel automatique par e-mail pour confirmer la livraison",
+      "Gérer des variances de produit",
+      "Gérer le conditionnement des produits",
+      "Gérer les opérations des ordres de travail",
+      "Gérer plusieurs emplacements de stock",
+      "Gérer plusieurs unités de mesure",
+      "La Platine — Consommation matières premières",
+      "Listes de prix de base",
+      "Multi-devises",
+      "Remise sur les lignes",
+      "Utilisateur",
+      "Utilisateur interne"
+    ]
+  },
+  "fecule": {
+    "product": {
+      "model": "product.product",
+      "id": 555,
+      "display_name": "[MP-FEC-MAN-001] FECULE DE MANIOC"
+    },
+    "location": {
+      "model": "stock.location",
+      "id": 19,
+      "display_name": "WH/Stock/Conteneur Fécule"
+    },
+    "stock_kg_initial": 13000.0,
+    "tracking": true
+  },
+  "checks": [
+    {
+      "id": "PRE-01",
+      "title": "Module upgradé et installé",
+      "result": "OK",
+      "version": "18.0.1.5.0"
+    },
+    {
+      "id": "PRE-02",
+      "title": "Suivi consommation fécule actif",
+      "result": "OK"
+    },
+    {
+      "id": "PRE-03",
+      "title": "Groupe opérateur attribué au compte QA",
+      "result": "OK"
+    }
+  ]
+}

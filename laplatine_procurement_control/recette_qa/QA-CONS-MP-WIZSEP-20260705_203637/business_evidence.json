@@ -1,0 +1,72 @@
+{
+  "run_id": "QA-CONS-MP-WIZSEP-20260705_203637",
+  "probe_product": {
+    "model": "product.product",
+    "id": 962,
+    "display_name": "QA WizSep Probe Product"
+  },
+  "probe_location": {
+    "model": "stock.location",
+    "id": 643,
+    "display_name": "WH/Stock/QA WizSep Probe Bin"
+  },
+  "consumption": {
+    "qty_kg": 5.0,
+    "stock_before_kg": 100.0,
+    "stock_after_kg": 95.0,
+    "notification": {
+      "title": "Consommation enregistrée",
+      "message": "5 kg de QA WizSep Probe Product ont été prélevés.\nStock restant : 95 kg.",
+      "type": "success",
+      "sticky": false,
+      "next": {
+        "type": "ir.actions.act_window_close"
+      }
+    }
+  },
+  "adjustment_negative": {
+    "counted_kg": 92.0,
+    "stock_after_kg": 92.0,
+    "notification": {
+      "title": "Stock mis à jour",
+      "message": "QA WizSep Probe Product\nQuantité avant : 95 kg\nQuantité après comptage : 92 kg\nÉcart enregistré : -3 kg.",
+      "type": "success",
+      "sticky": false,
+      "next": {
+        "type": "ir.actions.act_window_close"
+      }
+    }
+  },
+  "zero_location": {
+    "product": {
+      "model": "product.product",
+      "id": 963,
+      "display_name": "QA WizSep Zero Loc Product"
+    },
+    "location": {
+      "model": "stock.location",
+      "id": 644,
+      "display_name": "WH/Stock/QA WizSep Zero Stock Bin"
+    },
+    "stock_before_kg": 12.0,
+    "stock_after_kg": 15.0
+  },
+  "threshold_adjustment": {
+    "title": "Stock mis à jour",
+    "message": "QA WizSep Threshold Product\nQuantité avant : 5 010 kg\nQuantité après comptage : 4 950 kg\nÉcart enregistré : -60 kg.\n\nSeuil de réapprovisionnement atteint\nStock restant : 4 950 kg\nSeuil minimum : 5 000 kg",
+    "type": "warning",
+    "sticky": false,
+    "next": {
+      "type": "ir.actions.act_window_close"
+    }
+  },
+  "threshold_consumption": {
+    "title": "Consommation enregistrée",
+    "message": "100 kg de QA WizSep Threshold Cons Product ont été prélevés.\nStock restant : 4 950 kg.\n\nSeuil de réapprovisionnement atteint\nStock restant : 4 950 kg\nSeuil minimum : 5 000 kg",
+    "type": "warning",
+    "sticky": false,
+    "next": {
+      "type": "ir.actions.act_window_close"
+    }
+  }
+}

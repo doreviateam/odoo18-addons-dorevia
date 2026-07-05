@@ -1,0 +1,96 @@
+{
+  "run_id": "QA-CONS-MP-MOA-UI-WIZSEP-20260705_204100",
+  "generated_at": "2026-07-05T18:46:49.456748+00:00",
+  "url_lab": "http://127.0.0.1:18018",
+  "operator_login": "qa_wizsep_operator_20260705",
+  "production": "STOP",
+  "verdict": "GO_MOA_UI_WIZSEP",
+  "blocking_ko": [],
+  "checks": [
+    {
+      "id": "MOA-UI-01",
+      "title": "Deux menus visibles sous La Platine",
+      "result": "OK"
+    },
+    {
+      "id": "MOA-UI-02",
+      "title": "Consommation fécule : Conteneur Fécule affiché",
+      "result": "OK",
+      "observed_location": "Conteneur Fécule"
+    },
+    {
+      "id": "MOA-UI-03",
+      "title": "Consommation fécule : 13 000 kg affichés",
+      "result": "OK",
+      "observed_qty_kg": 13000.0
+    },
+    {
+      "id": "MOA-UI-04",
+      "title": "Consommation : quantité prélevée + bouton Enregistrer uniquement",
+      "result": "OK"
+    },
+    {
+      "id": "MOA-UI-05",
+      "title": "Consommation : absence totale de bascule correction",
+      "result": "OK"
+    },
+    {
+      "id": "MOA-UI-06",
+      "title": "Mise à jour fécule : quantité Odoo ~13 000 kg",
+      "result": "OK"
+    },
+    {
+      "id": "MOA-UI-07",
+      "title": "Mise à jour : champs comptée, écart, motif présents",
+      "result": "OK"
+    },
+    {
+      "id": "MOA-UI-08",
+      "title": "Mise à jour : absence champ prélèvement",
+      "result": "OK"
+    },
+    {
+      "id": "MOA-UI-09",
+      "title": "Dialogue de confirmation visible puis annulé",
+      "result": "OK",
+      "message": "Confirmez-vous la mise à jour du stock selon la quantité comptée ?"
+    },
+    {
+      "id": "MOA-UI-10",
+      "title": "Parcours distincts : prélèvement vs comptage physique",
+      "result": "OK",
+      "note": "Consommation = prélèvement ; Mise à jour = comptage physique"
+    }
+  ],
+  "screenshots": {
+    "01_after_login": "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-MOA-UI-WIZSEP-20260705_204100/screenshots/01_after_login.png",
+    "01b_inventory_app": "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-MOA-UI-WIZSEP-20260705_204100/screenshots/01b_inventory_app.png",
+    "02_la_platine_submenu": "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-MOA-UI-WIZSEP-20260705_204100/screenshots/02_la_platine_submenu.png",
+    "03_consumption_wizard_initial": "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-MOA-UI-WIZSEP-20260705_204100/screenshots/03_consumption_wizard_initial.png",
+    "04_consumption_wizard_fecule_selected": "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-MOA-UI-WIZSEP-20260705_204100/screenshots/04_consumption_wizard_fecule_selected.png",
+    "05_stock_update_wizard_initial": "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-MOA-UI-WIZSEP-20260705_204100/screenshots/05_stock_update_wizard_initial.png",
+    "06_stock_update_wizard_fecule_filled": "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-MOA-UI-WIZSEP-20260705_204100/screenshots/06_stock_update_wizard_fecule_filled.png",
+    "07_stock_update_confirm_dialog": "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-MOA-UI-WIZSEP-20260705_204100/screenshots/07_stock_update_confirm_dialog.png",
+    "08_stock_update_after_cancel": "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-MOA-UI-WIZSEP-20260705_204100/screenshots/08_stock_update_after_cancel.png"
+  },
+  "confirm_dialog": {
+    "seen": true,
+    "message": "Confirmez-vous la mise à jour du stock selon la quantité comptée ?"
+  },
+  "fecule_expected_stock_kg": 13000.0,
+  "fecule_final": {
+    "stock_kg": 13000.0,
+    "unchanged": true,
+    "product": "[MP-FEC-MAN-001] FECULE DE MANIOC",
+    "location": "WH/Stock/Conteneur Fécule"
+  },
+  "checks_post_ui": [
+    {
+      "id": "MOA-UI-11",
+      "title": "Fécule reste à 13 000 kg après passe MOA UI",
+      "result": "OK",
+      "stock_kg": 13000.0
+    }
+  ],
+  "note": "Passe MOA UI lecture seule — aucune validation appliquée sur la fécule."
+}

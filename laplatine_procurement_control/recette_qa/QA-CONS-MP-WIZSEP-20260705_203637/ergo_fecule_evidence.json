@@ -1,0 +1,40 @@
+{
+  "run_id": "QA-CONS-MP-WIZSEP-20260705_203637",
+  "fecule_stock_kg": {
+    "initial": 13000.0,
+    "after_ergo": 13000.0,
+    "unchanged": true
+  },
+  "consumption_wizard": {
+    "product": {
+      "model": "product.product",
+      "id": 555,
+      "display_name": "[MP-FEC-MAN-001] FECULE DE MANIOC"
+    },
+    "location": {
+      "model": "stock.location",
+      "id": 19,
+      "display_name": "WH/Stock/Conteneur Fécule"
+    },
+    "qty_available_kg": 13000.0,
+    "no_adjustment_button": true,
+    "validated": false
+  },
+  "stock_update_wizard": {
+    "product": {
+      "model": "product.product",
+      "id": 555,
+      "display_name": "[MP-FEC-MAN-001] FECULE DE MANIOC"
+    },
+    "location": {
+      "model": "stock.location",
+      "id": 19,
+      "display_name": "WH/Stock/Conteneur Fécule"
+    },
+    "qty_available_kg": 13000.0,
+    "qty_counted_kg": 13000.0,
+    "qty_diff_kg": 0.0,
+    "reason_sample": "QA ergonomie — lecture seule, ne pas appliquer",
+    "validated": false
+  }
+}

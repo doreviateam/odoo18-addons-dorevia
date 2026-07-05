@@ -1,0 +1,187 @@
+{
+  "run_id": "QA-CONS-MP-WIZSEP-20260705_203637",
+  "generated_at": "2026-07-05T18:38:13.547705",
+  "database": "laplatine_prod",
+  "url_lab": "http://127.0.0.1:18018",
+  "reference": "LAPLATINE-CONS-MP-002",
+  "module_version": "18.0.1.5.0",
+  "production": "STOP",
+  "verdict": "GO_QA_WIZSEP_LAB",
+  "blocking_ko": [],
+  "checks_total": 23,
+  "checks_ok": 23,
+  "checks": [
+    {
+      "id": "PRE-01",
+      "title": "Module upgradé et installé",
+      "result": "OK",
+      "version": "18.0.1.5.0"
+    },
+    {
+      "id": "PRE-02",
+      "title": "Suivi consommation fécule actif",
+      "result": "OK"
+    },
+    {
+      "id": "PRE-03",
+      "title": "Groupe opérateur attribué au compte QA",
+      "result": "OK"
+    },
+    {
+      "id": "AC01",
+      "title": "Deux menus distincts sous Inventaire → La Platine",
+      "result": "OK",
+      "menus": [
+        "Inventaire/La Platine/Consommation matière première",
+        "Inventaire/La Platine/Mise à jour des quantités en stock"
+      ]
+    },
+    {
+      "id": "AC02",
+      "title": "Chaque menu ouvre son wizard dédié",
+      "result": "OK"
+    },
+    {
+      "id": "AC03",
+      "title": "Aucun champ mode ni bouton de bascule",
+      "result": "OK"
+    },
+    {
+      "id": "AC04",
+      "title": "Wizard consommation épuré",
+      "result": "OK"
+    },
+    {
+      "id": "AC05",
+      "title": "Wizard mise à jour épuré",
+      "result": "OK"
+    },
+    {
+      "id": "AC08",
+      "title": "Consommation : emplacements stock positif uniquement",
+      "result": "OK"
+    },
+    {
+      "id": "AC09",
+      "title": "Mise à jour : tous emplacements pilotage y compris stock nul",
+      "result": "OK"
+    },
+    {
+      "id": "AC10",
+      "title": "Opérateur accède aux wizards sans cockpit",
+      "result": "OK"
+    },
+    {
+      "id": "AC13",
+      "title": "Cockpit accessible profil Consultation",
+      "result": "OK"
+    },
+    {
+      "id": "ERG-01",
+      "title": "Consommation fécule : localisation et stock, sans bouton mise à jour",
+      "result": "OK",
+      "qty_available_kg": 13000.0,
+      "location": {
+        "model": "stock.location",
+        "id": 19,
+        "display_name": "WH/Stock/Conteneur Fécule"
+      }
+    },
+    {
+      "id": "ERG-02",
+      "title": "Mise à jour fécule : champs correction sans prélèvement, confirmation présente",
+      "result": "OK",
+      "qty_odoo_kg": 13000.0,
+      "qty_counted_kg": 13000.0,
+      "qty_diff_kg": 0.0,
+      "confirm_present": true
+    },
+    {
+      "id": "AC15",
+      "title": "Stock fécule protégé en recette ergonomique",
+      "result": "OK",
+      "stock_kg_initial": 13000.0,
+      "stock_kg_final": 13000.0
+    },
+    {
+      "id": "AC06",
+      "title": "Consommation nominale non régressée (produit jetable)",
+      "result": "OK",
+      "qty_kg": 5.0,
+      "stock_after_kg": 95.0,
+      "notification": "Consommation enregistrée"
+    },
+    {
+      "id": "AC06b",
+      "title": "Contrôles consommation actifs (quantité > disponible)",
+      "result": "OK"
+    },
+    {
+      "id": "AC07",
+      "title": "Correction inventaire non régressée (produit jetable)",
+      "result": "OK",
+      "stock_after_kg": 92.0,
+      "notification": {
+        "title": "Stock mis à jour",
+        "message": "QA WizSep Probe Product\nQuantité avant : 95 kg\nQuantité après comptage : 92 kg\nÉcart enregistré : -3 kg.",
+        "type": "success",
+        "sticky": false,
+        "next": {
+          "type": "ir.actions.act_window_close"
+        }
+      }
+    },
+    {
+      "id": "BIZ-03",
+      "title": "Correction depuis emplacement à stock nul",
+      "result": "OK",
+      "stock_before_kg": 12.0,
+      "stock_after_kg": 15.0
+    },
+    {
+      "id": "BIZ-04",
+      "title": "Motif obligatoire et quantité négative contrôlés",
+      "result": "OK"
+    },
+    {
+      "id": "AC12",
+      "title": "Contrôle seuil minimum après mise à jour",
+      "result": "OK",
+      "notification": {
+        "title": "Stock mis à jour",
+        "message": "QA WizSep Threshold Product\nQuantité avant : 5 010 kg\nQuantité après comptage : 4 950 kg\nÉcart enregistré : -60 kg.\n\nSeuil de réapprovisionnement atteint\nStock restant : 4 950 kg\nSeuil minimum : 5 000 kg",
+        "type": "warning",
+        "sticky": false,
+        "next": {
+          "type": "ir.actions.act_window_close"
+        }
+      }
+    },
+    {
+      "id": "AC12b",
+      "title": "Contrôle seuil minimum après consommation",
+      "result": "OK"
+    },
+    {
+      "id": "FEC-FINAL",
+      "title": "Fécule inchangée après campagne QA complète",
+      "result": "OK",
+      "stock_kg": 13000.0
+    }
+  ],
+  "fecule": {
+    "product": {
+      "model": "product.product",
+      "id": 555,
+      "display_name": "[MP-FEC-MAN-001] FECULE DE MANIOC"
+    },
+    "location": {
+      "model": "stock.location",
+      "id": 19,
+      "display_name": "WH/Stock/Conteneur Fécule"
+    },
+    "stock_kg_initial": 13000.0,
+    "stock_kg_final": 13000.0
+  },
+  "automated_tests_note": "100/100 verts exécutés séparément (--test-tags=laplatine_procurement_control)"
+}
