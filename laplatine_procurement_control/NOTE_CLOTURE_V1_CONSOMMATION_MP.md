@@ -17,7 +17,7 @@
 >
 > **CONS-MP-002 (V1.1) : GO Dev / GO QA / GO MOA UI sur le lab — wizards séparés.**
 >
-> **CONS-MP-003 (V1.2) : GO QA lab — cockpit limité aux articles « Suivi consommation La Platine » (18/18).**
+> **CONS-MP-003 (V1.2) : GO QA + GO MOA UI lab — cockpit limité aux articles « Suivi consommation La Platine » (18/18 + 12/12 UI).**
 >
 > **V1 Consommation matières premières : fonctionnellement complète.**
 >
@@ -30,7 +30,7 @@
 | 3 | Enregistrement consommation (mouvement standard → Production) | GO |
 | 4 | Correction inventaire, motif traçable, seuil min post-opération | GO |
 | **CONS-MP-002** | **Séparation consommation / mise à jour stock (deux wizards, deux menus)** | **GO** |
-| **CONS-MP-003** | **Cockpit limité au booléen Suivi consommation La Platine** | **GO QA lab** |
+| **CONS-MP-003** | **Cockpit limité au booléen Suivi consommation La Platine** | **GO QA + GO MOA UI lab** |
 
 **Tests automatisés module** : **100/100 verts** (lab, 2026-07-05).
 

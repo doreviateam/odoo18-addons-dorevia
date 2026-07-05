@@ -10,7 +10,7 @@ Module Odoo 18 CE — **Pilotage des approvisionnements** et **Consommation mati
 | Cockpit approvisionnements | **GO QA lab** — périmètre articles « Suivi consommation La Platine » |
 | Consommation MP V1 (Slices 1–4) | **GO Dev / GO QA / GO MOA UI lab** |
 | Séparation wizards (CONS-MP-002) | **GO QA + GO MOA UI lab** — [`recette_qa/QA-CONS-MP-WIZSEP-20260705_203637/`](recette_qa/QA-CONS-MP-WIZSEP-20260705_203637/) |
-| Recentrage cockpit (CONS-MP-003) | **GO QA lab** — [`recette_qa/QA-CONS-MP-003-20260705_220000/`](recette_qa/QA-CONS-MP-003-20260705_220000/) (18/18) |
+| Recentrage cockpit (CONS-MP-003) | **GO QA + GO MOA UI lab** — [`recette_qa/QA-CONS-MP-003-20260705_220000/`](recette_qa/QA-CONS-MP-003-20260705_220000/) + [`MOA UI`](recette_qa/QA-CONS-MP-MOA-UI-003-20260705_220400/) |
 | Tests automatisés | **113/113** verts (lab) |
 | Déploiement production | **STOP** |
 | Commit de référence | _voir `origin/main`_ |
