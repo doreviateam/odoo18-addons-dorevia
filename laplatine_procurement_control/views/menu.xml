@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <menuitem
+        id="menu_laplatine_root"
+        name="La Platine"
+        parent="stock.menu_stock_root"
+        sequence="15"
+        groups="laplatine_procurement_control.group_raw_material_consumption_user"
+    />
+    <menuitem
+        id="menu_raw_material_consumption"
+        name="Consommation matière première"
+        parent="menu_laplatine_root"
+        action="raw_material_consumption_wizard_action"
+        sequence="10"
+    />
+
+    <menuitem
         id="menu_procurement_control_root"
         name="Pilotage approvisionnements"
-        parent="stock.menu_stock_root"
+        parent="stock.menu_stock_config_settings"
         sequence="25"
         groups="laplatine_procurement_control.group_procurement_control_user"
     />

@@ -6,6 +6,9 @@
         <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='inventory']" position="inside">
+                <group string="LA PLATINE" groups="laplatine_procurement_control.group_procurement_control_config">
+                    <field name="laplatine_consumption_tracking"/>
+                </group>
                 <group string="Pilotage approvisionnements" groups="laplatine_procurement_control.group_procurement_control_config">
                     <field name="laplatine_procurement_criticality"/>
                     <field name="laplatine_procurement_consumption_untraceable"/>

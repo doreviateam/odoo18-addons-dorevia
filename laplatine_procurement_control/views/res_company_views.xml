@@ -9,6 +9,7 @@
                 <page string="Pilotage approvisionnements" groups="laplatine_procurement_control.group_procurement_control_config">
                     <group>
                         <field name="laplatine_procurement_warehouse_id"/>
+                        <field name="laplatine_consumption_destination_location_id"/>
                         <field name="laplatine_procurement_consumption_days"/>
                         <field name="laplatine_procurement_min_history_days"/>
                         <field name="laplatine_procurement_watch_lead_days"/>

@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class ResCompany(models.Model):
@@ -26,3 +26,23 @@ class ResCompany(models.Model):
         string="Avertissement données obsolètes (heures)",
         default=24,
     )
+    laplatine_consumption_destination_location_id = fields.Many2one(
+        "stock.location",
+        string="Emplacement destination consommations La Platine",
+        domain="[('usage', '=', 'production')]",
+        default=lambda self: self._default_laplatine_consumption_destination_location_id(),
+        help="Emplacement de production cible pour les prélèvements "
+        "enregistrés via le wizard Consommation matière première.",
+    )
+
+    @api.model
+    def _default_laplatine_consumption_destination_location_id(self):
+        return self.env["stock.location"].search(
+            [
+                ("usage", "=", "production"),
+                "|",
+                ("company_id", "=", self.env.company.id),
+                ("company_id", "=", False),
+            ],
+            limit=1,
+        ).id

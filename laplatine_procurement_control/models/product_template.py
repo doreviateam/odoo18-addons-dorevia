@@ -18,3 +18,8 @@ class ProductTemplate(models.Model):
         help="Indique manuellement que la consommation ne peut pas être calculée "
         "de façon fiable à partir des mouvements de stock.",
     )
+    laplatine_consumption_tracking = fields.Boolean(
+        string="Suivi consommation La Platine",
+        help="Rend cet article disponible dans l'interface simplifiée "
+        "de consommation des matières premières de La Platine.",
+    )
