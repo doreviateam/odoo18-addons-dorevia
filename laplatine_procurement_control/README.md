@@ -6,7 +6,8 @@ Module Odoo 18 CE — **Pilotage des approvisionnements** pour la SARL La Platin
 
 | Élément | Statut |
 |---------|--------|
-| Version | `18.0.1.1.0` — **V1 en recette lab** |
+| Version | `18.0.1.1.0` — **GO QA pré-recette lab** |
+| QA lab (2026-07-05) | **18/18 GO** — run `QA-PC-V1-20260705_082258`, bloquants 8/8 — preuves [`recette_qa/`](recette_qa/) |
 | Note de cadrage | [`note_cadrage.md`](note_cadrage.md) V0.1 |
 | Spécification | [`SPECIFICATION_V1.md`](SPECIFICATION_V1.md) |
 | GO faisabilité technique | ✅ |
@@ -14,7 +15,7 @@ Module Odoo 18 CE — **Pilotage des approvisionnements** pour la SARL La Platin
 | GO MOA spec V1 | ✅ |
 | Arbitrage `watch_lead_days` | ✅ **7 jours** (défaut société, paramétrable) |
 | GO développement | ✅ |
-| Recette MOA lab | [`GUIDE_RECETTE_MOA_LAB_PROCUREMENT_CONTROL_V1.md`](GUIDE_RECETTE_MOA_LAB_PROCUREMENT_CONTROL_V1.md) |
+| Recette MOA lab | [`GUIDE_RECETTE_MOA_LAB_PROCUREMENT_CONTROL_V1.md`](GUIDE_RECETTE_MOA_LAB_PROCUREMENT_CONTROL_V1.md) — **GO QA** ; recette humaine MOA (atelier fécule) à planifier |
 | Déploiement production | ⏸ — STOP jusqu'à GO MOA explicite |
 
 Spécification détaillée : [`SPECIFICATION_V1.md`](SPECIFICATION_V1.md)

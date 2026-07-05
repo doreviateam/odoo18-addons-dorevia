@@ -4,14 +4,16 @@
 |---------|--------|
 | Document | `GUIDE_RECETTE_MOA_LAB_PROCUREMENT_CONTROL_V1.md` |
 | Version module | `18.0.1.1.0` |
-| Commit Git de référence | `9e61e56` (branche `main`, dépôt `odoo18-addons-dorevia`) |
+| Commit Git de référence | `f66d7bd` (branche `main`, dépôt `odoo18-addons-dorevia`) |
+| Commit code module | `9e61e56` (dernier commit fonctionnel avant guide recette) |
 | Environnement | **Lab uniquement** — `laplatine-odoo18-lab` |
 | Base | `laplatine_prod` |
 | URL lab | `http://127.0.0.1:18018` |
 | Production | **STOP** — aucun déploiement sans GO MOA explicite séparé |
 | Spécification gelée | [`SPECIFICATION_V1.md`](SPECIFICATION_V1.md) |
-| Tests automatisés lab | **43/43 verts** (dernière exécution Dev avant recette) |
-| Statut recette | ⏸ **À exécuter par la MOA** |
+| Tests automatisés lab | **43/43 verts** (non-régression post-QA 2026-07-05) |
+| QA pré-recette lab | **GO** — run `QA-PC-V1-20260705_082258` (18/18, bloquants 8/8) |
+| Statut recette MOA | ✅ **GO QA pré-recette** — recette MOA humaine à planifier (atelier fécule) |
 
 ---
 
@@ -723,11 +725,28 @@ Chaque scénario utilise le tableau de preuve suivant (à dupliquer ou compléte
 
 R01, R03, R05, R06, R07, R08, R11, R12.
 
-### 7.2 Décision MOA
+### 7.2 QA automatisée lab (2026-07-05)
+
+| Élément | Résultat |
+|---------|----------|
+| Run | `QA-PC-V1-20260705_082258` |
+| Verdict | **GO_QA_PRE_RECETTE** |
+| Scénarios R01–R18 | **18/18 GO** |
+| Bloquants | **8/8 GO** |
+| Non-régression | 43/43 tests après nettoyage |
+| Fécule min/max | Non modifiés |
+| Production | **STOP** |
+
+Preuves versionnées : [`recette_qa/QA-PC-V1-20260705_082258/`](recette_qa/QA-PC-V1-20260705_082258/)  
+Copie lab d’origine : `laplatine-odoo18-lab/outputs/procurement_control_qa_20260705_082258/`
+
+Classifications attendues (non bugs) : R11, R12, R15 → défauts données/paramétrage.
+
+### 7.3 Décision MOA
 
 | Champ | Valeur |
 |-------|--------|
-| Verdict global | ☐ GO recette V1 ☐ GO avec réserves ☐ KO recette |
+| Verdict global | ☐ GO recette V1 ☐ GO avec réserves ☑ **GO QA pré-recette lab** ☐ KO recette |
 | Date | |
 | Signataire MOA | |
 | Réserve / actions correctives | |
@@ -741,16 +760,16 @@ R01, R03, R05, R06, R07, R08, R11, R12.
 |-------|-------------------|------------|
 | Paramètres sur `res.company` (pas `res.config.settings`) | Acceptable lab | Migration avant prod |
 | Conflit `facturx_level` sur base lab | N’empêche pas la recette | À traiter avant prod |
+| `compute_sudo` / `store` sur champs fraîcheur | Warning Odoo au chargement — à corriger V1.1 | Non bloquant recette |
+| Description module (docutils) | Warning cosmétique | Non bloquant recette |
 | Cron de rafraîchissement | Non testé V1 | V1.1+ |
-
----
 
 ## 9. Références
 
 - Spécification gelée : [`SPECIFICATION_V1.md`](SPECIFICATION_V1.md)
 - Note de cadrage : [`note_cadrage.md`](note_cadrage.md)
 - README module : [`README.md`](README.md)
-- Dépôt Git : `doreviateam/odoo18-addons-dorevia` — commit `9e61e56`
+- Dépôt Git : `doreviateam/odoo18-addons-dorevia` — guide `f66d7bd`, code `9e61e56`
 
 ---
 
