@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from odoo import api, models
 from odoo.exceptions import UserError
+from odoo.tools.float_utils import float_compare, float_is_zero
+
+CONSUMPTION_MOVE_REFERENCE = "Consommation MP La Platine"
 
 
 class LaplatineProcurementStockOps(models.AbstractModel):
@@ -45,6 +48,11 @@ class LaplatineProcurementStockOps(models.AbstractModel):
         kg_uom = self.get_kg_uom()
         source_uom = from_uom or product.uom_id
         return source_uom._compute_quantity(qty, kg_uom)
+
+    @api.model
+    def qty_from_kg(self, product, qty_kg):
+        kg_uom = self.get_kg_uom()
+        return kg_uom._compute_quantity(qty_kg, product.uom_id)
 
     @api.model
     def get_pilot_internal_locations(self, company):
@@ -118,3 +126,66 @@ class LaplatineProcurementStockOps(models.AbstractModel):
                 ("company_id", "=", company.id),
             ]
         )
+
+    @api.model
+    def _validate_consumption_request(self, company, product, location, qty_kg):
+        if not product:
+            raise UserError("Veuillez sélectionner une matière première.")
+        if not location:
+            raise UserError("Veuillez sélectionner un emplacement.")
+        if qty_kg is None or float_is_zero(qty_kg, precision_digits=6):
+            raise UserError("La quantité prélevée doit être strictement positive.")
+        if qty_kg < 0:
+            raise UserError("La quantité prélevée ne peut pas être négative.")
+
+        eligible = self.get_eligible_consumption_products(company)
+        if product not in eligible:
+            raise UserError(
+                "Cet article n'est plus éligible à la consommation matière première."
+            )
+
+        allowed = self.get_allowed_source_locations(product, company, "consumption")
+        if location not in allowed:
+            raise UserError(
+                "L'emplacement sélectionné n'est pas autorisé pour cette consommation."
+            )
+
+        available_kg = self.get_qty_kg_at_location(product, location)
+        if float_compare(qty_kg, available_kg, precision_digits=6) > 0:
+            raise UserError(
+                "La quantité prélevée (%.2f kg) dépasse le stock disponible (%.2f kg)."
+                % (qty_kg, available_kg)
+            )
+
+        return self.get_consumption_destination_location(company)
+
+    @api.model
+    def register_raw_material_consumption(self, company, product, location, qty_kg):
+        destination = self._validate_consumption_request(
+            company, product, location, qty_kg
+        )
+        qty_product_uom = self.qty_from_kg(product, qty_kg)
+        move = self.env["stock.move"].create(
+            {
+                "name": CONSUMPTION_MOVE_REFERENCE,
+                "reference": CONSUMPTION_MOVE_REFERENCE,
+                "product_id": product.id,
+                "product_uom_qty": qty_product_uom,
+                "product_uom": product.uom_id.id,
+                "location_id": location.id,
+                "location_dest_id": destination.id,
+                "company_id": company.id,
+            }
+        )
+        move._action_confirm()
+        move._action_assign()
+        move.quantity = qty_product_uom
+        move.picked = True
+        move._action_done()
+
+        return {
+            "move": move,
+            "qty_kg": qty_kg,
+            "remaining_kg": self.get_qty_kg_at_location(product, location),
+            "product_name": product.display_name,
+        }

@@ -1,0 +1,36 @@
+{
+  "run_id": "QA-CONS-MP-S3-20260705_193007",
+  "label": "after_initial_stale_ui",
+  "generated_at": "2026-07-05T17:37:38.977491",
+  "database": "laplatine_prod",
+  "production": "STOP - lab uniquement",
+  "module": {
+    "installed_version": "18.0.1.3.0",
+    "latest_version": "18.0.1.3.0",
+    "state": "installed"
+  },
+  "company": {
+    "model": "res.company",
+    "id": 1,
+    "display_name": "SARL La Platine"
+  },
+  "product": {
+    "model": "product.product",
+    "id": 555,
+    "display_name": "[MP-FEC-MAN-001] FECULE DE MANIOC"
+  },
+  "source_location": {
+    "model": "stock.location",
+    "id": 19,
+    "display_name": "WH/Stock/Conteneur Fécule"
+  },
+  "source_qty_kg": 13250.0,
+  "destination": {
+    "model": "stock.location",
+    "id": 15,
+    "display_name": "Virtual Locations/Production"
+  },
+  "destination_usage": "production",
+  "consumption_move_count": 0,
+  "latest_consumption_move": false
+}

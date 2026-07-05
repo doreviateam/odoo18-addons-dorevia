@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.float_utils import float_is_zero
 
 
 class LaplatineRawMaterialConsumptionWizard(models.TransientModel):
@@ -104,11 +105,42 @@ class LaplatineRawMaterialConsumptionWizard(models.TransientModel):
         if self.location_id not in allowed:
             self.location_id = False
 
+    def _format_kg_message_qty(self, qty_kg):
+        if float_is_zero(qty_kg % 1.0, precision_digits=3):
+            return f"{int(round(qty_kg)):,}".replace(",", " ")
+        return f"{qty_kg:.2f}".replace(".", ",")
+
     def action_register_consumption(self):
         self.ensure_one()
-        raise UserError(
-            "L'enregistrement des consommations sera disponible au Slice 3."
+        if self.mode != "consumption":
+            raise UserError(
+                "L'enregistrement des consommations n'est disponible "
+                "qu'en mode prélèvement."
+            )
+        stock_ops = self.env["laplatine.procurement.stock.ops"]
+        result = stock_ops.register_raw_material_consumption(
+            self.env.company,
+            self.product_id,
+            self.location_id,
+            self.qty_consumed_kg,
         )
+        qty_text = self._format_kg_message_qty(result["qty_kg"])
+        remaining_text = self._format_kg_message_qty(result["remaining_kg"])
+        message = (
+            f"{qty_text} kg de {result['product_name']} ont été prélevés.\n"
+            f"Stock restant : {remaining_text} kg."
+        )
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": "Consommation enregistrée",
+                "message": message,
+                "type": "success",
+                "sticky": False,
+                "next": {"type": "ir.actions.act_window_close"},
+            },
+        }
 
     def action_open_adjustment_mode(self):
         self.ensure_one()

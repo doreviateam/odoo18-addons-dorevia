@@ -1,0 +1,49 @@
+{
+  "run_id": "QA-CONS-MP-S3-20260705_193007",
+  "generated_at_browser": "2026-07-05T17:41:53.428Z",
+  "url_lab": "http://127.0.0.1:18018",
+  "operator_login": "qa_cons_mp_s3_operator_20260705_193007",
+  "initial_attempt": {
+    "result": "KO_ENV_RUNTIME_STALE",
+    "message_observed": "L'enregistrement des consommations sera disponible au Slice 3.",
+    "stock_impact": "none, confirmed by after_initial_ui_evidence.json",
+    "screenshot": "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-S3-20260705_193007/screenshots/05_initial_stale_runtime_slice3_neutralized.png"
+  },
+  "remediation": {
+    "action": "docker compose restart odoo",
+    "scope": "lab only",
+    "production": "STOP"
+  },
+  "successful_attempt": {
+    "product": "[MP-FEC-MAN-001] FECULE DE MANIOC",
+    "source_location": "WH/Stock/Conteneur Fécule",
+    "qty_before_kg": 13250,
+    "qty_consumed_kg": 75,
+    "notification_observed": "Consommation enregistrée - 75 kg de [MP-FEC-MAN-001] FECULE DE MANIOC ont été prélevés. Stock restant : 13 175 kg.",
+    "wizard_closed": true,
+    "screenshots": [
+      "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-S3-20260705_193007/screenshots/07_after_restart_wizard_fecule_13250_qty75_before_validation.png",
+      "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-S3-20260705_193007/screenshots/08_success_notification_consumption_75kg_after_restart.png"
+    ]
+  },
+  "stock_move_ui": {
+    "url": "http://127.0.0.1:18018/odoo/action-417/957",
+    "move_id": 957,
+    "state": "done",
+    "reference": "Consommation MP La Platine",
+    "source": "WH/Stock/Conteneur Fécule",
+    "destination": "Virtual Locations/Production",
+    "qty": "75.00 kg",
+    "screenshot": "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-S3-20260705_193007/screenshots/09_stock_move_history_form_957.png"
+  },
+  "slice4_non_regression": {
+    "result": "OK",
+    "qty_available_displayed_kg": 13175,
+    "message_observed": "La correction de stock sera disponible au Slice 4.",
+    "final_stock_impact": "none, confirmed by final_evidence.json",
+    "screenshots": [
+      "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-S3-20260705_193007/screenshots/10_adjustment_mode_after_slice3_stock_13175.png",
+      "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-S3-20260705_193007/screenshots/11_slice4_still_neutralized_after_slice3.png"
+    ]
+  }
+}
