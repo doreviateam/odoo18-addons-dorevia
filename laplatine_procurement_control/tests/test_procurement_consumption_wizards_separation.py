@@ -303,6 +303,26 @@ class TestProcurementConsumptionWizardsSeparation(TransactionCase):
         with self.assertRaises(AccessError):
             stock_env.create({})
 
+    def test_consumption_resolves_auto_location_without_persisted_location_id(self):
+        """Régression BUG-CONS-MP-003 : emplacement auto readonly non persisté UI."""
+        product = self._create_tracked_product("Auto Location Persist Product")
+        location = self._create_internal_location("Auto Location Persist Bin")
+        self._set_stock(product, location, 500.0)
+
+        wizard = self.env["laplatine.raw.material.consumption.wizard"].create(
+            {
+                "product_id": product.id,
+                "qty_consumed_kg": 10.0,
+            }
+        )
+        self.assertFalse(wizard.location_id)
+        action = wizard.action_register_consumption()
+
+        self.assertEqual(action["params"]["title"], "Consommation enregistrée")
+        self.assertAlmostEqual(
+            self.stock_ops.get_qty_kg_at_location(product, location), 490.0
+        )
+
     def test_consumption_wizard_model_has_no_mode_field(self):
         wizard_model = self.env["laplatine.raw.material.consumption.wizard"]
         self.assertNotIn("mode", wizard_model._fields)

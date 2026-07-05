@@ -208,9 +208,11 @@ class TestProcurementConsumptionSlice3(TransactionCase):
 
     def test_consumption_rejects_missing_location(self):
         product = self._create_tracked_product("Slice3 Missing Location Product")
-        location = self._create_internal_location("Slice3 Missing Location Bin")
-        self._set_stock(product, location, 100.0)
-        wizard = self._create_wizard(product, location, 10.0)
+        loc_a = self._create_internal_location("Slice3 Missing Location Bin A")
+        loc_b = self._create_internal_location("Slice3 Missing Location Bin B")
+        self._set_stock(product, loc_a, 100.0)
+        self._set_stock(product, loc_b, 50.0)
+        wizard = self._create_wizard(product, loc_a, 10.0)
         wizard.location_id = False
 
         with self.assertRaises(UserError):

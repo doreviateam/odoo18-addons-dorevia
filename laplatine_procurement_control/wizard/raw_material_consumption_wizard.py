@@ -77,13 +77,28 @@ class LaplatineRawMaterialConsumptionWizard(models.TransientModel):
         elif self.location_id not in allowed:
             self.location_id = False
 
+    def _resolve_location_id(self):
+        """Retourne l'emplacement effectif, y compris si auto-sélection UI non persisté."""
+        self.ensure_one()
+        if self.location_id:
+            return self.location_id
+        if not self.product_id:
+            return self.env["stock.location"]
+        allowed = self.env["laplatine.procurement.stock.ops"].get_allowed_source_locations(
+            self.product_id, self.env.company, "consumption"
+        )
+        if len(allowed) == 1:
+            return allowed[0]
+        return self.env["stock.location"]
+
     def action_register_consumption(self):
         self.ensure_one()
+        location = self._resolve_location_id()
         stock_ops = self.env["laplatine.procurement.stock.ops"]
         result = stock_ops.register_raw_material_consumption(
             self.env.company,
             self.product_id,
-            self.location_id,
+            location,
             self.qty_consumed_kg,
         )
         qty_text = self._format_kg_message_qty(result["qty_kg"])

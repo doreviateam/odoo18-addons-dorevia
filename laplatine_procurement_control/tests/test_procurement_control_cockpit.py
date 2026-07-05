@@ -77,8 +77,8 @@ class TestProcurementControlCockpit(TransactionCase):
             }
         )
 
-    def _create_product(self, name):
-        return self.env["product.product"].create(
+    def _create_product(self, name, tracking=True):
+        product = self.env["product.product"].create(
             {
                 "name": name,
                 "is_storable": True,
@@ -86,6 +86,8 @@ class TestProcurementControlCockpit(TransactionCase):
                 "standard_price": 1.0,
             }
         )
+        product.product_tmpl_id.laplatine_consumption_tracking = tracking
+        return product
 
     def _set_stock(self, product, quantity, warehouse=None):
         warehouse = warehouse or self.warehouse
@@ -148,7 +150,7 @@ class TestProcurementControlCockpit(TransactionCase):
                 "risk_status": "normal",
             }
         )
-        product.purchase_ok = False
+        product.product_tmpl_id.laplatine_consumption_tracking = False
         self.control_line.with_user(self.manager_user).action_refresh()
         self.assertFalse(line.exists())
 

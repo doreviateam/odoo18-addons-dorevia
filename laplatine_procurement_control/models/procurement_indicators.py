@@ -19,6 +19,7 @@ class LaplatineProcurementIndicators(models.AbstractModel):
                 ("active", "=", True),
                 ("purchase_ok", "=", True),
                 ("is_storable", "=", True),
+                ("product_tmpl_id.laplatine_consumption_tracking", "=", True),
             ]
         )
 

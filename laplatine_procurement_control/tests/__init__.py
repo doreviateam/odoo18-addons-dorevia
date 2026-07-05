@@ -9,3 +9,4 @@ from . import test_procurement_consumption_slice4
 from . import test_procurement_consumption_wizards_separation
 from . import test_procurement_control_refresh
 from . import test_procurement_control_skeleton
+from . import test_procurement_cockpit_tracking_scope

@@ -98,7 +98,12 @@ class TestProcurementControlAlerts(TransactionCase):
                 "purchase_ok": True,
             }
         )
-        product.product_tmpl_id.laplatine_procurement_consumption_untraceable = True
+        product.product_tmpl_id.write(
+            {
+                "laplatine_consumption_tracking": True,
+                "laplatine_procurement_consumption_untraceable": True,
+            }
+        )
 
         self.env["laplatine.procurement.control.line"].action_refresh()
         line = self.env["laplatine.procurement.control.line"].search(

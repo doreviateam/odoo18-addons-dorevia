@@ -25,8 +25,8 @@ class TestProcurementControlRefresh(TransactionCase):
             "laplatine_procurement_control.group_procurement_control_manager"
         ).users = [(4, cls.env.uid)]
 
-    def _create_product(self, name):
-        return self.env["product.product"].create(
+    def _create_product(self, name, tracking=True):
+        product = self.env["product.product"].create(
             {
                 "name": name,
                 "is_storable": True,
@@ -34,6 +34,8 @@ class TestProcurementControlRefresh(TransactionCase):
                 "standard_price": 1.0,
             }
         )
+        product.product_tmpl_id.laplatine_consumption_tracking = tracking
+        return product
 
     def _set_stock(self, product, quantity):
         self.env["stock.quant"].with_context(inventory_mode=True).create(
@@ -146,8 +148,7 @@ class TestProcurementControlRefresh(TransactionCase):
 
     def test_refresh_removes_obsolete_lines(self):
         self.company.laplatine_procurement_warehouse_id = self.warehouse.id
-        obsolete_product = self._create_product("Obsolete Product")
-        obsolete_product.purchase_ok = False
+        obsolete_product = self._create_product("Obsolete Product", tracking=False)
         obsolete_line = self.control_line.create(
             {
                 "product_id": obsolete_product.id,
