@@ -110,6 +110,32 @@ class LaplatineRawMaterialConsumptionWizard(models.TransientModel):
             return f"{int(round(qty_kg)):,}".replace(",", " ")
         return f"{qty_kg:.2f}".replace(".", ",")
 
+    def _format_signed_kg_message_qty(self, qty_kg):
+        prefix = "+" if qty_kg > 0 else ""
+        return f"{prefix}{self._format_kg_message_qty(qty_kg)}"
+
+    def _build_operation_notification(self, title, message_lines, threshold):
+        message = "\n".join(message_lines)
+        notification_type = "success"
+        if threshold.get("below_min"):
+            message += (
+                "\n\nSeuil de réapprovisionnement atteint\n"
+                f"Stock restant : {self._format_kg_message_qty(threshold['remaining_kg'])} kg\n"
+                f"Seuil minimum : {self._format_kg_message_qty(threshold['min_qty_kg'])} kg"
+            )
+            notification_type = "warning"
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": title,
+                "message": message,
+                "type": notification_type,
+                "sticky": False,
+                "next": {"type": "ir.actions.act_window_close"},
+            },
+        }
+
     def action_register_consumption(self):
         self.ensure_one()
         if self.mode != "consumption":
@@ -126,21 +152,14 @@ class LaplatineRawMaterialConsumptionWizard(models.TransientModel):
         )
         qty_text = self._format_kg_message_qty(result["qty_kg"])
         remaining_text = self._format_kg_message_qty(result["remaining_kg"])
-        message = (
-            f"{qty_text} kg de {result['product_name']} ont été prélevés.\n"
-            f"Stock restant : {remaining_text} kg."
+        return self._build_operation_notification(
+            "Consommation enregistrée",
+            [
+                f"{qty_text} kg de {result['product_name']} ont été prélevés.",
+                f"Stock restant : {remaining_text} kg.",
+            ],
+            result["threshold"],
         )
-        return {
-            "type": "ir.actions.client",
-            "tag": "display_notification",
-            "params": {
-                "title": "Consommation enregistrée",
-                "message": message,
-                "type": "success",
-                "sticky": False,
-                "next": {"type": "ir.actions.act_window_close"},
-            },
-        }
 
     def action_open_adjustment_mode(self):
         self.ensure_one()
@@ -157,6 +176,25 @@ class LaplatineRawMaterialConsumptionWizard(models.TransientModel):
 
     def action_apply_adjustment(self):
         self.ensure_one()
-        raise UserError(
-            "La correction de stock sera disponible au Slice 4."
+        if self.mode != "adjustment":
+            raise UserError(
+                "La correction de stock n'est disponible qu'en mode comptage."
+            )
+        stock_ops = self.env["laplatine.procurement.stock.ops"]
+        result = stock_ops.register_raw_material_adjustment(
+            self.env.company,
+            self.product_id,
+            self.location_id,
+            self.qty_counted_kg,
+            self.adjustment_reason,
+        )
+        return self._build_operation_notification(
+            "Correction appliquée",
+            [
+                f"Stock avant : {self._format_kg_message_qty(result['before_kg'])} kg",
+                f"Stock compté : {self._format_kg_message_qty(result['counted_kg'])} kg",
+                f"Écart : {self._format_signed_kg_message_qty(result['diff_kg'])} kg",
+                f"Stock après : {self._format_kg_message_qty(result['after_kg'])} kg",
+            ],
+            result["threshold"],
         )

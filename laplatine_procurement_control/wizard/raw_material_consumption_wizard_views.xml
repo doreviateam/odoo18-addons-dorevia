@@ -45,6 +45,7 @@
                         type="object"
                         string="Appliquer la correction"
                         class="btn-primary"
+                        confirm="Confirmer l'application de la correction de stock ?"
                     />
                     <button special="cancel" string="Annuler" class="btn-secondary"/>
                 </footer>

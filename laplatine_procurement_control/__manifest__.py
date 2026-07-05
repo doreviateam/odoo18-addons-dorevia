@@ -1,7 +1,7 @@
 {
     "name": "La Platine - Pilotage des approvisionnements",
     "summary": "Cockpit de lecture et d'interprétation des approvisionnements",
-    "version": "18.0.1.3.0",
+    "version": "18.0.1.4.0",
     "category": "Inventory/Purchase",
     "author": "Dorevia",
     "license": "LGPL-3",

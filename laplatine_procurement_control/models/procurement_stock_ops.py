@@ -4,6 +4,7 @@ from odoo.exceptions import UserError
 from odoo.tools.float_utils import float_compare, float_is_zero
 
 CONSUMPTION_MOVE_REFERENCE = "Consommation MP La Platine"
+ADJUSTMENT_MOVE_REFERENCE_PREFIX = "Correction MP La Platine"
 
 
 class LaplatineProcurementStockOps(models.AbstractModel):
@@ -183,9 +184,154 @@ class LaplatineProcurementStockOps(models.AbstractModel):
         move.picked = True
         move._action_done()
 
+        threshold = self.get_reorder_threshold_status(company, product)
         return {
             "move": move,
             "qty_kg": qty_kg,
             "remaining_kg": self.get_qty_kg_at_location(product, location),
             "product_name": product.display_name,
+            "threshold": threshold,
+        }
+
+    @api.model
+    def get_total_qty_kg_in_pilot_warehouse(self, product, company):
+        total = 0.0
+        for location in self.get_pilot_internal_locations(company):
+            total += self.get_qty_kg_at_location(product, location)
+        return total
+
+    @api.model
+    def get_reorder_threshold_status(self, company, product):
+        warehouse = company.laplatine_procurement_warehouse_id
+        if not warehouse:
+            return {"below_min": False}
+
+        orderpoint_info = self.resolve_orderpoint(product, warehouse)
+        if orderpoint_info["status"] != "ok":
+            return {"below_min": False}
+
+        orderpoint = orderpoint_info["orderpoint"]
+        min_qty = self.convert_qty(product, orderpoint.product_min_qty, product.uom_id)
+        min_qty_kg = self.qty_to_kg(product, min_qty)
+        remaining_kg = self.get_total_qty_kg_in_pilot_warehouse(product, company)
+        below_min = float_compare(remaining_kg, min_qty_kg, precision_digits=6) <= 0
+        return {
+            "below_min": below_min,
+            "remaining_kg": remaining_kg,
+            "min_qty_kg": min_qty_kg,
+        }
+
+    @api.model
+    def _validate_adjustment_request(
+        self, company, product, location, qty_counted_kg, reason
+    ):
+        if not product:
+            raise UserError("Veuillez sélectionner une matière première.")
+        if not location:
+            raise UserError("Veuillez sélectionner un emplacement.")
+        if qty_counted_kg is None:
+            raise UserError("Veuillez saisir la quantité réellement comptée.")
+        if qty_counted_kg < 0:
+            raise UserError("La quantité comptée ne peut pas être négative.")
+        if not (reason or "").strip():
+            raise UserError("Le motif de correction est obligatoire.")
+
+        eligible = self.get_eligible_consumption_products(company)
+        if product not in eligible:
+            raise UserError(
+                "Cet article n'est plus éligible à la consommation matière première."
+            )
+
+        allowed = self.get_allowed_source_locations(product, company, "adjustment")
+        if location not in allowed:
+            raise UserError(
+                "L'emplacement sélectionné n'appartient pas à l'entrepôt de pilotage."
+            )
+
+    @api.model
+    def _get_quant_for_inventory(self, product, location):
+        quant = self.env["stock.quant"].search(
+            [
+                ("product_id", "=", product.id),
+                ("location_id", "=", location.id),
+                ("lot_id", "=", False),
+                ("package_id", "=", False),
+            ],
+            limit=1,
+        )
+        if not quant:
+            quant = self.env["stock.quant"].with_context(inventory_mode=True).create(
+                {
+                    "product_id": product.id,
+                    "location_id": location.id,
+                }
+            )
+        return quant
+
+    @api.model
+    def _find_last_inventory_move(self, product, location):
+        return self.env["stock.move"].search(
+            [
+                ("product_id", "=", product.id),
+                ("is_inventory", "=", True),
+                ("state", "=", "done"),
+                "|",
+                ("location_id", "=", location.id),
+                ("location_dest_id", "=", location.id),
+            ],
+            order="id desc",
+            limit=1,
+        )
+
+    @api.model
+    def register_raw_material_adjustment(
+        self, company, product, location, qty_counted_kg, reason
+    ):
+        self._validate_adjustment_request(
+            company, product, location, qty_counted_kg, reason
+        )
+        reason = (reason or "").strip()
+        odoo_qty_kg = self.get_qty_kg_at_location(product, location)
+        counted_product_uom = self.qty_from_kg(product, qty_counted_kg)
+        odoo_product_uom = self.get_qty_at_location(product, location)
+
+        if float_compare(
+            counted_product_uom,
+            odoo_product_uom,
+            precision_rounding=product.uom_id.rounding,
+        ) == 0:
+            raise UserError(
+                "La quantité comptée correspond déjà au stock enregistré dans Odoo."
+            )
+
+        quant = self._get_quant_for_inventory(product, location)
+        quant.with_context(inventory_mode=True).write(
+            {"inventory_quantity": counted_product_uom}
+        )
+        quant.with_context(
+            inventory_mode=True,
+            inventory_name=reason,
+            set_inventory_quantity_auto_apply=True,
+        ).action_apply_inventory()
+
+        move = self._find_last_inventory_move(product, location)
+        if move:
+            move.write(
+                {
+                    "reference": reason,
+                    "origin": ADJUSTMENT_MOVE_REFERENCE_PREFIX,
+                }
+            )
+
+        after_kg = self.get_qty_kg_at_location(product, location)
+        threshold = self.get_reorder_threshold_status(company, product)
+        return {
+            "move": move,
+            "before_kg": odoo_qty_kg,
+            "after_kg": after_kg,
+            "diff_kg": after_kg - odoo_qty_kg,
+            "counted_kg": qty_counted_kg,
+            "product_name": product.display_name,
+            "reason": reason,
+            "threshold": threshold,
         }
