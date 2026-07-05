@@ -23,6 +23,13 @@
         action="raw_material_consumption_wizard_action"
         sequence="10"
     />
+    <menuitem
+        id="menu_raw_material_stock_update"
+        name="Mise à jour des quantités en stock"
+        parent="menu_laplatine_root"
+        action="raw_material_stock_update_wizard_action"
+        sequence="20"
+    />
 
     <menuitem
         id="menu_procurement_control_root"

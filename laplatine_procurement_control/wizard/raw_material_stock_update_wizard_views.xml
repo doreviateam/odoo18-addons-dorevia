@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="raw_material_stock_update_wizard_view_form" model="ir.ui.view">
+        <field name="name">laplatine.raw.material.stock.update.wizard.form</field>
+        <field name="model">laplatine.raw.material.stock.update.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Mise à jour des quantités en stock">
+                <group>
+                    <field name="allowed_location_ids" invisible="1"/>
+                    <field name="product_id" options="{'no_create': True}"/>
+                    <field name="location_id"/>
+                    <field name="qty_available_kg"/>
+                    <field name="qty_counted_kg"/>
+                    <field name="qty_diff_kg"/>
+                    <field name="adjustment_reason"/>
+                </group>
+                <footer>
+                    <button
+                        name="action_update_stock"
+                        type="object"
+                        string="Mettre à jour le stock"
+                        class="btn-primary"
+                        confirm="Confirmez-vous la mise à jour du stock selon la quantité comptée ?"
+                    />
+                    <button special="cancel" string="Annuler" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="raw_material_stock_update_wizard_action" model="ir.actions.act_window">
+        <field name="name">Mise à jour des quantités en stock</field>
+        <field name="res_model">laplatine.raw.material.stock.update.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

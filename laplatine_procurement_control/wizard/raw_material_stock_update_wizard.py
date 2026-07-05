@@ -2,10 +2,10 @@
 from odoo import api, fields, models
 
 
-class LaplatineRawMaterialConsumptionWizard(models.TransientModel):
-    _name = "laplatine.raw.material.consumption.wizard"
+class LaplatineRawMaterialStockUpdateWizard(models.TransientModel):
+    _name = "laplatine.raw.material.stock.update.wizard"
     _inherit = "laplatine.raw.material.wizard.mixin"
-    _description = "Consommation matière première La Platine"
+    _description = "Mise à jour des quantités en stock La Platine"
 
     product_id = fields.Many2one(
         "product.product",
@@ -22,19 +22,21 @@ class LaplatineRawMaterialConsumptionWizard(models.TransientModel):
         string="Localisation",
         domain="[('id', 'in', allowed_location_ids)]",
     )
-    location_is_auto = fields.Boolean(
-        string="Emplacement auto-sélectionné",
-        compute="_compute_location_is_auto",
-    )
     qty_available_kg = fields.Float(
-        string="Quantité disponible (kg)",
+        string="Quantité enregistrée dans Odoo",
         digits="Product Unit of Measure",
         compute="_compute_qty_available_kg",
     )
-    qty_consumed_kg = fields.Float(
-        string="Quantité prélevée (kg)",
+    qty_counted_kg = fields.Float(
+        string="Quantité réellement comptée",
         digits="Product Unit of Measure",
     )
+    qty_diff_kg = fields.Float(
+        string="Écart calculé",
+        digits="Product Unit of Measure",
+        compute="_compute_qty_diff_kg",
+    )
+    adjustment_reason = fields.Char(string="Motif")
 
     @api.depends("product_id")
     def _compute_allowed_location_ids(self):
@@ -44,13 +46,8 @@ class LaplatineRawMaterialConsumptionWizard(models.TransientModel):
                 wizard.allowed_location_ids = False
                 continue
             wizard.allowed_location_ids = stock_ops.get_allowed_source_locations(
-                wizard.product_id, self.env.company, "consumption"
+                wizard.product_id, self.env.company, "adjustment"
             )
-
-    @api.depends("allowed_location_ids")
-    def _compute_location_is_auto(self):
-        for wizard in self:
-            wizard.location_is_auto = len(wizard.allowed_location_ids) == 1
 
     @api.depends("product_id", "location_id")
     def _compute_qty_available_kg(self):
@@ -63,6 +60,11 @@ class LaplatineRawMaterialConsumptionWizard(models.TransientModel):
                 wizard.product_id, wizard.location_id
             )
 
+    @api.depends("qty_available_kg", "qty_counted_kg")
+    def _compute_qty_diff_kg(self):
+        for wizard in self:
+            wizard.qty_diff_kg = wizard.qty_counted_kg - wizard.qty_available_kg
+
     @api.onchange("product_id")
     def _onchange_product_id(self):
         stock_ops = self.env["laplatine.procurement.stock.ops"]
@@ -70,29 +72,34 @@ class LaplatineRawMaterialConsumptionWizard(models.TransientModel):
             self.location_id = False
             return
         allowed = stock_ops.get_allowed_source_locations(
-            self.product_id, self.env.company, "consumption"
+            self.product_id, self.env.company, "adjustment"
         )
-        if len(allowed) == 1:
-            self.location_id = allowed[0]
-        elif self.location_id not in allowed:
+        if self.location_id not in allowed:
             self.location_id = False
 
-    def action_register_consumption(self):
+    def action_update_stock(self):
         self.ensure_one()
         stock_ops = self.env["laplatine.procurement.stock.ops"]
-        result = stock_ops.register_raw_material_consumption(
+        result = stock_ops.register_raw_material_adjustment(
             self.env.company,
             self.product_id,
             self.location_id,
-            self.qty_consumed_kg,
+            self.qty_counted_kg,
+            self.adjustment_reason,
         )
-        qty_text = self._format_kg_message_qty(result["qty_kg"])
-        remaining_text = self._format_kg_message_qty(result["remaining_kg"])
         return self._build_operation_notification(
-            "Consommation enregistrée",
+            "Stock mis à jour",
             [
-                f"{qty_text} kg de {result['product_name']} ont été prélevés.",
-                f"Stock restant : {remaining_text} kg.",
+                result["product_name"],
+                f"Quantité avant : {self._format_kg_message_qty(result['before_kg'])} kg",
+                (
+                    "Quantité après comptage : "
+                    f"{self._format_kg_message_qty(result['counted_kg'])} kg"
+                ),
+                (
+                    "Écart enregistré : "
+                    f"{self._format_signed_kg_message_qty(result['diff_kg'])} kg."
+                ),
             ],
             result["threshold"],
         )

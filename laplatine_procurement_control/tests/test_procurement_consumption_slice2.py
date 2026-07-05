@@ -100,11 +100,7 @@ class TestProcurementConsumptionSlice2(TransactionCase):
         )
         self.assertIn(empty_loc, allowed)
 
-        with Form(
-            self.env["laplatine.raw.material.consumption.wizard"].with_context(
-                default_mode="adjustment"
-            )
-        ) as wizard:
+        with Form(self.env["laplatine.raw.material.stock.update.wizard"]) as wizard:
             wizard.product_id = product
             wizard.location_id = empty_loc
             self.assertAlmostEqual(wizard.qty_available_kg, 0.0)

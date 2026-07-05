@@ -5,8 +5,7 @@
         <field name="model">laplatine.raw.material.consumption.wizard</field>
         <field name="arch" type="xml">
             <form string="Consommation matière première">
-                <group invisible="mode != 'consumption'">
-                    <field name="mode" invisible="1"/>
+                <group>
                     <field name="allowed_location_ids" invisible="1"/>
                     <field name="location_is_auto" invisible="1"/>
                     <field name="product_id" options="{'no_create': True}"/>
@@ -14,38 +13,12 @@
                     <field name="qty_available_kg"/>
                     <field name="qty_consumed_kg"/>
                 </group>
-                <group invisible="mode != 'adjustment'">
-                    <field name="mode" invisible="1"/>
-                    <field name="allowed_location_ids" invisible="1"/>
-                    <field name="location_is_auto" invisible="1"/>
-                    <field name="product_id" options="{'no_create': True}"/>
-                    <field name="location_id"/>
-                    <field name="qty_available_kg" string="Quantité enregistrée dans Odoo (kg)"/>
-                    <field name="qty_counted_kg"/>
-                    <field name="adjustment_reason"/>
-                </group>
-                <footer invisible="mode != 'consumption'">
+                <footer>
                     <button
                         name="action_register_consumption"
                         type="object"
                         string="Enregistrer la consommation"
                         class="btn-primary"
-                    />
-                    <button
-                        name="action_open_adjustment_mode"
-                        type="object"
-                        string="Mettre à jour la quantité disponible"
-                        class="btn-secondary"
-                    />
-                    <button special="cancel" string="Annuler" class="btn-secondary"/>
-                </footer>
-                <footer invisible="mode != 'adjustment'">
-                    <button
-                        name="action_apply_adjustment"
-                        type="object"
-                        string="Appliquer la correction"
-                        class="btn-primary"
-                        confirm="Confirmer l'application de la correction de stock ?"
                     />
                     <button special="cancel" string="Annuler" class="btn-secondary"/>
                 </footer>

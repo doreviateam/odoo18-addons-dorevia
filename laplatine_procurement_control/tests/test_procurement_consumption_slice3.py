@@ -84,7 +84,6 @@ class TestProcurementConsumptionSlice3(TransactionCase):
             env = env.with_user(user)
         return env.create(
             {
-                "mode": "consumption",
                 "product_id": product.id,
                 "location_id": location.id,
                 "qty_consumed_kg": qty_kg,

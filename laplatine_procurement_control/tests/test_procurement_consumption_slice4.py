@@ -88,12 +88,11 @@ class TestProcurementConsumptionSlice4(TransactionCase):
         )
 
     def _create_adjustment_wizard(self, product, location, counted_kg, reason, user=None):
-        env = self.env["laplatine.raw.material.consumption.wizard"]
+        env = self.env["laplatine.raw.material.stock.update.wizard"]
         if user:
             env = env.with_user(user)
         return env.create(
             {
-                "mode": "adjustment",
                 "product_id": product.id,
                 "location_id": location.id,
                 "qty_counted_kg": counted_kg,
@@ -108,7 +107,7 @@ class TestProcurementConsumptionSlice4(TransactionCase):
 
         self._create_adjustment_wizard(
             product, location, 120.0, "Correction positive Slice4"
-        ).action_apply_adjustment()
+        ).action_update_stock()
 
         self.assertAlmostEqual(
             self.stock_ops.get_qty_kg_at_location(product, location), 120.0
@@ -124,13 +123,14 @@ class TestProcurementConsumptionSlice4(TransactionCase):
             location,
             13150.0,
             "Ancienne consommation non enregistrée",
-        ).action_apply_adjustment()
+        ).action_update_stock()
 
         self.assertAlmostEqual(
             self.stock_ops.get_qty_kg_at_location(product, location), 13150.0
         )
-        self.assertIn("Stock après : 13 150 kg", action["params"]["message"])
-        self.assertIn("Écart : -25 kg", action["params"]["message"])
+        self.assertEqual(action["params"]["title"], "Stock mis à jour")
+        self.assertIn("Quantité après comptage : 13 150 kg", action["params"]["message"])
+        self.assertIn("Écart enregistré : -25 kg", action["params"]["message"])
 
     def test_t16_adjustment_to_zero(self):
         product = self._create_tracked_product("Slice4 Zero Product")
@@ -139,7 +139,7 @@ class TestProcurementConsumptionSlice4(TransactionCase):
 
         self._create_adjustment_wizard(
             product, location, 0.0, "Inventaire vide Slice4"
-        ).action_apply_adjustment()
+        ).action_update_stock()
 
         self.assertAlmostEqual(
             self.stock_ops.get_qty_kg_at_location(product, location), 0.0
@@ -152,7 +152,7 @@ class TestProcurementConsumptionSlice4(TransactionCase):
         wizard = self._create_adjustment_wizard(product, location, 90.0, "   ")
 
         with self.assertRaises(UserError):
-            wizard.action_apply_adjustment()
+            wizard.action_update_stock()
 
     def test_t18_reorder_threshold_after_adjustment(self):
         product = self._create_tracked_product("Slice4 Threshold Product")
@@ -162,7 +162,7 @@ class TestProcurementConsumptionSlice4(TransactionCase):
 
         action = self._create_adjustment_wizard(
             product, location, 4950.0, "Ajustement sous seuil Slice4"
-        ).action_apply_adjustment()
+        ).action_update_stock()
 
         self.assertEqual(action["params"]["type"], "warning")
         self.assertIn("Seuil de réapprovisionnement atteint", action["params"]["message"])
@@ -171,13 +171,10 @@ class TestProcurementConsumptionSlice4(TransactionCase):
 
     def test_adjustment_confirmation_on_button(self):
         view = self.env.ref(
-            "laplatine_procurement_control.raw_material_consumption_wizard_view_form"
+            "laplatine_procurement_control.raw_material_stock_update_wizard_view_form"
         )
-        self.assertIn(
-            "confirm=",
-            view.arch,
-        )
-        self.assertIn("Confirmer l'application de la correction", view.arch)
+        self.assertIn("confirm=", view.arch)
+        self.assertIn("Confirmez-vous la mise à jour du stock", view.arch)
 
     def test_adjustment_reason_and_author_on_inventory_move(self):
         product = self._create_tracked_product("Slice4 Traceability Product")
@@ -187,7 +184,7 @@ class TestProcurementConsumptionSlice4(TransactionCase):
 
         self._create_adjustment_wizard(
             product, location, 180.0, reason, user=self.operator
-        ).action_apply_adjustment()
+        ).action_update_stock()
 
         move = self.env["stock.move"].search(
             [
@@ -211,7 +208,7 @@ class TestProcurementConsumptionSlice4(TransactionCase):
         self._set_stock(product, location, 90.0)
 
         with self.assertRaises(UserError):
-            wizard.action_apply_adjustment()
+            wizard.action_update_stock()
 
     def test_consumption_threshold_warning_after_slice3_operation(self):
         product = self._create_tracked_product("Slice4 Consumption Threshold")
@@ -221,7 +218,6 @@ class TestProcurementConsumptionSlice4(TransactionCase):
 
         action = self.env["laplatine.raw.material.consumption.wizard"].create(
             {
-                "mode": "consumption",
                 "product_id": product.id,
                 "location_id": location.id,
                 "qty_consumed_kg": 100.0,
@@ -238,7 +234,6 @@ class TestProcurementConsumptionSlice4(TransactionCase):
 
         action = self.env["laplatine.raw.material.consumption.wizard"].create(
             {
-                "mode": "consumption",
                 "product_id": product.id,
                 "location_id": location.id,
                 "qty_consumed_kg": 25.0,

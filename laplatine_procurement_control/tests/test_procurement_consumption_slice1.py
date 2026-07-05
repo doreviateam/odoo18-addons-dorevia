@@ -67,7 +67,7 @@ class TestProcurementConsumptionSlice1(TransactionCase):
         )
         wizard = self.env["laplatine.raw.material.consumption.wizard"].with_user(
             user
-        ).create({"mode": "consumption"})
+        ).create({})
         self.assertTrue(wizard)
 
     def test_t20_consumption_user_has_no_cockpit_group_by_default(self):
