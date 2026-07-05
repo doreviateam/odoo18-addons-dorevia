@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_company_form_procurement_control" model="ir.ui.view">
+        <field name="name">res.company.form.inherit.laplatine.procurement.control</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Pilotage approvisionnements" groups="laplatine_procurement_control.group_procurement_control_config">
+                    <group>
+                        <field name="laplatine_procurement_warehouse_id"/>
+                        <field name="laplatine_procurement_consumption_days"/>
+                        <field name="laplatine_procurement_min_history_days"/>
+                        <field name="laplatine_procurement_watch_lead_days"/>
+                        <field name="laplatine_procurement_stale_warning_hours"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

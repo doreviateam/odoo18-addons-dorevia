@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_template_form_view_procurement_control" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.laplatine.procurement.control</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='inventory']" position="inside">
+                <group string="Pilotage approvisionnements" groups="laplatine_procurement_control.group_procurement_control_config">
+                    <field name="laplatine_procurement_criticality"/>
+                    <field name="laplatine_procurement_consumption_untraceable"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

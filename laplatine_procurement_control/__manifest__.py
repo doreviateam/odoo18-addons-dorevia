@@ -1,0 +1,24 @@
+{
+    "name": "La Platine - Pilotage des approvisionnements",
+    "summary": "Cockpit de lecture et d'interprétation des approvisionnements",
+    "version": "18.0.1.0.0",
+    "category": "Inventory/Purchase",
+    "author": "Dorevia",
+    "license": "LGPL-3",
+    "depends": [
+        "stock",
+        "purchase",
+        "purchase_stock",
+        "mrp",
+    ],
+    "data": [
+        "security/procurement_control_groups.xml",
+        "security/ir.model.access.csv",
+        "views/res_company_views.xml",
+        "views/product_template_views.xml",
+        "views/procurement_control_line_views.xml",
+        "views/menu.xml",
+    ],
+    "installable": True,
+    "application": False,
+}
