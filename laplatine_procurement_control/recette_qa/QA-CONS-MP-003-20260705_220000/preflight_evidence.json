@@ -1,0 +1,60 @@
+{
+  "run_id": "QA-CONS-MP-003-20260705_220000",
+  "generated_at": "2026-07-05T20:01:26.492453",
+  "database": "laplatine_prod",
+  "url_lab": "http://127.0.0.1:18018",
+  "production": "STOP",
+  "reference": "LAPLATINE-CONS-MP-003",
+  "module": {
+    "installed_version": "18.0.1.6.0",
+    "latest_version": "18.0.1.6.0",
+    "state": "installed",
+    "expected": "18.0.1.6.0"
+  },
+  "fecule": {
+    "product": {
+      "model": "product.product",
+      "id": 555,
+      "display_name": "[MP-FEC-MAN-001] FECULE DE MANIOC"
+    },
+    "location": {
+      "model": "stock.location",
+      "id": 19,
+      "display_name": "WH/Stock/Conteneur Fécule"
+    },
+    "stock_kg_initial": 13500.0,
+    "tracking": true
+  },
+  "accounts": {
+    "operator": "qa_cockpit_scope_operator_20260705",
+    "manager": "qa_cockpit_scope_manager_20260705"
+  },
+  "checks": [
+    {
+      "id": "PRE-01",
+      "title": "Module upgradé et installé",
+      "result": "OK",
+      "version": "18.0.1.6.0"
+    },
+    {
+      "id": "PRE-02",
+      "title": "Suivi consommation fécule actif",
+      "result": "OK"
+    },
+    {
+      "id": "PRE-03",
+      "title": "Entrepôt de pilotage configuré",
+      "result": "OK",
+      "warehouse": {
+        "model": "stock.warehouse",
+        "id": 1,
+        "display_name": "La Platine"
+      }
+    },
+    {
+      "id": "PRE-04",
+      "title": "Compte manager cockpit QA prêt",
+      "result": "OK"
+    }
+  ]
+}

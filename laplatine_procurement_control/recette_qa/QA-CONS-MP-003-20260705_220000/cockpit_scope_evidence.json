@@ -1,0 +1,54 @@
+{
+  "run_id": "QA-CONS-MP-003-20260705_220000",
+  "articles": {
+    "A": {
+      "product": {
+        "model": "product.product",
+        "id": 1473,
+        "display_name": "QA Cockpit Scope Article A"
+      },
+      "tracking": true,
+      "line_after_refresh": {
+        "model": "laplatine.procurement.control.line",
+        "id": 1960,
+        "display_name": "laplatine.procurement.control.line,1960"
+      }
+    },
+    "B": {
+      "product": {
+        "model": "product.product",
+        "id": 1474,
+        "display_name": "QA Cockpit Scope Article B"
+      },
+      "tracking": false,
+      "line_absent": true
+    },
+    "C": {
+      "product": {
+        "model": "product.product",
+        "id": 1475,
+        "display_name": "QA Cockpit Scope Article C"
+      },
+      "tracking": true,
+      "line": {
+        "model": "laplatine.procurement.control.line",
+        "id": 1954,
+        "display_name": "laplatine.procurement.control.line,1954"
+      },
+      "alerts": [
+        "history_insufficient",
+        "orderpoint_incomplete",
+        "supplier_missing"
+      ]
+    }
+  },
+  "toggle_cycle": {
+    "after_uncheck": true,
+    "after_recheck": true
+  },
+  "fecule_line": {
+    "model": "laplatine.procurement.control.line",
+    "id": 1168,
+    "display_name": "laplatine.procurement.control.line,1168"
+  }
+}

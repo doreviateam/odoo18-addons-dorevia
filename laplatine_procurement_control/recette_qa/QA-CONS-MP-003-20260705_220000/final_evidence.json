@@ -1,0 +1,146 @@
+{
+  "run_id": "QA-CONS-MP-003-20260705_220000",
+  "generated_at": "2026-07-05T20:01:27.421309",
+  "database": "laplatine_prod",
+  "url_lab": "http://127.0.0.1:18018",
+  "reference": "LAPLATINE-CONS-MP-003",
+  "module_version": "18.0.1.6.0",
+  "production": "STOP",
+  "verdict": "GO_QA_CONS_MP_003_LAB",
+  "blocking_ko": [],
+  "checks_total": 18,
+  "checks_ok": 18,
+  "checks": [
+    {
+      "id": "PRE-01",
+      "title": "Module upgradé et installé",
+      "result": "OK",
+      "version": "18.0.1.6.0"
+    },
+    {
+      "id": "PRE-02",
+      "title": "Suivi consommation fécule actif",
+      "result": "OK"
+    },
+    {
+      "id": "PRE-03",
+      "title": "Entrepôt de pilotage configuré",
+      "result": "OK",
+      "warehouse": {
+        "model": "stock.warehouse",
+        "id": 1,
+        "display_name": "La Platine"
+      }
+    },
+    {
+      "id": "PRE-04",
+      "title": "Compte manager cockpit QA prêt",
+      "result": "OK"
+    },
+    {
+      "id": "AC01",
+      "title": "Article A suivi et paramétré visible dans le cockpit",
+      "result": "OK",
+      "product": {
+        "model": "product.product",
+        "id": 1473,
+        "display_name": "QA Cockpit Scope Article A"
+      },
+      "min_qty": 50.0
+    },
+    {
+      "id": "AC02",
+      "title": "Article B non suivi absent du cockpit",
+      "result": "OK",
+      "product": {
+        "model": "product.product",
+        "id": 1474,
+        "display_name": "QA Cockpit Scope Article B"
+      }
+    },
+    {
+      "id": "AC03",
+      "title": "Orderpoint + fournisseur insuffisants sans suivi (Article B)",
+      "result": "OK",
+      "has_orderpoint": true,
+      "has_supplier": true
+    },
+    {
+      "id": "AC07",
+      "title": "Article C suivi sans orderpoint visible avec alerte",
+      "result": "OK",
+      "alerts": [
+        "history_insufficient",
+        "orderpoint_incomplete",
+        "supplier_missing"
+      ]
+    },
+    {
+      "id": "AC04",
+      "title": "Décochage retire la ligne cockpit (Article A)",
+      "result": "OK"
+    },
+    {
+      "id": "AC05",
+      "title": "Cochage recrée la ligne cockpit (Article A)",
+      "result": "OK"
+    },
+    {
+      "id": "AC06",
+      "title": "Ligne obsolète supprimée pour article non suivi",
+      "result": "OK"
+    },
+    {
+      "id": "AC08",
+      "title": "Périmètre commun booléen Suivi consommation La Platine",
+      "result": "OK",
+      "cockpit_count": 10,
+      "wizard_count": 10
+    },
+    {
+      "id": "AC09",
+      "title": "Fécule suivie présente dans le cockpit après actualisation",
+      "result": "OK",
+      "min_qty": 5000.0,
+      "supplier": {
+        "model": "res.partner",
+        "id": 384,
+        "display_name": "KASTELL NEGOCE SAS"
+      }
+    },
+    {
+      "id": "AC10",
+      "title": "Non-régression wizard consommation",
+      "result": "OK",
+      "notification": "Consommation enregistrée"
+    },
+    {
+      "id": "BUG-003",
+      "title": "Emplacement auto consommation enregistré sans location_id UI",
+      "result": "OK"
+    },
+    {
+      "id": "AC11",
+      "title": "Alerte seuil minimum après consommation (non-régression)",
+      "result": "OK",
+      "notification_type": "warning"
+    },
+    {
+      "id": "AC12",
+      "title": "Opérateur consommation ne peut pas actualiser le cockpit",
+      "result": "OK"
+    },
+    {
+      "id": "FEC-FINAL",
+      "title": "Stock fécule inchangé après campagne QA",
+      "result": "OK",
+      "stock_kg_initial": 13500.0,
+      "stock_kg_final": 13500.0
+    }
+  ],
+  "fecule": {
+    "stock_kg_initial": 13500.0,
+    "stock_kg_final": 13500.0
+  },
+  "automated_tests_note": "113/113 verts (--test-tags=laplatine_procurement_control)"
+}
