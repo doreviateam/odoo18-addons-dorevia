@@ -39,6 +39,7 @@ Sans redémarrage après upgrade, l’UI peut encore exécuter l’ancien code (
 | `QA-CONS-MP-003-20260705_220000` | 2026-07-05 | **GO_QA_CONS_MP_003_LAB** (18/18) | [`QA-CONS-MP-003-20260705_220000/`](QA-CONS-MP-003-20260705_220000/) |
 | `QA-CONS-MP-MOA-UI-003-20260705_220400` | 2026-07-05 | **GO_MOA_UI_CONS_MP_003** (12/12) | [`QA-CONS-MP-MOA-UI-003-20260705_220400/`](QA-CONS-MP-MOA-UI-003-20260705_220400/) |
 | `PROD-CONS-MP-20260705` | 2026-07-05 | **GO déploiement + GO fumée + GO exploitation** | [`PROD-CONS-MP-20260705/`](PROD-CONS-MP-20260705/) |
+| `QA-USER-FECULE-*` | *en attente* | Guide utilisateur fécule Vérena / Ethel | [`../docs/utilisateurs/DEMANDE_QA_LAPLATINE-CONS-MP-USER-001.md`](../docs/utilisateurs/DEMANDE_QA_LAPLATINE-CONS-MP-USER-001.md) |
 
 Référentiel recette MOA : [`../GUIDE_RECETTE_MOA_LAB_PROCUREMENT_CONTROL_V1.md`](../GUIDE_RECETTE_MOA_LAB_PROCUREMENT_CONTROL_V1.md)
 

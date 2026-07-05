@@ -23,6 +23,7 @@ Module Odoo 18 CE — **Pilotage des approvisionnements** et **Consommation mati
 | [`docs/cadrage/NOTE_CADRAGE_SEPARATION_WIZARDS_MP_LAPLATINE_V1_1.md`](../docs/cadrage/NOTE_CADRAGE_SEPARATION_WIZARDS_MP_LAPLATINE_V1_1.md) | Cadrage CONS-MP-002 |
 | [`NOTE_CLOTURE_V1_CONSOMMATION_MP.md`](NOTE_CLOTURE_V1_CONSOMMATION_MP.md) | Clôture V1 + V1.1 consommation |
 | [`GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md`](GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md) | Guide déploiement production |
+| [`docs/utilisateurs/DEMANDE_QA_LAPLATINE-CONS-MP-USER-001.md`](docs/utilisateurs/DEMANDE_QA_LAPLATINE-CONS-MP-USER-001.md) | Demande QA guide fécule Vérena / Ethel |
 | [`recette_qa/README.md`](recette_qa/README.md) | Index preuves QA / MOA |
 
 ## Périmètre cockpit
