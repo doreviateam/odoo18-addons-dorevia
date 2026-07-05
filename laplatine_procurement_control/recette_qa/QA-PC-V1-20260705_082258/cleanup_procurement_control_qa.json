@@ -1,0 +1,280 @@
+{
+  "cleanup_date": "2026-07-05T08:25:16",
+  "products_archived": 45,
+  "lines_unlinked": 45,
+  "line_ids": [
+    726,
+    741,
+    763,
+    729,
+    744,
+    766,
+    725,
+    730,
+    731,
+    735,
+    736,
+    737,
+    738,
+    739,
+    740,
+    745,
+    746,
+    750,
+    751,
+    752,
+    753,
+    761,
+    762,
+    767,
+    768,
+    772,
+    773,
+    774,
+    775,
+    777,
+    733,
+    734,
+    748,
+    749,
+    770,
+    771,
+    728,
+    743,
+    765,
+    727,
+    732,
+    742,
+    747,
+    764,
+    769
+  ],
+  "products": [
+    {
+      "id": 461,
+      "default_code": "QA-PC-V1-20260705_081910-R03",
+      "display_name": "[QA-PC-V1-20260705_081910-R03] QA-PC-V1-20260705_081910 R03 normal"
+    },
+    {
+      "id": 462,
+      "default_code": "QA-PC-V1-20260705_081910-R04",
+      "display_name": "[QA-PC-V1-20260705_081910-R04] QA-PC-V1-20260705_081910 R04 watch"
+    },
+    {
+      "id": 463,
+      "default_code": "QA-PC-V1-20260705_081910-R05",
+      "display_name": "[QA-PC-V1-20260705_081910-R05] QA-PC-V1-20260705_081910 R05 deadline reached"
+    },
+    {
+      "id": 464,
+      "default_code": "QA-PC-V1-20260705_081910-R06",
+      "display_name": "[QA-PC-V1-20260705_081910-R06] QA-PC-V1-20260705_081910 R06 critical before reception"
+    },
+    {
+      "id": 465,
+      "default_code": "QA-PC-V1-20260705_081910-R07",
+      "display_name": "[QA-PC-V1-20260705_081910-R07] QA-PC-V1-20260705_081910 R07 stockout"
+    },
+    {
+      "id": 466,
+      "default_code": "QA-PC-V1-20260705_081910-R08",
+      "display_name": "[QA-PC-V1-20260705_081910-R08] QA-PC-V1-20260705_081910 R08 late reception"
+    },
+    {
+      "id": 467,
+      "default_code": "QA-PC-V1-20260705_081910-R09",
+      "display_name": "[QA-PC-V1-20260705_081910-R09] QA-PC-V1-20260705_081910 R09 partial reception"
+    },
+    {
+      "id": 468,
+      "default_code": "QA-PC-V1-20260705_081910-R10",
+      "display_name": "[QA-PC-V1-20260705_081910-R10] QA-PC-V1-20260705_081910 R10 rfq not secured"
+    },
+    {
+      "id": 469,
+      "default_code": "QA-PC-V1-20260705_081910-R11",
+      "display_name": "[QA-PC-V1-20260705_081910-R11] QA-PC-V1-20260705_081910 R11 missing orderpoint"
+    },
+    {
+      "id": 470,
+      "default_code": "QA-PC-V1-20260705_081910-R12",
+      "display_name": "[QA-PC-V1-20260705_081910-R12] QA-PC-V1-20260705_081910 R12 history insufficient"
+    },
+    {
+      "id": 471,
+      "default_code": "QA-PC-V1-20260705_081910-R13",
+      "display_name": "[QA-PC-V1-20260705_081910-R13] QA-PC-V1-20260705_081910 R13 zero consumption"
+    },
+    {
+      "id": 472,
+      "default_code": "QA-PC-V1-20260705_081910-R14",
+      "display_name": "[QA-PC-V1-20260705_081910-R14] QA-PC-V1-20260705_081910 R14 untraceable consumption"
+    },
+    {
+      "id": 473,
+      "default_code": "QA-PC-V1-20260705_081910-R15",
+      "display_name": "[QA-PC-V1-20260705_081910-R15] QA-PC-V1-20260705_081910 R15 supplier missing"
+    },
+    {
+      "id": 474,
+      "default_code": "QA-PC-V1-20260705_081910-R16",
+      "display_name": "[QA-PC-V1-20260705_081910-R16] QA-PC-V1-20260705_081910 R16 uom conversion"
+    },
+    {
+      "id": 475,
+      "default_code": "QA-PC-V1-20260705_081910-R18",
+      "display_name": "[QA-PC-V1-20260705_081910-R18] QA-PC-V1-20260705_081910 R18 scope removal"
+    },
+    {
+      "id": 476,
+      "default_code": "QA-PC-V1-20260705_082034-R03",
+      "display_name": "[QA-PC-V1-20260705_082034-R03] QA-PC-V1-20260705_082034 R03 normal"
+    },
+    {
+      "id": 477,
+      "default_code": "QA-PC-V1-20260705_082034-R04",
+      "display_name": "[QA-PC-V1-20260705_082034-R04] QA-PC-V1-20260705_082034 R04 watch"
+    },
+    {
+      "id": 478,
+      "default_code": "QA-PC-V1-20260705_082034-R05",
+      "display_name": "[QA-PC-V1-20260705_082034-R05] QA-PC-V1-20260705_082034 R05 deadline reached"
+    },
+    {
+      "id": 479,
+      "default_code": "QA-PC-V1-20260705_082034-R06",
+      "display_name": "[QA-PC-V1-20260705_082034-R06] QA-PC-V1-20260705_082034 R06 critical before reception"
+    },
+    {
+      "id": 480,
+      "default_code": "QA-PC-V1-20260705_082034-R07",
+      "display_name": "[QA-PC-V1-20260705_082034-R07] QA-PC-V1-20260705_082034 R07 stockout"
+    },
+    {
+      "id": 481,
+      "default_code": "QA-PC-V1-20260705_082034-R08",
+      "display_name": "[QA-PC-V1-20260705_082034-R08] QA-PC-V1-20260705_082034 R08 late reception"
+    },
+    {
+      "id": 482,
+      "default_code": "QA-PC-V1-20260705_082034-R09",
+      "display_name": "[QA-PC-V1-20260705_082034-R09] QA-PC-V1-20260705_082034 R09 partial reception"
+    },
+    {
+      "id": 483,
+      "default_code": "QA-PC-V1-20260705_082034-R10",
+      "display_name": "[QA-PC-V1-20260705_082034-R10] QA-PC-V1-20260705_082034 R10 rfq not secured"
+    },
+    {
+      "id": 484,
+      "default_code": "QA-PC-V1-20260705_082034-R11",
+      "display_name": "[QA-PC-V1-20260705_082034-R11] QA-PC-V1-20260705_082034 R11 missing orderpoint"
+    },
+    {
+      "id": 485,
+      "default_code": "QA-PC-V1-20260705_082034-R12",
+      "display_name": "[QA-PC-V1-20260705_082034-R12] QA-PC-V1-20260705_082034 R12 history insufficient"
+    },
+    {
+      "id": 486,
+      "default_code": "QA-PC-V1-20260705_082034-R13",
+      "display_name": "[QA-PC-V1-20260705_082034-R13] QA-PC-V1-20260705_082034 R13 zero consumption"
+    },
+    {
+      "id": 487,
+      "default_code": "QA-PC-V1-20260705_082034-R14",
+      "display_name": "[QA-PC-V1-20260705_082034-R14] QA-PC-V1-20260705_082034 R14 untraceable consumption"
+    },
+    {
+      "id": 488,
+      "default_code": "QA-PC-V1-20260705_082034-R15",
+      "display_name": "[QA-PC-V1-20260705_082034-R15] QA-PC-V1-20260705_082034 R15 supplier missing"
+    },
+    {
+      "id": 489,
+      "default_code": "QA-PC-V1-20260705_082034-R16",
+      "display_name": "[QA-PC-V1-20260705_082034-R16] QA-PC-V1-20260705_082034 R16 uom conversion"
+    },
+    {
+      "id": 490,
+      "default_code": "QA-PC-V1-20260705_082034-R18",
+      "display_name": "[QA-PC-V1-20260705_082034-R18] QA-PC-V1-20260705_082034 R18 scope removal"
+    },
+    {
+      "id": 491,
+      "default_code": "QA-PC-V1-20260705_082258-R03",
+      "display_name": "[QA-PC-V1-20260705_082258-R03] QA-PC-V1-20260705_082258 R03 normal"
+    },
+    {
+      "id": 492,
+      "default_code": "QA-PC-V1-20260705_082258-R04",
+      "display_name": "[QA-PC-V1-20260705_082258-R04] QA-PC-V1-20260705_082258 R04 watch"
+    },
+    {
+      "id": 493,
+      "default_code": "QA-PC-V1-20260705_082258-R05",
+      "display_name": "[QA-PC-V1-20260705_082258-R05] QA-PC-V1-20260705_082258 R05 deadline reached"
+    },
+    {
+      "id": 494,
+      "default_code": "QA-PC-V1-20260705_082258-R06",
+      "display_name": "[QA-PC-V1-20260705_082258-R06] QA-PC-V1-20260705_082258 R06 critical before reception"
+    },
+    {
+      "id": 495,
+      "default_code": "QA-PC-V1-20260705_082258-R07",
+      "display_name": "[QA-PC-V1-20260705_082258-R07] QA-PC-V1-20260705_082258 R07 stockout"
+    },
+    {
+      "id": 496,
+      "default_code": "QA-PC-V1-20260705_082258-R08",
+      "display_name": "[QA-PC-V1-20260705_082258-R08] QA-PC-V1-20260705_082258 R08 late reception"
+    },
+    {
+      "id": 497,
+      "default_code": "QA-PC-V1-20260705_082258-R09",
+      "display_name": "[QA-PC-V1-20260705_082258-R09] QA-PC-V1-20260705_082258 R09 partial reception"
+    },
+    {
+      "id": 498,
+      "default_code": "QA-PC-V1-20260705_082258-R10",
+      "display_name": "[QA-PC-V1-20260705_082258-R10] QA-PC-V1-20260705_082258 R10 rfq not secured"
+    },
+    {
+      "id": 499,
+      "default_code": "QA-PC-V1-20260705_082258-R11",
+      "display_name": "[QA-PC-V1-20260705_082258-R11] QA-PC-V1-20260705_082258 R11 missing orderpoint"
+    },
+    {
+      "id": 500,
+      "default_code": "QA-PC-V1-20260705_082258-R12",
+      "display_name": "[QA-PC-V1-20260705_082258-R12] QA-PC-V1-20260705_082258 R12 history insufficient"
+    },
+    {
+      "id": 501,
+      "default_code": "QA-PC-V1-20260705_082258-R13",
+      "display_name": "[QA-PC-V1-20260705_082258-R13] QA-PC-V1-20260705_082258 R13 zero consumption"
+    },
+    {
+      "id": 502,
+      "default_code": "QA-PC-V1-20260705_082258-R14",
+      "display_name": "[QA-PC-V1-20260705_082258-R14] QA-PC-V1-20260705_082258 R14 untraceable consumption"
+    },
+    {
+      "id": 503,
+      "default_code": "QA-PC-V1-20260705_082258-R15",
+      "display_name": "[QA-PC-V1-20260705_082258-R15] QA-PC-V1-20260705_082258 R15 supplier missing"
+    },
+    {
+      "id": 504,
+      "default_code": "QA-PC-V1-20260705_082258-R16",
+      "display_name": "[QA-PC-V1-20260705_082258-R16] QA-PC-V1-20260705_082258 R16 uom conversion"
+    },
+    {
+      "id": 505,
+      "default_code": "QA-PC-V1-20260705_082258-R18",
+      "display_name": "[QA-PC-V1-20260705_082258-R18] QA-PC-V1-20260705_082258 R18 scope removal"
+    }
+  ],
+  "scope": "QA-PC-V1-* only"
+}
