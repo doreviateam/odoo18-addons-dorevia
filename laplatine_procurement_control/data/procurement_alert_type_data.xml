@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="alert_type_reception_late" model="laplatine.procurement.alert.type">
+        <field name="code">reception_late</field>
+        <field name="name">Réception en retard</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="alert_type_orderpoint_incomplete" model="laplatine.procurement.alert.type">
+        <field name="code">orderpoint_incomplete</field>
+        <field name="name">Règle de réapprovisionnement absente ou incomplète</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="alert_type_supplier_missing" model="laplatine.procurement.alert.type">
+        <field name="code">supplier_missing</field>
+        <field name="name">Fournisseur ou délai manquant</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="alert_type_history_insufficient" model="laplatine.procurement.alert.type">
+        <field name="code">history_insufficient</field>
+        <field name="name">Historique insuffisant</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="alert_type_no_consumption" model="laplatine.procurement.alert.type">
+        <field name="code">no_consumption</field>
+        <field name="name">Aucune consommation observée</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="alert_type_no_confirmed_po" model="laplatine.procurement.alert.type">
+        <field name="code">no_confirmed_po</field>
+        <field name="name">Aucune commande confirmée</field>
+        <field name="sequence">60</field>
+    </record>
+    <record id="alert_type_consumption_untraceable" model="laplatine.procurement.alert.type">
+        <field name="code">consumption_untraceable</field>
+        <field name="name">Consommation non traçable</field>
+        <field name="sequence">70</field>
+    </record>
+</odoo>

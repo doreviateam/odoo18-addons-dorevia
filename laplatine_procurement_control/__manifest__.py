@@ -13,6 +13,7 @@
     ],
     "data": [
         "security/procurement_control_groups.xml",
+        "data/procurement_alert_type_data.xml",
         "security/ir.model.access.csv",
         "views/res_company_views.xml",
         "views/product_template_views.xml",
