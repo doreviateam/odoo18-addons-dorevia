@@ -1,10 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="procurement_control_line_view_search" model="ir.ui.view">
+        <field name="name">laplatine.procurement.control.line.search</field>
+        <field name="model">laplatine.procurement.control.line</field>
+        <field name="arch" type="xml">
+            <search string="Pilotage approvisionnements">
+                <field name="product_id"/>
+                <field name="supplier_id"/>
+                <field name="risk_status"/>
+                <field name="alert_codes"/>
+                <filter string="Données obsolètes" name="stale_data" domain="[('is_data_stale', '=', True)]"/>
+                <filter string="Réceptions en retard" name="alert_reception_late" domain="[('alert_codes', 'ilike', 'reception_late')]"/>
+                <filter string="Règle réappro incomplète" name="alert_orderpoint" domain="[('alert_codes', 'ilike', 'orderpoint_incomplete')]"/>
+                <filter string="Rupture" name="risk_stockout" domain="[('risk_status', '=', 'stockout')]"/>
+                <filter string="Critique" name="risk_critical" domain="[('risk_status', '=', 'critical')]"/>
+                <filter string="Action requise" name="risk_action_required" domain="[('risk_status', '=', 'action_required')]"/>
+                <filter string="À surveiller" name="risk_watch" domain="[('risk_status', '=', 'watch')]"/>
+                <group expand="0" string="Grouper par">
+                    <filter string="Statut de risque" name="group_risk_status" context="{'group_by': 'risk_status'}"/>
+                    <filter string="Criticité métier" name="group_criticality" context="{'group_by': 'criticality'}"/>
+                    <filter string="Fournisseur" name="group_supplier" context="{'group_by': 'supplier_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="procurement_control_line_view_tree" model="ir.ui.view">
         <field name="name">laplatine.procurement.control.line.tree</field>
         <field name="model">laplatine.procurement.control.line</field>
         <field name="arch" type="xml">
-            <list string="Pilotage approvisionnements" create="false" edit="false">
+            <list
+                string="Pilotage approvisionnements"
+                create="false"
+                edit="false"
+                decoration-warning="is_data_stale"
+            >
                 <header>
                     <button
                         name="action_refresh"
@@ -15,18 +45,30 @@
                         groups="laplatine_procurement_control.group_procurement_control_manager"
                     />
                 </header>
+                <field name="is_data_stale" column_invisible="True"/>
                 <field name="product_id"/>
+                <field name="criticality" optional="show"/>
+                <field name="supplier_id" optional="show"/>
+                <field name="supplier_delay" optional="hide"/>
                 <field name="qty_available"/>
-                <field name="daily_consumption"/>
-                <field name="min_qty"/>
-                <field name="order_deadline_date"/>
-                <field name="next_reception_date"/>
+                <field name="virtual_available" optional="hide"/>
+                <field name="confirmed_po_qty" optional="show"/>
+                <field name="next_reception_date" optional="show"/>
+                <field name="next_reception_qty" optional="hide"/>
+                <field name="daily_consumption" optional="show"/>
+                <field name="coverage_days" optional="hide"/>
+                <field name="consumption_period_days" optional="hide"/>
+                <field name="min_qty" optional="hide"/>
+                <field name="max_qty" optional="hide"/>
+                <field name="stock_break_date" optional="hide"/>
+                <field name="min_reach_date" optional="hide"/>
+                <field name="order_deadline_date" optional="show"/>
                 <field name="risk_status"/>
-                <field name="alert_ids" widget="many2many_tags"/>
-                <field name="risk_reason"/>
-                <field name="action_recommended"/>
-                <field name="last_refresh"/>
-                <field name="refreshed_by_id"/>
+                <field name="alert_ids" widget="many2many_tags" optional="show"/>
+                <field name="action_recommended" optional="hide"/>
+                <field name="last_refresh" optional="show"/>
+                <field name="refreshed_by_id" optional="hide"/>
+                <field name="warehouse_id" optional="hide"/>
             </list>
         </field>
     </record>
@@ -36,20 +78,80 @@
         <field name="model">laplatine.procurement.control.line</field>
         <field name="arch" type="xml">
             <form string="Ligne cockpit approvisionnements" create="false" edit="false">
+                <header>
+                    <button name="action_open_product" type="object" string="Article" class="btn-secondary"/>
+                    <button
+                        name="action_open_supplier"
+                        type="object"
+                        string="Fournisseur"
+                        class="btn-secondary"
+                        invisible="not supplier_id"
+                    />
+                    <button
+                        name="action_open_orderpoint"
+                        type="object"
+                        string="Règle réappro"
+                        class="btn-secondary"
+                        invisible="not orderpoint_id"
+                    />
+                    <button
+                        name="action_open_purchase_order"
+                        type="object"
+                        string="Commande"
+                        class="btn-secondary"
+                        invisible="not purchase_order_id"
+                    />
+                    <button
+                        name="action_open_picking"
+                        type="object"
+                        string="Réception"
+                        class="btn-secondary"
+                        invisible="not picking_id"
+                    />
+                </header>
                 <sheet>
+                    <div class="alert alert-warning" role="alert" invisible="not is_data_stale">
+                        <field name="stale_warning_message" nolabel="1"/>
+                    </div>
                     <group>
-                        <field name="product_id"/>
-                        <field name="company_id" groups="base.group_multi_company"/>
-                        <field name="qty_available"/>
-                        <field name="daily_consumption"/>
-                        <field name="min_qty"/>
-                        <field name="order_deadline_date"/>
-                        <field name="next_reception_date"/>
-                        <field name="risk_status"/>
-                        <field name="risk_reason"/>
-                        <field name="action_recommended"/>
+                        <group string="Article">
+                            <field name="product_id"/>
+                            <field name="criticality"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="warehouse_id"/>
+                            <field name="consumption_period_days"/>
+                        </group>
+                        <group string="Risque">
+                            <field name="risk_status"/>
+                            <field name="risk_reason"/>
+                            <field name="action_recommended"/>
+                            <field name="alert_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Stocks et consommation">
+                            <field name="qty_available"/>
+                            <field name="virtual_available"/>
+                            <field name="daily_consumption"/>
+                            <field name="coverage_days"/>
+                            <field name="min_qty"/>
+                            <field name="max_qty"/>
+                        </group>
+                        <group string="Approvisionnement">
+                            <field name="supplier_id"/>
+                            <field name="supplier_delay"/>
+                            <field name="confirmed_po_qty"/>
+                            <field name="next_reception_date"/>
+                            <field name="next_reception_qty"/>
+                            <field name="stock_break_date"/>
+                            <field name="min_reach_date"/>
+                            <field name="order_deadline_date"/>
+                        </group>
+                    </group>
+                    <group string="Actualisation">
                         <field name="last_refresh"/>
                         <field name="refreshed_by_id"/>
+                        <field name="is_data_stale"/>
                     </group>
                 </sheet>
             </form>
@@ -60,5 +162,15 @@
         <field name="name">Pilotage approvisionnements</field>
         <field name="res_model">laplatine.procurement.control.line</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="procurement_control_line_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Aucune ligne cockpit — lancer <strong>Actualiser</strong> pour générer la photographie.
+            </p>
+            <p>
+                Le cockpit n'est pas recalculé automatiquement à l'ouverture.
+                Utilisez le bouton <strong>Actualiser</strong> pour rafraîchir les données.
+            </p>
+        </field>
     </record>
 </odoo>

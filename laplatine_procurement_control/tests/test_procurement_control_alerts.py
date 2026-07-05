@@ -88,6 +88,9 @@ class TestProcurementControlAlerts(TransactionCase):
             [("company_id", "=", company.id)], limit=1
         )
         company.write({"laplatine_procurement_warehouse_id": warehouse.id})
+        self.env.ref(
+            "laplatine_procurement_control.group_procurement_control_manager"
+        ).users = [(4, self.env.uid)]
         product = self.env["product.product"].create(
             {
                 "name": "Alert Product",

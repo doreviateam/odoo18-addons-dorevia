@@ -21,6 +21,9 @@ class TestProcurementControlRefresh(TransactionCase):
         cls.vendor = cls.env["res.partner"].create({"name": "Vendor Refresh Test"})
         cls.indicators = cls.env["laplatine.procurement.indicators"]
         cls.control_line = cls.env["laplatine.procurement.control.line"]
+        cls.env.ref(
+            "laplatine_procurement_control.group_procurement_control_manager"
+        ).users = [(4, cls.env.uid)]
 
     def _create_product(self, name):
         return self.env["product.product"].create(

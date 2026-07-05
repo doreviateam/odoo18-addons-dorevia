@@ -233,6 +233,7 @@ class LaplatineProcurementIndicators(models.AbstractModel):
             "risk_reason": risk_result["risk_reason"],
             "action_recommended": risk_result["action_recommended"],
             "alert_ids": [(6, 0, alert_types.ids)],
+            "alert_codes": ",".join(sorted(alert_codes)),
         }
 
     @api.model

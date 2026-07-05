@@ -6,7 +6,7 @@ Module Odoo 18 CE — **Pilotage des approvisionnements** pour la SARL La Platin
 
 | Élément | Statut |
 |---------|--------|
-| Version | `18.0.1.0.0` — **V1 gelée** |
+| Version | `18.0.1.1.0` — **V1 en recette lab** |
 | Note de cadrage | [`note_cadrage.md`](note_cadrage.md) V0.1 |
 | Spécification | [`SPECIFICATION_V1.md`](SPECIFICATION_V1.md) |
 | GO faisabilité technique | ✅ |

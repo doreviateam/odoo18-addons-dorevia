@@ -2,7 +2,7 @@
 from datetime import timedelta
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 
 
 class LaplatineProcurementControlLine(models.Model):
@@ -82,6 +82,7 @@ class LaplatineProcurementControlLine(models.Model):
         string="Alertes",
         readonly=True,
     )
+    alert_codes = fields.Char(string="Codes alertes", readonly=True, index=True)
     last_refresh = fields.Datetime(string="Dernière actualisation", readonly=True)
     refreshed_by_id = fields.Many2one(
         "res.users",
@@ -91,6 +92,7 @@ class LaplatineProcurementControlLine(models.Model):
     is_data_stale = fields.Boolean(
         string="Données obsolètes",
         compute="_compute_data_freshness",
+        store=True,
     )
     stale_warning_message = fields.Char(
         string="Avertissement fraîcheur",
@@ -128,6 +130,13 @@ class LaplatineProcurementControlLine(models.Model):
 
     @api.model
     def action_refresh(self):
+        if not self.env.user.has_group(
+            "laplatine_procurement_control.group_procurement_control_manager"
+        ):
+            raise AccessError(
+                "Seuls les utilisateurs autorisés au pilotage approvisionnements "
+                "peuvent actualiser le cockpit."
+            )
         company = self.env.company
         indicators = self.env["laplatine.procurement.indicators"]
         products = indicators.get_eligible_products(company)
