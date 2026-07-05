@@ -4,13 +4,24 @@ Artefacts versionnés issus des campagnes QA et recette sur `laplatine_prod`.
 
 ## Procédure lab (avant recette ou livraison)
 
-Après upgrade module ou changement de code monté en volume, **redémarrer le service Odoo** pour recharger le runtime web :
+1. **Upgrade** du module sur la base cible :
+
+```bash
+docker compose run --rm odoo odoo -c /etc/odoo/odoo.conf -d laplatine_prod \
+  -u laplatine_procurement_control --stop-after-init
+```
+
+2. **Redémarrer** le service Odoo pour recharger le runtime web :
 
 ```bash
 docker compose restart odoo
 ```
 
-Sans ce redémarrage, l’UI peut encore exécuter l’ancien code (cf. réserve `ENV-CONS-MP-S3-001`).
+3. **Contrôler** la version chargée (UI ou shell) — attendu : version manifest du commit livré.
+
+4. **Recette fonctionnelle** MOA/QA sur le lab avant tout GO production.
+
+Sans redémarrage après upgrade, l’UI peut encore exécuter l’ancien code (cf. réserve `ENV-CONS-MP-S3-001`).
 
 ## Campagnes
 
@@ -20,6 +31,7 @@ Sans ce redémarrage, l’UI peut encore exécuter l’ancien code (cf. réserve
 | `QA-CONS-MP-S12-20260705_183101` | 2026-07-05 | **NO_GO** (menu cockpit) | [`QA-CONS-MP-S12-20260705_183101/`](QA-CONS-MP-S12-20260705_183101/) |
 | `QA-CONS-MP-S12-POSTFIX-20260705_185917` | 2026-07-05 | **GO_QA_SLICE12** | [`QA-CONS-MP-S12-POSTFIX-20260705_185917/`](QA-CONS-MP-S12-POSTFIX-20260705_185917/) |
 | `QA-CONS-MP-S3-20260705_193007` | 2026-07-05 | **GO_QA_SLICE3_LAB** (réserve env.) | [`QA-CONS-MP-S3-20260705_193007/`](QA-CONS-MP-S3-20260705_193007/) |
+| `QA-CONS-MP-S4-20260705_195544` | 2026-07-05 | **GO_QA_SLICE4_LAB** | [`QA-CONS-MP-S4-20260705_195544/`](QA-CONS-MP-S4-20260705_195544/) |
 
 Référentiel recette MOA : [`../GUIDE_RECETTE_MOA_LAB_PROCUREMENT_CONTROL_V1.md`](../GUIDE_RECETTE_MOA_LAB_PROCUREMENT_CONTROL_V1.md)
 

@@ -1,0 +1,84 @@
+{
+  "run_id": "QA-CONS-MP-S4-20260705_195544",
+  "generated_at": "2026-07-05T17:57:25.732662",
+  "database": "laplatine_prod",
+  "production": "STOP - lab uniquement",
+  "module_version": "18.0.1.4.0",
+  "verdict": "GO_QA_SLICE4_LAB",
+  "blocking_ko": [],
+  "results": [
+    {
+      "id": "S4-01",
+      "title": "Correction pilote fécule -25 kg",
+      "blocking": true,
+      "result": "OK",
+      "before_kg": 13175.0,
+      "after_kg": 13150.0,
+      "move": {
+        "model": "stock.move",
+        "id": 1068,
+        "display_name": "MP-FEC-MAN-001: Conteneur Fécule>Inventory adjustment"
+      },
+      "move_state": "done",
+      "move_name": "Ancienne consommation non enregistrée",
+      "move_reference": "Ancienne consommation non enregistrée",
+      "move_author": {
+        "model": "res.users",
+        "id": 90,
+        "display_name": "QA CONS MP S4 Opérateur"
+      },
+      "notification": {
+        "title": "Correction appliquée",
+        "message": "Stock avant : 13 175 kg\nStock compté : 13 150 kg\nÉcart : -25 kg\nStock après : 13 150 kg",
+        "type": "success",
+        "sticky": false,
+        "next": {
+          "type": "ir.actions.act_window_close"
+        }
+      }
+    },
+    {
+      "id": "S4-02",
+      "title": "Motif obligatoire",
+      "blocking": true,
+      "result": "OK",
+      "error": "Le motif de correction est obligatoire."
+    },
+    {
+      "id": "S4-03",
+      "title": "Refus qty négative",
+      "blocking": true,
+      "result": "OK",
+      "error": "La quantité comptée ne peut pas être négative."
+    },
+    {
+      "id": "S4-04",
+      "title": "Confirmation explicite UI",
+      "blocking": true,
+      "result": "OK"
+    },
+    {
+      "id": "S4-05",
+      "title": "Non-régression consommation Slice 3",
+      "blocking": true,
+      "result": "OK",
+      "stock_after_kg": 13150.0
+    },
+    {
+      "id": "S4-06",
+      "title": "Alerte seuil min après correction",
+      "blocking": true,
+      "result": "OK",
+      "notification": {
+        "title": "Correction appliquée",
+        "message": "Stock avant : 5 010 kg\nStock compté : 4 950 kg\nÉcart : -60 kg\nStock après : 4 950 kg\n\nSeuil de réapprovisionnement atteint\nStock restant : 4 950 kg\nSeuil minimum : 5 000 kg",
+        "type": "warning",
+        "sticky": false,
+        "next": {
+          "type": "ir.actions.act_window_close"
+        }
+      }
+    }
+  ],
+  "fecule_final_stock_kg": 13150.0
+}

@@ -1,0 +1,53 @@
+{
+  "run_id": "QA-CONS-MP-S4-20260705_195544",
+  "generated_at": "2026-07-05T17:57:25.566689",
+  "before_kg": 13175.0,
+  "counted_kg": 13150.0,
+  "after_kg": 13150.0,
+  "diff_kg": -25.0,
+  "reason": "Ancienne consommation non enregistrée",
+  "inventory_moves_before": 4,
+  "inventory_moves_after": 5,
+  "latest_inventory_move": {
+    "move": {
+      "model": "stock.move",
+      "id": 1068,
+      "display_name": "MP-FEC-MAN-001: Conteneur Fécule>Inventory adjustment"
+    },
+    "state": "done",
+    "name": "Ancienne consommation non enregistrée",
+    "reference": "Ancienne consommation non enregistrée",
+    "origin": "Correction MP La Platine",
+    "is_inventory": true,
+    "source": {
+      "model": "stock.location",
+      "id": 19,
+      "display_name": "WH/Stock/Conteneur Fécule"
+    },
+    "destination": {
+      "model": "stock.location",
+      "id": 14,
+      "display_name": "Virtual Locations/Inventory adjustment"
+    },
+    "create_uid": {
+      "model": "res.users",
+      "id": 90,
+      "display_name": "QA CONS MP S4 Opérateur"
+    },
+    "date": "2026-07-05T17:57:25"
+  },
+  "notification": {
+    "type": "ir.actions.client",
+    "tag": "display_notification",
+    "params": {
+      "title": "Correction appliquée",
+      "message": "Stock avant : 13 175 kg\nStock compté : 13 150 kg\nÉcart : -25 kg\nStock après : 13 150 kg",
+      "type": "success",
+      "sticky": false,
+      "next": {
+        "type": "ir.actions.act_window_close"
+      }
+    }
+  },
+  "pilot_ok": true
+}

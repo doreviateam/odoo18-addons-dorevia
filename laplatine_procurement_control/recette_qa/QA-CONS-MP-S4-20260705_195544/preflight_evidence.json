@@ -1,0 +1,48 @@
+{
+  "run_id": "QA-CONS-MP-S4-20260705_195544",
+  "generated_at": "2026-07-05T17:57:25.487371",
+  "database": "laplatine_prod",
+  "production": "STOP - lab uniquement",
+  "module": {
+    "installed_version": "18.0.1.4.0",
+    "latest_version": "18.0.1.4.0",
+    "state": "installed"
+  },
+  "operator": {
+    "login": "qa_cons_mp_s4_operator_20260705_195544",
+    "password": "S4Qa!2026",
+    "groups": [
+      "Adresse de livraison",
+      "Caractéristiques techniques",
+      "Demander une signature sur vos bons de livraison",
+      "Déverrouillé par défaut",
+      "Envoyer un rappel automatique par e-mail pour confirmer la livraison",
+      "Gérer des variances de produit",
+      "Gérer le conditionnement des produits",
+      "Gérer les opérations des ordres de travail",
+      "Gérer plusieurs emplacements de stock",
+      "Gérer plusieurs unités de mesure",
+      "La Platine — Consommation matières premières",
+      "Listes de prix de base",
+      "Multi-devises",
+      "Remise sur les lignes",
+      "Utilisateur",
+      "Utilisateur interne"
+    ]
+  },
+  "fecule": {
+    "product": {
+      "model": "product.product",
+      "id": 555,
+      "display_name": "[MP-FEC-MAN-001] FECULE DE MANIOC"
+    },
+    "source_location": {
+      "model": "stock.location",
+      "id": 19,
+      "display_name": "WH/Stock/Conteneur Fécule"
+    },
+    "stock_before_prep_kg": 13150.0,
+    "stock_prepared_kg": 13175.0,
+    "tracking": true
+  }
+}
