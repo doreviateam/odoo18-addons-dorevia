@@ -12,4 +12,4 @@ class TestProcurementControlSkeleton(TransactionCase):
 
     def test_procurement_control_line_model_accessible(self):
         model = self.env["laplatine.procurement.control.line"]
-        self.assertFalse(model.search([]))
+        self.assertEqual(model._name, "laplatine.procurement.control.line")

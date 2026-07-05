@@ -29,7 +29,7 @@ class ResCompany(models.Model):
     laplatine_consumption_destination_location_id = fields.Many2one(
         "stock.location",
         string="Emplacement destination consommations La Platine",
-        domain="[('usage', '=', 'production')]",
+        domain="[('usage', '=', 'production'), '|', ('company_id', '=', False), ('company_id', '=', id)]",
         default=lambda self: self._default_laplatine_consumption_destination_location_id(),
         help="Emplacement de production cible pour les prélèvements "
         "enregistrés via le wizard Consommation matière première.",

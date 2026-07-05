@@ -7,13 +7,17 @@
             <form string="Consommation matière première">
                 <group invisible="mode != 'consumption'">
                     <field name="mode" invisible="1"/>
+                    <field name="allowed_location_ids" invisible="1"/>
+                    <field name="location_is_auto" invisible="1"/>
                     <field name="product_id" options="{'no_create': True}"/>
-                    <field name="location_id" readonly="1"/>
+                    <field name="location_id" readonly="location_is_auto"/>
                     <field name="qty_available_kg"/>
                     <field name="qty_consumed_kg"/>
                 </group>
                 <group invisible="mode != 'adjustment'">
                     <field name="mode" invisible="1"/>
+                    <field name="allowed_location_ids" invisible="1"/>
+                    <field name="location_is_auto" invisible="1"/>
                     <field name="product_id" options="{'no_create': True}"/>
                     <field name="location_id"/>
                     <field name="qty_available_kg" string="Quantité enregistrée dans Odoo (kg)"/>

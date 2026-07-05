@@ -29,7 +29,56 @@ class LaplatineProcurementStockOps(models.AbstractModel):
                 "L'emplacement de destination des consommations doit être "
                 "un emplacement de production."
             )
+        if location.company_id and location.company_id != company:
+            raise UserError(
+                "L'emplacement de destination des consommations doit "
+                "appartenir à la société courante ou être partagé."
+            )
         return location
+
+    @api.model
+    def get_kg_uom(self):
+        return self.env.ref("uom.product_uom_kgm")
+
+    @api.model
+    def qty_to_kg(self, product, qty, from_uom=None):
+        kg_uom = self.get_kg_uom()
+        source_uom = from_uom or product.uom_id
+        return source_uom._compute_quantity(qty, kg_uom)
+
+    @api.model
+    def get_pilot_internal_locations(self, company):
+        warehouse = self.get_pilot_warehouse(company)
+        location_ids = self.get_internal_location_ids(warehouse)
+        return self.env["stock.location"].browse(location_ids).exists()
+
+    @api.model
+    def get_qty_at_location(self, product, location):
+        quants = self.env["stock.quant"].search(
+            [
+                ("product_id", "=", product.id),
+                ("location_id", "=", location.id),
+            ]
+        )
+        return sum(quants.mapped("quantity"))
+
+    @api.model
+    def get_qty_kg_at_location(self, product, location):
+        return self.qty_to_kg(product, self.get_qty_at_location(product, location))
+
+    @api.model
+    def get_locations_with_positive_stock(self, product, company):
+        locations = []
+        for location in self.get_pilot_internal_locations(company):
+            if self.get_qty_at_location(product, location) > 0:
+                locations.append(location)
+        return self.env["stock.location"].concat(*locations) if locations else self.env["stock.location"]
+
+    @api.model
+    def get_allowed_source_locations(self, product, company, mode):
+        if mode == "consumption":
+            return self.get_locations_with_positive_stock(product, company)
+        return self.get_pilot_internal_locations(company)
 
     @api.model
     def get_internal_location_ids(self, warehouse):
