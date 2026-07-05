@@ -38,6 +38,7 @@ Sans redémarrage après upgrade, l’UI peut encore exécuter l’ancien code (
 | `QA-CONS-MP-003-20260705_215800` | 2026-07-05 | **GO_QA_DEV_LAB** (113/113 auto, brouillon Dev) | [`QA-CONS-MP-003-20260705_215800/`](QA-CONS-MP-003-20260705_215800/) |
 | `QA-CONS-MP-003-20260705_220000` | 2026-07-05 | **GO_QA_CONS_MP_003_LAB** (18/18) | [`QA-CONS-MP-003-20260705_220000/`](QA-CONS-MP-003-20260705_220000/) |
 | `QA-CONS-MP-MOA-UI-003-20260705_220400` | 2026-07-05 | **GO_MOA_UI_CONS_MP_003** (12/12) | [`QA-CONS-MP-MOA-UI-003-20260705_220400/`](QA-CONS-MP-MOA-UI-003-20260705_220400/) |
+| `PROD-CONS-MP-20260705` | 2026-07-05 | **GO déploiement + GO fumée + GO exploitation** | [`PROD-CONS-MP-20260705/`](PROD-CONS-MP-20260705/) |
 
 Référentiel recette MOA : [`../GUIDE_RECETTE_MOA_LAB_PROCUREMENT_CONTROL_V1.md`](../GUIDE_RECETTE_MOA_LAB_PROCUREMENT_CONTROL_V1.md)
 
@@ -45,4 +46,4 @@ Clôture V1 consommation MP : [`../NOTE_CLOTURE_V1_CONSOMMATION_MP.md`](../NOTE_
 
 Déploiement production : [`../GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md`](../GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md)
 
-Production : **GO déploiement MOA** — commit prod `2af0fc1` — exploitation après fumée verte.
+Production : **GO exploitation** — commit prod `2af0fc1` — version `18.0.1.6.0` — ouvert depuis le 2026-07-05.

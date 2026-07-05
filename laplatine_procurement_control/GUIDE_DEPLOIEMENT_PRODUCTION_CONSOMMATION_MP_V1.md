@@ -7,7 +7,7 @@
 | **Version cible** | `18.0.1.6.0` |
 | **Commit de référence production** | `2af0fc1b14d7b9ff1552eb61d72c62613babff43` |
 | **Prérequis** | Note de clôture V1 + **GO MOA déploiement production** (2026-07-05) |
-| **Statut actuel** | **GO déploiement MOA** — exploitation après fumée production verte |
+| **Statut actuel** | **GO exploitation** — déployé le 2026-07-05, fumée verte |
 
 ---
 
@@ -235,19 +235,30 @@ Downgrade module seul **non recommandé** — préférer restauration backup.
 | Cadrage lot V1 | [`docs/cadrage/NOTE_CADRAGE_CONSOMMATION_MP_LAPLATINE_V1.md`](../docs/cadrage/NOTE_CADRAGE_CONSOMMATION_MP_LAPLATINE_V1.md) |
 | Cadrage séparation wizards V1.1 | [`docs/cadrage/NOTE_CADRAGE_SEPARATION_WIZARDS_MP_LAPLATINE_V1_1.md`](../docs/cadrage/NOTE_CADRAGE_SEPARATION_WIZARDS_MP_LAPLATINE_V1_1.md) |
 | Preuves QA lab | [`recette_qa/README.md`](recette_qa/README.md) |
+| Rapport déploiement prod | [`recette_qa/PROD-CONS-MP-20260705/RAPPORT_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP.md`](recette_qa/PROD-CONS-MP-20260705/RAPPORT_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP.md) |
 | Procédure lab | [`recette_qa/README.md`](recette_qa/README.md) § Procédure |
 
 ---
 
-## 9. Journal de déploiement (à compléter)
+## 9. Journal de déploiement
 
 | Champ | Valeur |
 |-------|--------|
-| Date déploiement | |
-| Exécutant | |
-| Base production | |
+| Date déploiement | 05/07/2026 |
+| Environnement | `/opt/laplatine` |
+| Base production | `laplatine_prod` |
 | Commit déployé | `2af0fc1b14d7b9ff1552eb61d72c62613babff43` |
-| Version module constatée | `18.0.1.6.0` |
-| Restart Odoo | ☐ Oui |
-| Fumée FUM-01 à FUM-05 | ☐ GO / ☐ NO_GO |
-| Décision MOA exploitation | ☐ En attente fumée / ☐ GO |
+| Version module constatée | `18.0.1.6.0` — `installed` |
+| Sauvegarde base | `backups/20260705_202118_pre_laplatine_procurement_control/laplatine_prod.dump` |
+| Sauvegarde filestore | `backups/20260705_202118_pre_laplatine_procurement_control/filestore_laplatine_prod.tar.gz` |
+| Restart Odoo | ☑ Oui |
+| HTTP production | ☑ `200` |
+| FUM-01 | ☑ GO |
+| FUM-02 | ☑ GO |
+| FUM-03 | ☑ GO |
+| FUM-04 | ☑ GO |
+| FUM-05 | ☑ GO |
+| Stock fécule constaté | `929,23 kg` |
+| Impact fumée | Cannelle moulue : solde net `−0,25 kg` |
+| Décision MOA exploitation | ☑ GO |
+| État dépôt production | Checkout détaché sur `2af0fc1` |

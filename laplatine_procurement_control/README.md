@@ -12,8 +12,8 @@ Module Odoo 18 CE — **Pilotage des approvisionnements** et **Consommation mati
 | Séparation wizards (CONS-MP-002) | **GO QA + GO MOA UI lab** — [`recette_qa/QA-CONS-MP-WIZSEP-20260705_203637/`](recette_qa/QA-CONS-MP-WIZSEP-20260705_203637/) |
 | Recentrage cockpit (CONS-MP-003) | **GO QA + GO MOA UI lab** — [`recette_qa/QA-CONS-MP-003-20260705_220000/`](recette_qa/QA-CONS-MP-003-20260705_220000/) + [`MOA UI`](recette_qa/QA-CONS-MP-MOA-UI-003-20260705_220400/) |
 | Tests automatisés | **113/113** verts (lab) |
-| Déploiement production | **GO MOA déploiement** — [`GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md`](GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md) |
-| Commit de référence | `2af0fc1b14d7b9ff1552eb61d72c62613babff43` |
+| Déploiement production | **GO exploitation** depuis le 2026-07-05 — [`RAPPORT`](recette_qa/PROD-CONS-MP-20260705/RAPPORT_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP.md) |
+| Commit production | `2af0fc1b14d7b9ff1552eb61d72c62613babff43` — version `18.0.1.6.0` |
 
 ## Documentation
 
@@ -46,7 +46,7 @@ Inventaire
 ## Environnement
 
 - Lab : `laplatine-odoo18-lab` / base `laplatine_prod` / `http://127.0.0.1:18018`
-- Production : **GO déploiement MOA** — exploitation après fumée verte
+- Production : `/opt/laplatine` — `https://prod.sarl-la-platine.fr` — **GO exploitation** (2026-07-05)
 
 ## Dépendances
 

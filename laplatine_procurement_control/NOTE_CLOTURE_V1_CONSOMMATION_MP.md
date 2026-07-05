@@ -7,7 +7,7 @@
 | **Version livrable** | `18.0.1.6.0` (V1.2 — recentrage cockpit) |
 | **Commit de référence production** | `2af0fc1b14d7b9ff1552eb61d72c62613babff43` |
 | **Date clôture lab** | 2026-07-05 |
-| **Production** | **GO déploiement MOA** — exploitation après fumée production verte |
+| **Production** | **GO exploitation** — déployé le 2026-07-05, fumée FUM-01 à FUM-05 verte |
 
 ---
 
@@ -21,7 +21,7 @@
 >
 > **V1 Consommation matières premières : fonctionnellement complète.**
 >
-> **Production : GO déploiement MOA (2026-07-05). Exploitation ouverte après fumée production verte.**
+> **Production : GO déploiement + GO fumée (2026-07-05). Exploitation ouverte depuis le 05/07/2026.**
 
 | Slice / lot | Contenu | Verdict |
 |-------------|---------|---------|
@@ -90,6 +90,16 @@ Article `[MP-FEC-MAN-001]`, emplacement `WH/Stock/Conteneur Fécule`.
 
 Paramétrage fécule lab : min/max **5 000 / 18 250 kg**, fournisseur Kastell, délai **90 j** — non modifié par les recettes.
 
+### 4.1 Production (2026-07-05)
+
+| Indicateur | Valeur |
+|------------|--------|
+| Stock fécule constaté | **929,23 kg** (entrepôt La Platine) |
+| Impact fumée | Cannelle moulue : solde net **−0,25 kg** |
+| Rapport déploiement | [`recette_qa/PROD-CONS-MP-20260705/RAPPORT_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP.md`](recette_qa/PROD-CONS-MP-20260705/RAPPORT_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP.md) |
+
+> David doit confirmer depuis l'UI le seuil minimum réellement configuré en production et l'état d'alerte cockpit sur la fécule.
+
 ---
 
 ## 5. Anomalies traitées
@@ -143,10 +153,12 @@ Procédure détaillée : [`GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md`](
 ## 10. Prochaine étape
 
 1. ~~Décision MOA **GO déploiement production**~~ — **obtenu 2026-07-05** ;
-2. Exécution du [`GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md`](GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md) + recette de fumée **FUM-01 à FUM-05** ;
-3. Attribution des groupes : Ethel / Véréna / Michel (wizards) ; David (cockpit) ;
-4. **GO exploitation** formalisé après fumée verte ;
-5. Formation courte opérateurs (wizard + correction + alerte seuil).
+2. ~~Exécution du guide + recette FUM-01 à FUM-05~~ — **GO 2026-07-05** ;
+3. ~~Attribution des groupes opérateurs / David~~ — **effectué** ;
+4. ~~**GO exploitation**~~ — **formalisé 2026-07-05** ;
+5. **David** : actualisation cockpit UI + vérification ligne fécule et seuil min ;
+6. Formation courte opérateurs (wizard + correction + alerte seuil) ;
+7. Confirmation usage Ethel / Véréna / Michel (ultérieure, non bloquante).
 
 ---
 
@@ -158,4 +170,4 @@ Procédure détaillée : [`GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md`](
 | Dev / Dorevia | | 2026-07-05 | Livrable `18.0.1.6.0` : ☑ GO |
 | QA | | 2026-07-05 | Recettes S1–S4 + CONS-MP-002 + CONS-MP-003 : ☑ GO |
 | MOA UI | | 2026-07-05 | Wizards + cockpit scope : ☑ GO |
-| Production | | 2026-07-05 | Déploiement : ☑ GO MOA / Exploitation : ☐ après fumée |
+| Production | | 2026-07-05 | Déploiement : ☑ GO / Fumée : ☑ GO / Exploitation : ☑ GO |
