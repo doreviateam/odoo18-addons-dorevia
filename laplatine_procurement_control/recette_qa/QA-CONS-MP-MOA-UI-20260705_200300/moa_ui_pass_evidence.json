@@ -1,0 +1,109 @@
+{
+  "run_id": "QA-CONS-MP-MOA-UI-20260705_200300",
+  "generated_at": "2026-07-05T18:04:05.797519",
+  "database": "laplatine_prod",
+  "url_lab": "http://127.0.0.1:18018",
+  "git_head": "69f8bad",
+  "module_version": "18.0.1.4.0",
+  "operator": {
+    "model": "res.users",
+    "id": 90,
+    "display_name": "QA CONS MP S4 Opérateur"
+  },
+  "production": "STOP",
+  "verdict": "GO_MOA_UI_SLICE4",
+  "blocking_ko": [],
+  "checks": [
+    {
+      "id": "MOA-UI-01",
+      "title": "Menu Consommation MP visible opérateur",
+      "result": "OK"
+    },
+    {
+      "id": "MOA-UI-02",
+      "title": "Wizard consommation ouvrable",
+      "result": "OK"
+    },
+    {
+      "id": "MOA-UI-03",
+      "title": "Passage mode correction après sélection article",
+      "result": "OK",
+      "action_res_id": 137
+    },
+    {
+      "id": "MOA-UI-04",
+      "title": "Quantité Odoo, comptée et motif saisissables/lisibles",
+      "result": "OK",
+      "qty_odoo_kg": 13150.0,
+      "qty_counted_kg": 13150.0,
+      "location": {
+        "model": "stock.location",
+        "id": 19,
+        "display_name": "WH/Stock/Conteneur Fécule"
+      },
+      "reason_sample": "MOA UI — lecture seule, ne pas appliquer",
+      "fecule_stock_unchanged_note": "Aucun action_apply_adjustment exécuté"
+    },
+    {
+      "id": "MOA-UI-05",
+      "title": "Confirmation explicite et libellés UI correction",
+      "result": "OK",
+      "confirm_present": true,
+      "labels_present": true,
+      "field_strings": {
+        "qty_available_kg_adjustment": "Quantité enregistrée dans Odoo (kg)",
+        "qty_counted_kg": "Quantité réellement comptée (kg)",
+        "adjustment_reason": "Motif"
+      }
+    },
+    {
+      "id": "MOA-UI-06",
+      "title": "Notification succès correction (article jetable)",
+      "result": "OK",
+      "notification": {
+        "title": "Correction appliquée",
+        "message": "Stock avant : 90 kg\nStock compté : 80 kg\nÉcart : -10 kg\nStock après : 80 kg",
+        "type": "success",
+        "sticky": false,
+        "next": {
+          "type": "ir.actions.act_window_close"
+        }
+      }
+    },
+    {
+      "id": "MOA-UI-07",
+      "title": "Notification seuil min (article jetable QA S4)",
+      "result": "OK",
+      "notification": {
+        "title": "Correction appliquée",
+        "message": "Stock avant : 4 940 kg\nStock compté : 4 930 kg\nÉcart : -10 kg\nStock après : 4 930 kg\n\nSeuil de réapprovisionnement atteint\nStock restant : 4 930 kg\nSeuil minimum : 5 000 kg",
+        "type": "warning",
+        "sticky": false,
+        "next": {
+          "type": "ir.actions.act_window_close"
+        }
+      }
+    },
+    {
+      "id": "MOA-UI-08",
+      "title": "Fécule non modifiée durant la passe MOA UI",
+      "result": "OK",
+      "stock_kg_before_after": 13150.0,
+      "stock_kg_final": 13150.0
+    }
+  ],
+  "fecule": {
+    "product": {
+      "model": "product.product",
+      "id": 555,
+      "display_name": "[MP-FEC-MAN-001] FECULE DE MANIOC"
+    },
+    "location": {
+      "model": "stock.location",
+      "id": 19,
+      "display_name": "WH/Stock/Conteneur Fécule"
+    },
+    "stock_kg": 13150.0
+  },
+  "note": "Passe MOA UI : champs wizard et notifications validés ; fécule lue sans correction appliquée."
+}
