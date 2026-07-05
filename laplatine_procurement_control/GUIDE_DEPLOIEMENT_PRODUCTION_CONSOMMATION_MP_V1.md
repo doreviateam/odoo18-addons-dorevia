@@ -4,16 +4,16 @@
 |---------|--------|
 | **Référence** | `DEPLOY-CONS-MP-V1` |
 | **Module** | `laplatine_procurement_control` |
-| **Version cible** | `18.0.1.6.0` minimum |
-| **Commit de référence lab** | _voir `origin/main` après push CONS-MP-002_ |
-| **Prérequis** | Note de clôture V1 signée MOA + **GO déploiement production explicite** |
-| **Statut actuel** | **Production STOP** |
+| **Version cible** | `18.0.1.6.0` |
+| **Commit de référence production** | `2af0fc1b14d7b9ff1552eb61d72c62613babff43` |
+| **Prérequis** | Note de clôture V1 + **GO MOA déploiement production** (2026-07-05) |
+| **Statut actuel** | **GO déploiement MOA** — exploitation après fumée production verte |
 
 ---
 
 ## 0. Principe
 
-Ce guide couvre le déploiement du lot **Consommation matières premières** (Slices 1–4 + séparation wizards V1.1) inclus dans `laplatine_procurement_control`. Il s'applique à la **production** après validation MOA ; la procédure lab est identique sur `laplatine-odoo18-lab`.
+Ce guide couvre le déploiement du lot **Consommation matières premières** (Slices 1–4, séparation wizards V1.1, recentrage cockpit CONS-MP-003) inclus dans `laplatine_procurement_control`. Il s'applique à la **production** après validation MOA ; la procédure lab est identique sur `laplatine-odoo18-lab`.
 
 > **Rappel critique** : upgrade module **+ redémarrage Odoo** obligatoire. Réserve documentée : `ENV-CONS-MP-S3-001`.
 
@@ -24,7 +24,7 @@ Ce guide couvre le déploiement du lot **Consommation matières premières** (Sl
 | # | Contrôle | OK |
 |---|----------|-----|
 | 1 | GO MOA déploiement production obtenu et daté | ☐ |
-| 2 | Commit `origin/main` ≥ référence CONS-MP-002 identifié pour la prod | ☐ |
+| 2 | Commit production = `2af0fc1b14d7b9ff1552eb61d72c62613babff43` | ☐ |
 | 3 | Sauvegarde base + filestore production planifiée | ☐ |
 | 4 | Fenêtre de maintenance communiquée aux opérateurs | ☐ |
 | 5 | Accès admin production disponible | ☐ |
@@ -40,9 +40,8 @@ Adapter les chemins et noms de service à l'environnement production.
 ```bash
 cd /chemin/vers/odoo18-addons-dorevia
 git fetch origin
-git checkout main
-git pull origin main
-git rev-parse HEAD   # attendu : ≥ commit CONS-MP-002 sur origin/main
+git checkout 2af0fc1b14d7b9ff1552eb61d72c62613babff43
+git rev-parse HEAD   # attendu : 2af0fc1b14d7b9ff1552eb61d72c62613babff43
 ```
 
 ### 2.2 Upgrade module
@@ -73,7 +72,7 @@ Attendre le démarrage complet (~30–60 s) avant toute recette utilisateur.
 
 ### 2.4 Contrôle version chargée
 
-**Interface** : Apps → `La Platine - Pilotage des approvisionnements` → version **18.0.1.5.0**.
+**Interface** : Apps → `La Platine - Pilotage des approvisionnements` → version **18.0.1.6.0**.
 
 **Shell (recommandé)** :
 
@@ -84,7 +83,7 @@ print("installed:", m.installed_version, "state:", m.state)
 PY
 ```
 
-Résultat attendu : `installed: 18.0.1.5.0 state: installed`.
+Résultat attendu : `installed: 18.0.1.6.0 state: installed`.
 
 ---
 
@@ -125,7 +124,7 @@ Menu : **Paramètres → Utilisateurs → [utilisateur] → Droits d'accès**.
 
 **Ne pas** attribuer les groupes cockpit sauf besoin explicite.
 
-### 4.2 Supervision (si applicable)
+### 4.2 Supervision (David — responsable approvisionnements)
 
 | Profil | Groupes |
 |--------|---------|
@@ -133,12 +132,14 @@ Menu : **Paramètres → Utilisateurs → [utilisateur] → Droits d'accès**.
 | Actualisation cockpit | + **Pilotage approvisionnements / Actualisation** |
 | Paramétrage cockpit | + **Pilotage approvisionnements / Paramétrage** |
 
+Attribuer à **David** au minimum Consultation + Actualisation si le responsable doit actualiser le cockpit après déploiement.
+
 ### 4.3 Matrice de vérification post-attribution
 
 | Utilisateur | Menus La Platine (×2) | Cockpit visible | Config technique |
 |-------------|----------------------|-----------------|------------------|
-| Opérateur MP | ☐ Consommation + ☐ Mise à jour stock | ☐ Non | ☐ Non |
-| Consultant | ☐ Non (sauf double profil) | ☐ Oui | ☐ Configuration only |
+| Ethel / Véréna / Michel (opérateur MP) | ☐ Consommation + ☐ Mise à jour stock | ☐ Non | ☐ Non |
+| David (responsable cockpit) | ☐ Non requis | ☐ Oui | ☐ Configuration only |
 
 ---
 
@@ -186,12 +187,15 @@ Exécuter **après** upgrade, restart et paramétrage groupes.
 | Motif vide | Refus |
 | Qty > stock (consommation) | Refus |
 
-### FUM-05 — Cockpit non-régression (consultant)
+### FUM-05 — Cockpit (David — consultant / manager)
 
 | Étape | Attendu |
 |-------|---------|
-| **Inventaire → Configuration → Pilotage approvisionnements → Cockpit** | Accessible consultant |
-| Ligne fécule (si présente) | Données cohérentes, pas d'erreur bloquante |
+| **Inventaire → Configuration → Pilotage approvisionnements → Cockpit** | Accessible |
+| Actualiser (si profil Manager) | Snapshot régénéré sans erreur |
+| Fécule (si **Suivi consommation** coché) | Ligne visible, données cohérentes |
+| Article non suivi (test) | Absent après actualisation |
+| Opérateur MP (Ethel / Véréna / Michel) | Cockpit **non** accessible |
 
 ### FUM-06 — Seuil min (optionnel)
 
@@ -242,8 +246,8 @@ Downgrade module seul **non recommandé** — préférer restauration backup.
 | Date déploiement | |
 | Exécutant | |
 | Base production | |
-| Commit déployé | |
-| Version module constatée | |
+| Commit déployé | `2af0fc1b14d7b9ff1552eb61d72c62613babff43` |
+| Version module constatée | `18.0.1.6.0` |
 | Restart Odoo | ☐ Oui |
-| Fumée | ☐ GO / ☐ NO_GO |
-| Décision MOA production | ☐ STOP / ☐ GO |
+| Fumée FUM-01 à FUM-05 | ☐ GO / ☐ NO_GO |
+| Décision MOA exploitation | ☐ En attente fumée / ☐ GO |

@@ -45,4 +45,4 @@ Clôture V1 consommation MP : [`../NOTE_CLOTURE_V1_CONSOMMATION_MP.md`](../NOTE_
 
 Déploiement production : [`../GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md`](../GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md)
 
-Production : **STOP** — aucun GO déploiement.
+Production : **GO déploiement MOA** — commit prod `2af0fc1` — exploitation après fumée verte.

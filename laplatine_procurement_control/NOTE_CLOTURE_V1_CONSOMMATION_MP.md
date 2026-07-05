@@ -5,9 +5,9 @@
 | **Référence lot** | `LAPLATINE-CONS-MP-001` |
 | **Module** | `laplatine_procurement_control` |
 | **Version livrable** | `18.0.1.6.0` (V1.2 — recentrage cockpit) |
-| **Commit de référence** | _voir `origin/main` après push CONS-MP-002_ |
+| **Commit de référence production** | `2af0fc1b14d7b9ff1552eb61d72c62613babff43` |
 | **Date clôture lab** | 2026-07-05 |
-| **Production** | **STOP** — en attente de décision de déploiement explicite |
+| **Production** | **GO déploiement MOA** — exploitation après fumée production verte |
 
 ---
 
@@ -21,7 +21,7 @@
 >
 > **V1 Consommation matières premières : fonctionnellement complète.**
 >
-> **Production : STOP jusqu'à GO MOA déploiement.**
+> **Production : GO déploiement MOA (2026-07-05). Exploitation ouverte après fumée production verte.**
 
 | Slice / lot | Contenu | Verdict |
 |-------------|---------|---------|
@@ -142,10 +142,11 @@ Procédure détaillée : [`GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md`](
 
 ## 10. Prochaine étape
 
-1. Décision MOA **GO déploiement production** ;
-2. Exécution du guide de déploiement + recette de fumée production ;
-3. Attribution des groupes aux utilisateurs métier ;
-4. Formation courte opérateurs (wizard + correction + alerte seuil).
+1. ~~Décision MOA **GO déploiement production**~~ — **obtenu 2026-07-05** ;
+2. Exécution du [`GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md`](GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md) + recette de fumée **FUM-01 à FUM-05** ;
+3. Attribution des groupes : Ethel / Véréna / Michel (wizards) ; David (cockpit) ;
+4. **GO exploitation** formalisé après fumée verte ;
+5. Formation courte opérateurs (wizard + correction + alerte seuil).
 
 ---
 
@@ -154,7 +155,7 @@ Procédure détaillée : [`GUIDE_DEPLOIEMENT_PRODUCTION_CONSOMMATION_MP_V1.md`](
 | Rôle | Nom | Date | Décision |
 |------|-----|------|----------|
 | MOA | | | Clôture V1 lab : ☐ GO |
-| Dev / Dorevia | | 2026-07-05 | Livrable `18.0.1.5.0` : ☑ GO |
-| QA | | 2026-07-05 | Recettes S1–S4 + CONS-MP-002 : ☑ GO |
-| MOA UI | | 2026-07-05 | Wizards séparés : ☑ GO |
-| Production | | | Déploiement : ☐ STOP / ☐ GO |
+| Dev / Dorevia | | 2026-07-05 | Livrable `18.0.1.6.0` : ☑ GO |
+| QA | | 2026-07-05 | Recettes S1–S4 + CONS-MP-002 + CONS-MP-003 : ☑ GO |
+| MOA UI | | 2026-07-05 | Wizards + cockpit scope : ☑ GO |
+| Production | | 2026-07-05 | Déploiement : ☑ GO MOA / Exploitation : ☐ après fumée |
