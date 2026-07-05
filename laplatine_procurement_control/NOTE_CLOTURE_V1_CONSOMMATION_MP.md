@@ -4,7 +4,7 @@
 |---------|--------|
 | **Référence lot** | `LAPLATINE-CONS-MP-001` |
 | **Module** | `laplatine_procurement_control` |
-| **Version livrable** | `18.0.1.5.0` (V1.1 — séparation wizards) |
+| **Version livrable** | `18.0.1.6.0` (V1.2 — recentrage cockpit) |
 | **Commit de référence** | _voir `origin/main` après push CONS-MP-002_ |
 | **Date clôture lab** | 2026-07-05 |
 | **Production** | **STOP** — en attente de décision de déploiement explicite |
@@ -17,6 +17,8 @@
 >
 > **CONS-MP-002 (V1.1) : GO Dev / GO QA / GO MOA UI sur le lab — wizards séparés.**
 >
+> **CONS-MP-003 (V1.2) : GO Dev lab — cockpit limité aux articles « Suivi consommation La Platine ».**
+>
 > **V1 Consommation matières premières : fonctionnellement complète.**
 >
 > **Production : STOP jusqu'à GO MOA déploiement.**
@@ -28,6 +30,7 @@
 | 3 | Enregistrement consommation (mouvement standard → Production) | GO |
 | 4 | Correction inventaire, motif traçable, seuil min post-opération | GO |
 | **CONS-MP-002** | **Séparation consommation / mise à jour stock (deux wizards, deux menus)** | **GO** |
+| **CONS-MP-003** | **Cockpit limité au booléen Suivi consommation La Platine** | **GO Dev lab** |
 
 **Tests automatisés module** : **100/100 verts** (lab, 2026-07-05).
 
@@ -94,6 +97,7 @@ Paramétrage fécule lab : min/max **5 000 / 18 250 kg**, fournisseur Kastell, d
 | ID | Description | Résolution | Commit |
 |----|-------------|------------|--------|
 | BUG-CONS-MP-001 | Menu cockpit invisible profil Consultation | Extension groupe sur menu Configuration Stock | `5655b9c` |
+| BUG-CONS-MP-003 | Emplacement auto consommation non persisté à l'enregistrement | `force_save` + `_resolve_location_id()` | `18.0.1.6.0` |
 | ENV-CONS-MP-S3-001 | Runtime web non rechargé après upgrade | Procédure restart documentée | `70ea358`, `recette_qa/README.md` |
 
 ---
@@ -117,7 +121,7 @@ Le groupe consommation **n'implique pas** les groupes cockpit.
 |-----------|-------------|-------|
 | Entrepôt de pilotage approvisionnements | Oui | Emplacements sources wizard + cockpit |
 | Emplacement destination consommations | Oui (`usage=production`) | Cible des prélèvements |
-| Suivi consommation La Platine (article) | Oui par MP | Filtre wizard |
+| Suivi consommation La Platine (article) | Oui par MP | Filtre wizards **et cockpit** |
 
 ---
 

@@ -141,7 +141,12 @@ Un article est éligible au cockpit s'il est :
 
 - actif ;
 - `purchase_ok = True` ;
-- stockable (`is_storable = True` sur le modèle produit Odoo 18).
+- stockable (`is_storable = True` sur le modèle produit Odoo 18) ;
+- marqué **Suivi consommation La Platine** (`laplatine_consumption_tracking = True` sur le modèle article).
+
+Un article non marqué ne doit jamais apparaître dans le cockpit, même s'il possède une règle
+de réapprovisionnement, un fournisseur ou tout autre paramétrage d'approvisionnement.
+Les articles marqués mais incomètement paramétrés restent visibles avec alertes explicites.
 
 Aucune règle basée sur le nom, la référence ou l'identité de la fécule de manioc.
 

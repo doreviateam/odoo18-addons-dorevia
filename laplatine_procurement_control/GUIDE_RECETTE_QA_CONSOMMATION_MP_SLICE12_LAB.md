@@ -100,7 +100,7 @@ Sur `[MP-FEC-MAN-001] FÉCULE DE MANIOC` :
 |-|-|
 | **Profil** | Opérateur MP |
 | **Action** | Ouvrir le wizard → champ **Matière première** → rechercher la fécule |
-| **Attendu** | Fécule visible si **Suivi consommation** coché |
+| **Attendu** | Fécule visible si **Suivi consommation** coché ; articles non suivis absents du cockpit après actualisation (CONS-MP-003) |
 | **Action 2** | Décocher **Suivi consommation** sur un article test → rouvrir wizard |
 | **Attendu 2** | Article disparu de la liste |
 | **Remise en état** | Recocher Suivi consommation sur fécule |

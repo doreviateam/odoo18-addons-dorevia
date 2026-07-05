@@ -4,7 +4,7 @@
 |---------|--------|
 | **Référence** | `DEPLOY-CONS-MP-V1` |
 | **Module** | `laplatine_procurement_control` |
-| **Version cible** | `18.0.1.5.0` minimum |
+| **Version cible** | `18.0.1.6.0` minimum |
 | **Commit de référence lab** | _voir `origin/main` après push CONS-MP-002_ |
 | **Prérequis** | Note de clôture V1 signée MOA + **GO déploiement production explicite** |
 | **Statut actuel** | **Production STOP** |
@@ -104,6 +104,10 @@ Vérifier sur chaque matière première opérationnelle :
 | Suivi consommation La Platine | Coché |
 | Stockable | Oui |
 | UoM | Catégorie Poids (kg) |
+
+> **Cockpit (CONS-MP-003)** : seuls les articles avec **Suivi consommation La Platine** coché
+> apparaissent après actualisation. Un article non marqué est exclu même s'il possède orderpoint
+> ou fournisseur. Les articles marqués mais incomplets restent visibles avec alertes.
 
 ---
 
