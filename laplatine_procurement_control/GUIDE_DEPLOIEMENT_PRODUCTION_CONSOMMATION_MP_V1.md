@@ -4,8 +4,8 @@
 |---------|--------|
 | **Référence** | `DEPLOY-CONS-MP-V1` |
 | **Module** | `laplatine_procurement_control` |
-| **Version cible** | `18.0.1.4.0` minimum |
-| **Commit de référence lab** | `09d801e` |
+| **Version cible** | `18.0.1.5.0` minimum |
+| **Commit de référence lab** | _voir `origin/main` après push CONS-MP-002_ |
 | **Prérequis** | Note de clôture V1 signée MOA + **GO déploiement production explicite** |
 | **Statut actuel** | **Production STOP** |
 
@@ -13,7 +13,7 @@
 
 ## 0. Principe
 
-Ce guide couvre le déploiement du lot **Consommation matières premières** (Slices 1–4) inclus dans `laplatine_procurement_control`. Il s'applique à la **production** après validation MOA ; la procédure lab est identique sur `laplatine-odoo18-lab`.
+Ce guide couvre le déploiement du lot **Consommation matières premières** (Slices 1–4 + séparation wizards V1.1) inclus dans `laplatine_procurement_control`. Il s'applique à la **production** après validation MOA ; la procédure lab est identique sur `laplatine-odoo18-lab`.
 
 > **Rappel critique** : upgrade module **+ redémarrage Odoo** obligatoire. Réserve documentée : `ENV-CONS-MP-S3-001`.
 
@@ -24,7 +24,7 @@ Ce guide couvre le déploiement du lot **Consommation matières premières** (Sl
 | # | Contrôle | OK |
 |---|----------|-----|
 | 1 | GO MOA déploiement production obtenu et daté | ☐ |
-| 2 | Commit `origin/main` ≥ `09d801e` identifié pour la prod | ☐ |
+| 2 | Commit `origin/main` ≥ référence CONS-MP-002 identifié pour la prod | ☐ |
 | 3 | Sauvegarde base + filestore production planifiée | ☐ |
 | 4 | Fenêtre de maintenance communiquée aux opérateurs | ☐ |
 | 5 | Accès admin production disponible | ☐ |
@@ -42,7 +42,7 @@ cd /chemin/vers/odoo18-addons-dorevia
 git fetch origin
 git checkout main
 git pull origin main
-git rev-parse HEAD   # attendu : ≥ 09d801e
+git rev-parse HEAD   # attendu : ≥ commit CONS-MP-002 sur origin/main
 ```
 
 ### 2.2 Upgrade module
@@ -73,7 +73,7 @@ Attendre le démarrage complet (~30–60 s) avant toute recette utilisateur.
 
 ### 2.4 Contrôle version chargée
 
-**Interface** : Apps → `La Platine - Pilotage des approvisionnements` → version **18.0.1.4.0**.
+**Interface** : Apps → `La Platine - Pilotage des approvisionnements` → version **18.0.1.5.0**.
 
 **Shell (recommandé)** :
 
@@ -84,7 +84,7 @@ print("installed:", m.installed_version, "state:", m.state)
 PY
 ```
 
-Résultat attendu : `installed: 18.0.1.4.0 state: installed`.
+Résultat attendu : `installed: 18.0.1.5.0 state: installed`.
 
 ---
 
@@ -131,9 +131,9 @@ Menu : **Paramètres → Utilisateurs → [utilisateur] → Droits d'accès**.
 
 ### 4.3 Matrice de vérification post-attribution
 
-| Utilisateur | Menu La Platine visible | Cockpit visible | Config technique |
-|-------------|---------------------------|-----------------|------------------|
-| Opérateur MP | ☐ Oui | ☐ Non | ☐ Non |
+| Utilisateur | Menus La Platine (×2) | Cockpit visible | Config technique |
+|-------------|----------------------|-----------------|------------------|
+| Opérateur MP | ☐ Consommation + ☐ Mise à jour stock | ☐ Non | ☐ Non |
 | Consultant | ☐ Non (sauf double profil) | ☐ Oui | ☐ Configuration only |
 
 ---
@@ -142,31 +142,36 @@ Menu : **Paramètres → Utilisateurs → [utilisateur] → Droits d'accès**.
 
 Exécuter **après** upgrade, restart et paramétrage groupes.
 
-### FUM-01 — Navigation opérateur
+### FUM-01 — Navigation opérateur (deux menus)
 
 | Étape | Action | Attendu |
 |-------|--------|---------|
 | 1 | Connexion opérateur MP | OK |
-| 2 | **Inventaire → La Platine → Consommation matière première** | Wizard s'ouvre |
-| 3 | Sélectionner une MP éligible (test non fécule si possible) | Emplacement + stock affichés |
+| 2 | **Inventaire → La Platine** | Deux menus visibles |
+| 3 | **Consommation matière première** | Wizard prélèvement s'ouvre (pas de mode correction) |
+| 4 | Annuler | Wizard fermé |
+| 5 | **Mise à jour des quantités en stock** | Wizard correction s'ouvre (pas de champ prélèvement) |
+| 6 | Annuler | Wizard fermé |
 
 ### FUM-02 — Consommation (quantité faible)
 
 | Étape | Action | Attendu |
 |-------|--------|---------|
-| 1 | Saisir qty prélevée > 0, ≤ stock | OK |
-| 2 | **Enregistrer la consommation** | Notification succès, wizard fermé |
-| 3 | Vérifier stock diminué | Cohérent |
-| 4 | Historique mouvements Odoo | Move `done`, réf. `Consommation MP La Platine`, dest. Production |
+| 1 | Ouvrir **Consommation matière première** | Wizard prélèvement |
+| 2 | Sélectionner une MP éligible (test non fécule si possible) | Emplacement + stock affichés |
+| 3 | Saisir qty prélevée > 0, ≤ stock | OK |
+| 4 | **Enregistrer la consommation** | Notification succès, wizard fermé |
+| 5 | Vérifier stock diminué | Cohérent |
+| 6 | Historique mouvements Odoo | Move `done`, réf. `Consommation MP La Platine`, dest. Production |
 
 ### FUM-03 — Correction après comptage
 
 | Étape | Action | Attendu |
 |-------|--------|---------|
-| 1 | Rouvrir wizard, **Mettre à jour la quantité disponible** | Mode correction |
-| 2 | Saisir qty comptée + motif | Champs lisibles |
-| 3 | **Appliquer la correction** | Dialog confirmation natif Odoo |
-| 4 | Confirmer | Notification récap. avant/après/écart |
+| 1 | Ouvrir **Mise à jour des quantités en stock** | Wizard correction dédié |
+| 2 | Sélectionner MP + emplacement, saisir qty comptée + motif | Champs lisibles (Odoo, comptée, écart, motif) |
+| 3 | **Mettre à jour le stock** | Dialog confirmation explicite |
+| 4 | Confirmer | Notification « Stock mis à jour » (avant / après / écart) |
 | 5 | Historique | Move inventaire `done`, motif = texte saisi |
 
 ### FUM-04 — Contrôles bloquants (sans impact stock si annulé)
@@ -219,7 +224,8 @@ Downgrade module seul **non recommandé** — préférer restauration backup.
 | Document | Lien |
 |----------|------|
 | Note de clôture V1 | [`NOTE_CLOTURE_V1_CONSOMMATION_MP.md`](NOTE_CLOTURE_V1_CONSOMMATION_MP.md) |
-| Cadrage lot | [`docs/cadrage/NOTE_CADRAGE_CONSOMMATION_MP_LAPLATINE_V1.md`](../docs/cadrage/NOTE_CADRAGE_CONSOMMATION_MP_LAPLATINE_V1.md) |
+| Cadrage lot V1 | [`docs/cadrage/NOTE_CADRAGE_CONSOMMATION_MP_LAPLATINE_V1.md`](../docs/cadrage/NOTE_CADRAGE_CONSOMMATION_MP_LAPLATINE_V1.md) |
+| Cadrage séparation wizards V1.1 | [`docs/cadrage/NOTE_CADRAGE_SEPARATION_WIZARDS_MP_LAPLATINE_V1_1.md`](../docs/cadrage/NOTE_CADRAGE_SEPARATION_WIZARDS_MP_LAPLATINE_V1_1.md) |
 | Preuves QA lab | [`recette_qa/README.md`](recette_qa/README.md) |
 | Procédure lab | [`recette_qa/README.md`](recette_qa/README.md) § Procédure |
 
