@@ -1,0 +1,16 @@
+{
+  "run_id": "QA-CONS-MP-S12-20260705_183101",
+  "generated_at": "2026-07-05T16:53:21",
+  "products_archived": [
+    {
+      "id": 651,
+      "default_code": "QA-CONS-MP-S12-20260705_183101-ELIG",
+      "display_name": "[QA-CONS-MP-S12-20260705_183101-ELIG] QA-CONS-MP-S12-20260705_183101 Éligibilité MP kg"
+    },
+    {
+      "id": 652,
+      "default_code": "QA-CONS-MP-S12-20260705_183101-UNIT",
+      "display_name": "[QA-CONS-MP-S12-20260705_183101-UNIT] QA-CONS-MP-S12-20260705_183101 Article unité"
+    }
+  ]
+}

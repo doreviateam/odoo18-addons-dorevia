@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- BUG-CONS-MP-001: le menu Configuration Stock exige stock.group_stock_manager ;
+         le profil Consultation doit pouvoir y accéder pour le chemin UI documenté. -->
+    <record id="stock.menu_stock_config_settings" model="ir.ui.menu">
+        <field
+            name="groups_id"
+            eval="[(4, ref('laplatine_procurement_control.group_procurement_control_user'))]"
+        />
+    </record>
+
     <menuitem
         id="menu_laplatine_root"
         name="La Platine"

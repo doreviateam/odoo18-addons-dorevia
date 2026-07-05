@@ -1,0 +1,204 @@
+{
+  "run_id": "QA-CONS-MP-S12-20260705_183101",
+  "generated_at": "2026-07-05T16:52:20",
+  "database": "laplatine_prod",
+  "production": "STOP - lab uniquement",
+  "fecule": {
+    "product": {
+      "model": "product.product",
+      "id": 555,
+      "display_name": "[MP-FEC-MAN-001] FECULE DE MANIOC"
+    },
+    "tracking_consumption": true,
+    "stock_by_location_after_ui": [
+      {
+        "location": {
+          "model": "stock.location",
+          "id": 8,
+          "display_name": "WH/Stock"
+        },
+        "complete_name": "WH/Stock",
+        "usage": "internal",
+        "quantity": 0,
+        "quantity_kg": 0
+      },
+      {
+        "location": {
+          "model": "stock.location",
+          "id": 19,
+          "display_name": "WH/Stock/Conteneur Fécule"
+        },
+        "complete_name": "WH/Stock/Conteneur Fécule",
+        "usage": "internal",
+        "quantity": 13250.0,
+        "quantity_kg": 13250.0
+      },
+      {
+        "location": {
+          "model": "stock.location",
+          "id": 24,
+          "display_name": "WH/Stock/Emballage"
+        },
+        "complete_name": "WH/Stock/Emballage",
+        "usage": "internal",
+        "quantity": 0,
+        "quantity_kg": 0
+      },
+      {
+        "location": {
+          "model": "stock.location",
+          "id": 23,
+          "display_name": "WH/Stock/Matière-Première"
+        },
+        "complete_name": "WH/Stock/Matière-Première",
+        "usage": "internal",
+        "quantity": 0,
+        "quantity_kg": 0
+      },
+      {
+        "location": {
+          "model": "stock.location",
+          "id": 22,
+          "display_name": "WH/Stock/Produit-Fini"
+        },
+        "complete_name": "WH/Stock/Produit-Fini",
+        "usage": "internal",
+        "quantity": 0,
+        "quantity_kg": 0
+      },
+      {
+        "location": {
+          "model": "stock.location",
+          "id": 20,
+          "display_name": "WH/Stock/Préparation"
+        },
+        "complete_name": "WH/Stock/Préparation",
+        "usage": "internal",
+        "quantity": 0,
+        "quantity_kg": 0
+      },
+      {
+        "location": {
+          "model": "stock.location",
+          "id": 21,
+          "display_name": "WH/Stock/Semi-Fini"
+        },
+        "complete_name": "WH/Stock/Semi-Fini",
+        "usage": "internal",
+        "quantity": 0,
+        "quantity_kg": 0
+      }
+    ],
+    "move_count_after_ui": 1
+  },
+  "cockpit_refresh": {
+    "admin": {
+      "model": "res.users",
+      "id": 51,
+      "display_name": "QA CONS MP S12 Administrateur"
+    },
+    "admin_has_manager_group": true,
+    "result": true,
+    "error": false
+  },
+  "fecule_cockpit_line": {
+    "line": {
+      "model": "laplatine.procurement.control.line",
+      "id": 1168,
+      "display_name": "laplatine.procurement.control.line,1168"
+    },
+    "min_qty": 5000.0,
+    "max_qty": 18250.0,
+    "supplier": {
+      "model": "res.partner",
+      "id": 384,
+      "display_name": "KASTELL NEGOCE SAS"
+    },
+    "supplier_delay": 90,
+    "consumption_period_days": 90,
+    "qty_available": 13250.0,
+    "last_refresh": "2026-07-05T16:52:20",
+    "risk_status": "insufficient_data",
+    "alert_codes": "consumption_untraceable,history_insufficient"
+  },
+  "stock_after_refresh": [
+    {
+      "location": {
+        "model": "stock.location",
+        "id": 8,
+        "display_name": "WH/Stock"
+      },
+      "complete_name": "WH/Stock",
+      "usage": "internal",
+      "quantity": 0,
+      "quantity_kg": 0
+    },
+    {
+      "location": {
+        "model": "stock.location",
+        "id": 19,
+        "display_name": "WH/Stock/Conteneur Fécule"
+      },
+      "complete_name": "WH/Stock/Conteneur Fécule",
+      "usage": "internal",
+      "quantity": 13250.0,
+      "quantity_kg": 13250.0
+    },
+    {
+      "location": {
+        "model": "stock.location",
+        "id": 24,
+        "display_name": "WH/Stock/Emballage"
+      },
+      "complete_name": "WH/Stock/Emballage",
+      "usage": "internal",
+      "quantity": 0,
+      "quantity_kg": 0
+    },
+    {
+      "location": {
+        "model": "stock.location",
+        "id": 23,
+        "display_name": "WH/Stock/Matière-Première"
+      },
+      "complete_name": "WH/Stock/Matière-Première",
+      "usage": "internal",
+      "quantity": 0,
+      "quantity_kg": 0
+    },
+    {
+      "location": {
+        "model": "stock.location",
+        "id": 22,
+        "display_name": "WH/Stock/Produit-Fini"
+      },
+      "complete_name": "WH/Stock/Produit-Fini",
+      "usage": "internal",
+      "quantity": 0,
+      "quantity_kg": 0
+    },
+    {
+      "location": {
+        "model": "stock.location",
+        "id": 20,
+        "display_name": "WH/Stock/Préparation"
+      },
+      "complete_name": "WH/Stock/Préparation",
+      "usage": "internal",
+      "quantity": 0,
+      "quantity_kg": 0
+    },
+    {
+      "location": {
+        "model": "stock.location",
+        "id": 21,
+        "display_name": "WH/Stock/Semi-Fini"
+      },
+      "complete_name": "WH/Stock/Semi-Fini",
+      "usage": "internal",
+      "quantity": 0,
+      "quantity_kg": 0
+    }
+  ],
+  "stock_unchanged_by_refresh": true
+}

@@ -1,0 +1,15 @@
+{
+  "run_id": "QA-CONS-MP-S12-20260705_183101",
+  "generated_at": "2026-07-05T16:36:24",
+  "scope": "Préparation prérequis guide QA-S12",
+  "product": {
+    "model": "product.product",
+    "id": 555,
+    "display_name": "[MP-FEC-MAN-001] FECULE DE MANIOC"
+  },
+  "field": "product.template.laplatine_consumption_tracking",
+  "before": false,
+  "after": true,
+  "changed_by_qa": true,
+  "note": "Mise en conformité du prérequis guide : Suivi consommation La Platine coché sur la fécule. Aucun min/max, fournisseur, délai ou stock modifié."
+}

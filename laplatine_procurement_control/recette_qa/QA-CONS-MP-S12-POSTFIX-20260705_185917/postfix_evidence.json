@@ -1,0 +1,169 @@
+{
+  "run_id": "QA-CONS-MP-S12-POSTFIX-20260705_185917",
+  "generated_at": "2026-07-05T17:07:42",
+  "database": "laplatine_prod",
+  "production": "STOP - lab uniquement",
+  "module": {
+    "installed_version": "18.0.1.2.1",
+    "latest_version": "18.0.1.2.1",
+    "state": "installed"
+  },
+  "users": {
+    "consultant_login": "qa_cons_mp_s12_postfix_consult_20260705_185917",
+    "operator_login": "qa_cons_mp_s12_postfix_operator_20260705_185917",
+    "admin_login": "qa_cons_mp_s12_postfix_admin_20260705_185917",
+    "password": "S12Postfix!2026"
+  },
+  "menu_checks": {
+    "consultant_configuration_visible": true,
+    "consultant_procurement_root_visible": true,
+    "consultant_cockpit_visible": true,
+    "consultant_laplatine_visible": false,
+    "operator_laplatine_visible": true,
+    "operator_consumption_visible": true,
+    "operator_configuration_visible": false,
+    "operator_cockpit_visible": false
+  },
+  "company": {
+    "warehouse": {
+      "model": "stock.warehouse",
+      "id": 1,
+      "display_name": "La Platine"
+    },
+    "destination": {
+      "model": "stock.location",
+      "id": 15,
+      "display_name": "Virtual Locations/Production"
+    },
+    "destination_usage": "production",
+    "destination_domain": "[('usage', '=', 'production'), '|', ('company_id', '=', False), ('company_id', '=', id)]"
+  },
+  "fecule": {
+    "product": {
+      "model": "product.product",
+      "id": 555,
+      "display_name": "[MP-FEC-MAN-001] FECULE DE MANIOC"
+    },
+    "tracking_consumption": true,
+    "eligible": true,
+    "uom": {
+      "model": "uom.uom",
+      "id": 12,
+      "display_name": "kg"
+    },
+    "stock_locations": [
+      {
+        "location": {
+          "model": "stock.location",
+          "id": 8,
+          "display_name": "WH/Stock"
+        },
+        "complete_name": "WH/Stock",
+        "usage": "internal",
+        "quantity": 0,
+        "quantity_kg": 0
+      },
+      {
+        "location": {
+          "model": "stock.location",
+          "id": 19,
+          "display_name": "WH/Stock/Conteneur Fécule"
+        },
+        "complete_name": "WH/Stock/Conteneur Fécule",
+        "usage": "internal",
+        "quantity": 13250.0,
+        "quantity_kg": 13250.0
+      },
+      {
+        "location": {
+          "model": "stock.location",
+          "id": 24,
+          "display_name": "WH/Stock/Emballage"
+        },
+        "complete_name": "WH/Stock/Emballage",
+        "usage": "internal",
+        "quantity": 0,
+        "quantity_kg": 0
+      },
+      {
+        "location": {
+          "model": "stock.location",
+          "id": 23,
+          "display_name": "WH/Stock/Matière-Première"
+        },
+        "complete_name": "WH/Stock/Matière-Première",
+        "usage": "internal",
+        "quantity": 0,
+        "quantity_kg": 0
+      },
+      {
+        "location": {
+          "model": "stock.location",
+          "id": 22,
+          "display_name": "WH/Stock/Produit-Fini"
+        },
+        "complete_name": "WH/Stock/Produit-Fini",
+        "usage": "internal",
+        "quantity": 0,
+        "quantity_kg": 0
+      },
+      {
+        "location": {
+          "model": "stock.location",
+          "id": 20,
+          "display_name": "WH/Stock/Préparation"
+        },
+        "complete_name": "WH/Stock/Préparation",
+        "usage": "internal",
+        "quantity": 0,
+        "quantity_kg": 0
+      },
+      {
+        "location": {
+          "model": "stock.location",
+          "id": 21,
+          "display_name": "WH/Stock/Semi-Fini"
+        },
+        "complete_name": "WH/Stock/Semi-Fini",
+        "usage": "internal",
+        "quantity": 0,
+        "quantity_kg": 0
+      }
+    ],
+    "positive_location_count": 1,
+    "zero_location_available": true
+  },
+  "neutralized_actions": {
+    "slice3": {
+      "raised": true,
+      "message": "L'enregistrement des consommations sera disponible au Slice 3."
+    },
+    "slice4": {
+      "raised": true,
+      "message": "La correction de stock sera disponible au Slice 4."
+    },
+    "move_count_before": 1,
+    "move_count_after": 1,
+    "move_count_unchanged": true,
+    "stock_unchanged": true
+  },
+  "cockpit": {
+    "refresh_error": false,
+    "line": {
+      "model": "laplatine.procurement.control.line",
+      "id": 1168,
+      "display_name": "laplatine.procurement.control.line,1168"
+    },
+    "min_qty": 5000.0,
+    "max_qty": 18250.0,
+    "supplier": {
+      "model": "res.partner",
+      "id": 384,
+      "display_name": "KASTELL NEGOCE SAS"
+    },
+    "supplier_delay": 90,
+    "consumption_period_days": 90,
+    "qty_available": 13250.0,
+    "last_refresh": "2026-07-05T17:07:42"
+  }
+}

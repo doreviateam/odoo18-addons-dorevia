@@ -147,10 +147,17 @@ class TestProcurementConsumptionSlice2(TransactionCase):
                 ],
             }
         )
-        menu = self.env.ref(
+        menu_env = self.env["ir.ui.menu"].with_user(user)
+        config_menu = self.env.ref("stock.menu_stock_config_settings")
+        root_menu = self.env.ref(
+            "laplatine_procurement_control.menu_procurement_control_root"
+        )
+        cockpit_menu = self.env.ref(
             "laplatine_procurement_control.menu_procurement_control_cockpit"
         )
-        visible = (
-            self.env["ir.ui.menu"].with_user(user).search([("id", "=", menu.id)])
-        )
-        self.assertTrue(visible)
+        for menu in (config_menu, root_menu, cockpit_menu):
+            visible = menu_env.search([("id", "=", menu.id)])
+            self.assertTrue(
+                visible,
+                f"Menu {menu.display_name!r} invisible pour le profil Consultation",
+            )

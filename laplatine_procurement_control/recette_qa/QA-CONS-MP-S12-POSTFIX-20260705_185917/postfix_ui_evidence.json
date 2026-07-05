@@ -1,0 +1,25 @@
+{
+  "run_id": "QA-CONS-MP-S12-POSTFIX-20260705_185917",
+  "generated_at_browser": "2026-07-05T17:14:22.005Z",
+  "browser_user": "QA CONS MP S12 Postfix Consultant",
+  "login": "qa_cons_mp_s12_postfix_consult_20260705_185917",
+  "url_lab": "http://127.0.0.1:18018",
+  "scenario": "QA-S12-02",
+  "checks": {
+    "inventory_configuration_visible": true,
+    "configuration_dropdown_contains_procurement_root": true,
+    "configuration_dropdown_contains_cockpit": true,
+    "cockpit_opened_from_menu": true,
+    "consultant_laplatine_path_absent": true
+  },
+  "observations": {
+    "inventory_url": "http://127.0.0.1:18018/odoo/inventory",
+    "cockpit_url": "http://127.0.0.1:18018/odoo/action-658",
+    "cockpit_title": "Pilotage approvisionnements"
+  },
+  "screenshots": [
+    "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-S12-POSTFIX-20260705_185917/screenshots/01_consultant_inventory_configuration_visible.png",
+    "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-S12-POSTFIX-20260705_185917/screenshots/02_consultant_configuration_dropdown.png",
+    "/Users/doreviateam/Desktop/SARL La Platine/backup-laplatine/laplatine-odoo18-lab/addons/odoo18-addons-dorevia/laplatine_procurement_control/recette_qa/QA-CONS-MP-S12-POSTFIX-20260705_185917/screenshots/03_consultant_cockpit_opened_from_menu.png"
+  ]
+}
