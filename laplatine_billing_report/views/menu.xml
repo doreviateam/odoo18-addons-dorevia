@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem
+        id="menu_laplatine_finance"
+        name="La Platine"
+        parent="account.menu_finance"
+        groups="account.group_account_invoice"
+        sequence="90"
+    />
+    <menuitem
+        id="menu_laplatine_billing_report"
+        name="Rapport de facturation"
+        parent="menu_laplatine_finance"
+        action="laplatine_billing_report.action_laplatine_billing_report_wizard"
+        groups="account.group_account_invoice"
+        sequence="10"
+    />
+</odoo>
