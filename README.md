@@ -12,6 +12,7 @@ Répertoire **addons Odoo 18 Community Edition** pour modules Dorevia / clients 
 |--------|-------------------|
 | [laplatine_invoice_payment_info](laplatine_invoice_payment_info/README.md) | Libellé « Info facture » sur règlement + PDF facture (La Platine) |
 | [laplatine_customer_statement](laplatine_customer_statement/README.md) | État de facturation client XLSX — synthèse, statuts retard (La Platine) |
+| [laplatine_billing_report](laplatine_billing_report/README.md) | Rapport facturation Ventes/Achats XLSX — *spec MOA validée, dev lab autorisé* |
 
 ## Configuration locale
 
