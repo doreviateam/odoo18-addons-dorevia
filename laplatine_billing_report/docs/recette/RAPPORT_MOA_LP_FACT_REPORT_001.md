@@ -128,7 +128,16 @@ Ce total est le nombre de **méthodes de test Python**, pas le nombre d'identifi
 | Présentation slice D | 7 | D01–D07 | D07 ajouté avec correctif R06 |
 | Sécurité slice E | 6 | T22, E05, E06, E07 | T22 scindé en 3 méthodes (création, génération, pas d'attachment) |
 | Helper unitaire | 1 | — | `test_report_sign_and_type_labels` (hors matrice Txx) |
-| **Total** | **42** | **37 identifiants spec** | 5 méthodes supplémentaires = scissions T01, T06 (×2), T22 (×3) − helper |
+| **Total** | **42** | **37 identifiants spec** | voir décomposition ci-dessous |
+
+**5 méthodes supplémentaires par rapport aux 37 identifiants :**
+
+- T01 scindé en 2 méthodes (+1)
+- T06 scindé en 2 méthodes (+1)
+- T22 scindé en 3 méthodes (+2)
+- 1 test helper hors matrice (+1)
+
+→ 37 + 1 + 1 + 2 + 1 = **42 méthodes de test**
 
 #### Inventaire des 42 méthodes
 
