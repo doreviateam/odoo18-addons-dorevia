@@ -2,8 +2,8 @@
 
 **Référence** : `LP-FACT-REPORT-001`  
 **Date** : 2026-07-06  
-**Environnement** : `laplatine-odoo18-lab` / base `laplatine_prod`  
-**Commit** : `ddad53b`  
+**Environnement** : `laplatine-odoo18-lab` / base `laplatine_prod` *(recette locale — pas la production réelle)*  
+**Commit code recetté** : `ddad53b`  
 **Production** : **STOP**
 
 ## Périmètre slice D
@@ -28,9 +28,10 @@ Finition XLSX uniquement — **aucune modification** des domaines, colonnes mét
 
 ## Tests automatisés
 
+Gate slice D : **D01–D07** (7 méthodes). Suite complète module : **42 méthodes** — voir [`RAPPORT_MOA_LP_FACT_REPORT_001.md`](RAPPORT_MOA_LP_FACT_REPORT_001.md) §5.
+
 | Plage | Résultat |
 |-------|----------|
-| T01–T19, C01–C03 | **29/29 verts** |
 | D01–D07 (présentation XLSX) | **7/7 verts** |
 
 ### Matrice D01–D07

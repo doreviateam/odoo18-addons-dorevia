@@ -9,10 +9,11 @@ Module Odoo 18 CE — **Rapport de facturation Ventes / Achats** pour la SARL La
 | Référence | `LP-FACT-REPORT-001` |
 | Version cible | `18.0.1.0.0` |
 | Spécification | [`SPECIFICATION_V1.md`](SPECIFICATION_V1.md) — **MOA validée** |
-| Développement lab | **Clôturé** — slices A → E, commit `ddad53b` |
-| Recette lab | **GO technique** — 42 tests + QA visuelle (GO_R06) |
+| Développement lab | **Clôturé** — `GO_MOA_LAB_LP_FACT_REPORT_001` (06/07/2026) |
+| Commit code recetté | `ddad53b` |
+| Recette lab | **GO** — 42 méthodes de test, QA visuelle GO_R06 |
 | Rapport MOA | [`docs/recette/RAPPORT_MOA_LP_FACT_REPORT_001.md`](docs/recette/RAPPORT_MOA_LP_FACT_REPORT_001.md) |
-| Production | **STOP** — GO MOA production distinct requis |
+| Production | **STOP** — prérequis P1 (Excel natif) + P2 (Véréna/Ethel) avant GO prod |
 
 ## Objectif
 
