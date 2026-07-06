@@ -3,7 +3,7 @@
 **Référence** : `LP-FACT-REPORT-001`  
 **Date** : 2026-07-06  
 **Environnement** : `laplatine-odoo18-lab` / base `laplatine_prod`  
-**Commit** : *(à compléter après push)*  
+**Commit** : `b3a20d7`  
 **Production** : **STOP**
 
 ## Périmètre slice E
@@ -32,10 +32,11 @@ Robustesse et sécurité finale — **aucune modification** du métier ni de la 
 |-------|----------|
 | T01–T19, C01–C03 | **29/29 verts** (non-régression) |
 | D01–D06 (présentation XLSX) | **6/6 verts** (non-régression) |
+| D07 (libellé totaux R06) | **1/1 vert** |
 | T18, T20, T21, T22 | **4/4 verts** |
 | E01–E07 (slice E) | **7/7 verts** |
 
-**Total gate slice E** : **41/41 verts**
+**Total gate slice E** : **42/42 verts**
 
 ### Matrice T18 / T20 / T21 / T22
 
@@ -61,16 +62,17 @@ Robustesse et sécurité finale — **aucune modification** du métier ni de la 
 
 | Contrôle | Statut MOA |
 |----------|------------|
-| Connexion profil Facturation → menu visible, export OK | ☐ À faire |
-| Connexion profil sans Facturation → menu absent | ☐ À faire |
-| Export période sans ventes | ☐ Couvert auto E01 |
-| Export période sans achats | ☐ Couvert auto E02 |
-| Export période totalement vide | ☐ Couvert auto T18 |
-| Ouverture XLSX sans alerte Excel | ☐ À faire |
-| Recette impression slice D (§18) | ☐ **En attente** (parallèle slice D) |
+| Connexion profil Facturation → menu visible, export OK | OK (smoke QA) |
+| Connexion profil sans Facturation → menu absent | OK (smoke QA) |
+| Export période sans ventes | OK (auto E01) |
+| Export période sans achats | OK (auto E02) |
+| Export période totalement vide | OK (auto T18 + smoke QA) |
+| Ouverture XLSX sans alerte Excel | OK (QA LibreOffice) |
+| Recette impression slice D (§18) | OK (GO_R06) |
 
 ## Verdict technique
 
-> **GO technique slice E** — gate automatisée validée (41 tests).  
-> **Recette manuelle impression slice D** toujours obligatoire avant verdict global de clôture.  
+> **GO technique slice E** — gate automatisée validée (42 tests).  
+> **GO recette visuelle slice D** — re-QA R06 validée.  
+> **Clôture lab LP-FACT-REPORT-001** : GO technique ; signature MOA production en attente.  
 > **Production : STOP.**

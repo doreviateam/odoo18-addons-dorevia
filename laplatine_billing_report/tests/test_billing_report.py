@@ -757,6 +757,16 @@ class TestLaplatineBillingReportPresentation(TransactionCase):
         self.assertIn("6", ventes.auto_filter.ref)
         self.assertIn("Nombre de documents", ventes["A8"].value)
 
+    def test_d07_totals_label_column_fits_libelle(self):
+        """D07 — colonne A assez large pour « Nombre de documents » (BUG-FACT-REPORT-D-001)."""
+        workbook = self._generate_empty_report()
+        for sheet_name, min_width in (("Ventes", VENTES_COLUMN_WIDTHS[0]), ("Achats", ACHATS_COLUMN_WIDTHS[0])):
+            letter = get_column_letter(1)
+            width = workbook[sheet_name].column_dimensions[letter].width
+            self.assertIsNotNone(width)
+            self.assertGreaterEqual(width, min_width)
+            self.assertGreaterEqual(min_width, len("Nombre de documents"))
+
 
 @tagged("post_install", "-at_install", "laplatine_billing_report")
 class TestLaplatineBillingReportHelpers(TransactionCase):

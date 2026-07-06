@@ -3,7 +3,7 @@
 **Référence** : `LP-FACT-REPORT-001`  
 **Date** : 2026-07-06  
 **Environnement** : `laplatine-odoo18-lab` / base `laplatine_prod`  
-**Commit** : *(à compléter après push)*  
+**Commit** : `b3a20d7`  
 **Production** : **STOP**
 
 ## Périmètre slice D
@@ -24,15 +24,16 @@ Finition XLSX uniquement — **aucune modification** des domaines, colonnes mét
 | `repeat_rows` lignes 1–6 | OK |
 | Marges, zone impression, pied de page | OK |
 | Nom fichier avec période | OK (régression T19) |
+| Libellé **Nombre de documents** lisible à l'impression | OK (BUG-FACT-REPORT-D-001) |
 
 ## Tests automatisés
 
 | Plage | Résultat |
 |-------|----------|
 | T01–T19, C01–C03 | **29/29 verts** |
-| D01–D06 (présentation XLSX) | **6/6 verts** |
+| D01–D07 (présentation XLSX) | **7/7 verts** |
 
-### Matrice D01–D06
+### Matrice D01–D07
 
 | ID | Scénario | Attendu |
 |----|----------|---------|
@@ -42,21 +43,29 @@ Finition XLSX uniquement — **aucune modification** des domaines, colonnes mét
 | D04 | Ligne 6 | En-têtes MOA Ventes et Achats |
 | D05 | Largeurs colonnes | Colonnes dimensionnées (pas de défaut Excel) |
 | D06 | Autofiltre + totaux | Filtre ligne 6, totaux dans zone impression |
+| D07 | Libellé totaux | Colonne A ≥ longueur « Nombre de documents » |
 
-## Recette manuelle §18
+## Recette visuelle QA
 
-Grille complète : [`docs/recette/RECETTE_SLICE_D_IMPRESSION.md`](../docs/recette/RECETTE_SLICE_D_IMPRESSION.md)
+| Rapport | Verdict |
+|---------|---------|
+| [`recette_qa/SLICE-D-IMPRESSION/RAPPORT_QA_SLICE_D_IMPRESSION.md`](../../recette_qa/SLICE-D-IMPRESSION/RAPPORT_QA_SLICE_D_IMPRESSION.md) | NO_GO initial (R06 KO) |
+| [`recette_qa/SLICE-D-IMPRESSION/REQA-R06-20260706_140940/RAPPORT_QA_R06_RETEST.md`](../../recette_qa/SLICE-D-IMPRESSION/REQA-R06-20260706_140940/RAPPORT_QA_R06_RETEST.md) | **GO_R06** |
 
-| Étape | Statut MOA |
-|-------|------------|
-| Génération fichier M-1 représentatif (≥ 25 docs si possible) | ☐ À faire |
-| Aperçu impression Ventes (multi-pages) | ☐ À faire |
-| Aperçu impression Achats | ☐ À faire |
-| Captures / PDF joints dans `recette_qa/SLICE-D-IMPRESSION/` | ☐ À faire |
+Grille complète : [`docs/recette/RECETTE_SLICE_D_IMPRESSION.md`](RECETTE_SLICE_D_IMPRESSION.md)
 
-Script lab : `scripts/generate_sample_report_slice_d.py`
+| Étape | Statut |
+|-------|--------|
+| Génération fichier M-1 représentatif (juin 2026, 44/47 docs) | OK |
+| Aperçu impression Ventes / Achats (LibreOffice PDF) | OK |
+| R06 libellé totaux lisible | OK (re-QA) |
+| Preuves dans `recette_qa/SLICE-D-IMPRESSION/` | OK |
 
-## Verdict technique
+## Correctif BUG-FACT-REPORT-D-001
 
-> **GO technique slice D** — gate automatisée validée.  
-> **Recette manuelle MOA** en attente de captures d'aperçu impression.
+Colonne A élargie (10 → 22), libellé de synthèse aligné à gauche avec `shrink: False`.
+
+## Verdict
+
+> **GO technique slice D** — gate automatisée et recette visuelle validées.  
+> **Production : STOP.**

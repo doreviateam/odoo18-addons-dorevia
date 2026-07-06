@@ -44,8 +44,8 @@ ACHATS_HEADERS = [
     "État du paiement",
 ]
 
-VENTES_COLUMN_WIDTHS = [10, 18, 32, 11, 11, 14, 12, 14, 18, 18, 22]
-ACHATS_COLUMN_WIDTHS = [10, 18, 18, 32, 11, 11, 14, 12, 14, 18, 18, 22]
+VENTES_COLUMN_WIDTHS = [22, 18, 32, 11, 11, 14, 12, 14, 18, 18, 22]
+ACHATS_COLUMN_WIDTHS = [22, 18, 18, 32, 11, 11, 14, 12, 14, 18, 18, 22]
 
 EMPTY_SHEET_MESSAGE = "Aucun document trouvé sur la période sélectionnée."
 
@@ -165,7 +165,14 @@ class LaplatineBillingReportXlsx:
             ),
             "empty_message": workbook.add_format({"italic": True, "font_size": 11}),
             "total_label": workbook.add_format(
-                {"bold": True, "border": 1, "align": "right", "valign": "vcenter", "bg_color": "#F5F5F5"}
+                {
+                    "bold": True,
+                    "border": 1,
+                    "align": "left",
+                    "valign": "vcenter",
+                    "bg_color": "#F5F5F5",
+                    "shrink": False,
+                }
             ),
             "total_count": workbook.add_format(
                 {"bold": True, "border": 1, "align": "center", "valign": "vcenter", "bg_color": "#F5F5F5"}
