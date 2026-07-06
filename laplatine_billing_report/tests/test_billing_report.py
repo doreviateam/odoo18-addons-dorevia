@@ -5,14 +5,17 @@ from unittest.mock import patch
 
 from dateutil.relativedelta import relativedelta
 from openpyxl import load_workbook
+from openpyxl.utils import get_column_letter
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase, tagged
 
 from ..report.billing_report_xlsx import (
+    ACHATS_COLUMN_WIDTHS,
     ACHATS_HEADERS,
     FIRST_DATA_ROW,
     HEADER_ROW,
+    VENTES_COLUMN_WIDTHS,
     VENTES_HEADERS,
     document_type_label,
     report_sign,
@@ -533,6 +536,87 @@ class TestLaplatineBillingReportWizard(TransactionCase):
         wizard.action_generate_xlsx()
         worksheet = self._load_ventes_sheet(wizard)
         self.assertEqual(self._ventes_headers(worksheet), VENTES_HEADERS)
+
+
+@tagged("post_install", "-at_install", "laplatine_billing_report")
+class TestLaplatineBillingReportPresentation(TransactionCase):
+    """Slice D — propriétés XLSX et impression vérifiables automatiquement."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.Wizard = cls.env["laplatine.billing.report.wizard"]
+        cls.period_from = fields.Date.from_string("2099-08-01")
+        cls.period_to = fields.Date.from_string("2099-08-31")
+
+    def _generate_empty_report(self):
+        wizard = self.Wizard.create(
+            {"date_from": self.period_from, "date_to": self.period_to}
+        )
+        wizard.action_generate_xlsx()
+        return load_workbook(BytesIO(base64.b64decode(wizard.report_file)))
+
+    def _assert_sheet_print_setup(self, worksheet):
+        self.assertEqual(worksheet.page_setup.orientation, "landscape")
+        self.assertEqual(worksheet.page_setup.paperSize, 9)
+        self.assertTrue(worksheet.sheet_properties.pageSetUpPr.fitToPage)
+        self.assertEqual(worksheet.print_title_rows.replace("$", ""), "1:6")
+        self.assertAlmostEqual(worksheet.page_margins.left, 0.4, places=1)
+        self.assertAlmostEqual(worksheet.page_margins.right, 0.4, places=1)
+        self.assertEqual(worksheet.oddFooter.center.text, "Page &P / &N")
+        self.assertFalse(worksheet.sheet_view.showGridLines)
+        self.assertTrue(worksheet.print_area)
+        self.assertEqual(worksheet.freeze_panes, "A7")
+
+    def _assert_column_widths(self, worksheet, expected_widths):
+        for index, expected in enumerate(expected_widths, start=1):
+            letter = get_column_letter(index)
+            width = worksheet.column_dimensions[letter].width
+            self.assertIsNotNone(width)
+            self.assertGreater(width, 8)
+            self.assertLessEqual(width, expected + 5)
+
+    def test_d01_ventes_print_setup(self):
+        """D01 — paramètres d'impression onglet Ventes."""
+        workbook = self._generate_empty_report()
+        self._assert_sheet_print_setup(workbook["Ventes"])
+
+    def test_d02_achats_print_setup(self):
+        """D02 — paramètres d'impression onglet Achats."""
+        workbook = self._generate_empty_report()
+        self._assert_sheet_print_setup(workbook["Achats"])
+
+    def test_d03_meta_block_content(self):
+        """D03 — bloc méta lignes 1 à 4."""
+        workbook = self._generate_empty_report()
+        ventes = workbook["Ventes"]
+        self.assertEqual(ventes["A1"].value, "Rapport de facturation — Ventes")
+        self.assertIn("Du ", ventes["A3"].value)
+        self.assertIn("Généré le", ventes["A4"].value)
+
+    def test_d04_header_row_on_line_six(self):
+        """D04 — en-têtes colonnes sur la ligne 6 Excel."""
+        workbook = self._generate_empty_report()
+        header_row_excel = HEADER_ROW + 1
+        ventes = workbook["Ventes"]
+        self.assertEqual(ventes.cell(header_row_excel, 1).value, "Type")
+        achats = workbook["Achats"]
+        self.assertEqual(achats.cell(header_row_excel, 1).value, "Type")
+        self.assertEqual(achats.cell(header_row_excel, 3).value, "Référence fournisseur")
+
+    def test_d05_column_widths_configured(self):
+        """D05 — largeurs de colonnes définies (évite troncature ###)."""
+        workbook = self._generate_empty_report()
+        self._assert_column_widths(workbook["Ventes"], VENTES_COLUMN_WIDTHS)
+        self._assert_column_widths(workbook["Achats"], ACHATS_COLUMN_WIDTHS)
+
+    def test_d06_autofilter_and_print_area_include_totals(self):
+        """D06 — zone d'impression jusqu'à la ligne de totaux."""
+        workbook = self._generate_empty_report()
+        ventes = workbook["Ventes"]
+        self.assertTrue(ventes.auto_filter.ref)
+        self.assertIn("6", ventes.auto_filter.ref)
+        self.assertIn("Nombre de documents", ventes["A8"].value)
 
 
 @tagged("post_install", "-at_install", "laplatine_billing_report")

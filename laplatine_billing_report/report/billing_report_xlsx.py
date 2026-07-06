@@ -9,6 +9,12 @@ HEADER_ROW = 5
 FIRST_DATA_ROW = 6
 EMPTY_MESSAGE_ROW = 6
 
+META_TITLE_ROW_HEIGHT = 22
+META_ROW_HEIGHT = 16
+HEADER_ROW_HEIGHT = 24
+DATA_ROW_HEIGHT = 16
+SPACER_ROW_HEIGHT = 6
+
 VENTES_HEADERS = [
     "Type",
     "Numéro",
@@ -37,6 +43,9 @@ ACHATS_HEADERS = [
     "Reste à payer / solder",
     "État du paiement",
 ]
+
+VENTES_COLUMN_WIDTHS = [10, 18, 32, 11, 11, 14, 12, 14, 18, 18, 22]
+ACHATS_COLUMN_WIDTHS = [10, 18, 18, 32, 11, 11, 14, 12, 14, 18, 18, 22]
 
 EMPTY_SHEET_MESSAGE = "Aucun document trouvé sur la période sélectionnée."
 
@@ -123,6 +132,7 @@ class LaplatineBillingReportXlsx:
         decimals = currency.decimal_places if currency else 2
         symbol = currency.symbol if currency else ""
         num_format = f'#,##0.{"0" * decimals} "{symbol}"'
+        border = {"border": 1}
 
         return {
             "title": workbook.add_format({"bold": True, "font_size": 14}),
@@ -134,22 +144,67 @@ class LaplatineBillingReportXlsx:
                     "border": 1,
                     "align": "center",
                     "valign": "vcenter",
+                    "text_wrap": True,
                 }
             ),
-            "text": workbook.add_format({"border": 1, "align": "left", "indent": 1}),
+            "text": workbook.add_format({**border, "align": "left", "indent": 1, "valign": "vcenter"}),
             "date": workbook.add_format(
-                {"num_format": "dd/mm/yyyy", "border": 1, "align": "center"}
+                {**border, "num_format": "dd/mm/yyyy", "align": "center", "valign": "vcenter"}
             ),
             "amount": workbook.add_format(
-                {"num_format": num_format, "border": 1, "align": "right"}
+                {**border, "num_format": num_format, "align": "right", "valign": "vcenter"}
+            ),
+            "amount_negative": workbook.add_format(
+                {
+                    **border,
+                    "num_format": num_format,
+                    "align": "right",
+                    "valign": "vcenter",
+                    "font_color": "#9E0000",
+                }
             ),
             "empty_message": workbook.add_format({"italic": True, "font_size": 11}),
-            "total_label": workbook.add_format({"bold": True, "border": 1, "align": "right"}),
-            "total_count": workbook.add_format({"bold": True, "border": 1, "align": "center"}),
+            "total_label": workbook.add_format(
+                {"bold": True, "border": 1, "align": "right", "valign": "vcenter", "bg_color": "#F5F5F5"}
+            ),
+            "total_count": workbook.add_format(
+                {"bold": True, "border": 1, "align": "center", "valign": "vcenter", "bg_color": "#F5F5F5"}
+            ),
             "total_amount": workbook.add_format(
-                {"bold": True, "num_format": num_format, "border": 1, "align": "right"}
+                {
+                    "bold": True,
+                    "num_format": num_format,
+                    "border": 1,
+                    "align": "right",
+                    "valign": "vcenter",
+                    "bg_color": "#F5F5F5",
+                }
+            ),
+            "total_amount_negative": workbook.add_format(
+                {
+                    "bold": True,
+                    "num_format": num_format,
+                    "border": 1,
+                    "align": "right",
+                    "valign": "vcenter",
+                    "bg_color": "#F5F5F5",
+                    "font_color": "#9E0000",
+                }
             ),
         }
+
+    def _amount_format(self, formats, value):
+        if value < 0:
+            return formats["amount_negative"]
+        return formats["amount"]
+
+    def _total_amount_format(self, formats, value):
+        if value < 0:
+            return formats["total_amount_negative"]
+        return formats["total_amount"]
+
+    def _write_amount(self, worksheet, row, col, value, formats):
+        worksheet.write_number(row, col, value, self._amount_format(formats, value))
 
     def _write_meta_block(self, worksheet, formats, title, headers):
         last_col = len(headers) - 1
@@ -168,12 +223,16 @@ class LaplatineBillingReportXlsx:
             f"Généré le {self.generation_date.strftime('%d/%m/%Y')}",
             formats["meta"],
         )
-        worksheet.set_row(0, 22)
+        worksheet.set_row(0, META_TITLE_ROW_HEIGHT)
+        worksheet.set_row(1, META_ROW_HEIGHT)
+        worksheet.set_row(2, META_ROW_HEIGHT)
+        worksheet.set_row(3, META_ROW_HEIGHT)
+        worksheet.set_row(4, SPACER_ROW_HEIGHT)
 
     def _write_headers(self, worksheet, formats, headers):
         for col, header in enumerate(headers):
             worksheet.write_string(HEADER_ROW, col, header, formats["header"])
-        worksheet.set_row(HEADER_ROW, 20)
+        worksheet.set_row(HEADER_ROW, HEADER_ROW_HEIGHT)
 
     def _write_totals_row(self, worksheet, formats, moves, amount_col_start):
         totals = {
@@ -189,23 +248,20 @@ class LaplatineBillingReportXlsx:
                 totals[key] += amounts[key]
 
         totals_row = FIRST_DATA_ROW + (1 if not moves else len(moves))
+        worksheet.set_row(totals_row, DATA_ROW_HEIGHT)
         worksheet.write_string(totals_row, 0, "Nombre de documents", formats["total_label"])
         worksheet.write_number(totals_row, 1, len(moves), formats["total_count"])
-        worksheet.write_number(
-            totals_row, amount_col_start, totals["amount_ht"], formats["total_amount"]
-        )
-        worksheet.write_number(
-            totals_row, amount_col_start + 1, totals["amount_tax"], formats["total_amount"]
-        )
-        worksheet.write_number(
-            totals_row, amount_col_start + 2, totals["amount_ttc"], formats["total_amount"]
-        )
-        worksheet.write_number(
-            totals_row, amount_col_start + 3, totals["amount_paid"], formats["total_amount"]
-        )
-        worksheet.write_number(
-            totals_row, amount_col_start + 4, totals["amount_due"], formats["total_amount"]
-        )
+
+        for offset, key in enumerate(
+            ("amount_ht", "amount_tax", "amount_ttc", "amount_paid", "amount_due")
+        ):
+            value = totals[key]
+            worksheet.write_number(
+                totals_row,
+                amount_col_start + offset,
+                value,
+                self._total_amount_format(formats, value),
+            )
         return totals_row, totals
 
     def _write_ventes_rows(self, worksheet, formats, moves):
@@ -222,6 +278,7 @@ class LaplatineBillingReportXlsx:
             return row + 1
 
         for move in moves:
+            worksheet.set_row(row, DATA_ROW_HEIGHT)
             amounts = signed_move_amounts(move)
             payment_label = self.payment_state_labels.get(
                 move.payment_state, move.payment_state or ""
@@ -247,11 +304,11 @@ class LaplatineBillingReportXlsx:
             else:
                 _write_string(worksheet, row, 4, "", formats["text"])
 
-            worksheet.write_number(row, 5, amounts["amount_ht"], formats["amount"])
-            worksheet.write_number(row, 6, amounts["amount_tax"], formats["amount"])
-            worksheet.write_number(row, 7, amounts["amount_ttc"], formats["amount"])
-            worksheet.write_number(row, 8, amounts["amount_paid"], formats["amount"])
-            worksheet.write_number(row, 9, amounts["amount_due"], formats["amount"])
+            self._write_amount(worksheet, row, 5, amounts["amount_ht"], formats)
+            self._write_amount(worksheet, row, 6, amounts["amount_tax"], formats)
+            self._write_amount(worksheet, row, 7, amounts["amount_ttc"], formats)
+            self._write_amount(worksheet, row, 8, amounts["amount_paid"], formats)
+            self._write_amount(worksheet, row, 9, amounts["amount_due"], formats)
             _write_string(worksheet, row, 10, payment_label, formats["text"])
             row += 1
 
@@ -271,6 +328,7 @@ class LaplatineBillingReportXlsx:
             return row + 1
 
         for move in moves:
+            worksheet.set_row(row, DATA_ROW_HEIGHT)
             amounts = signed_move_amounts(move)
             payment_label = self.payment_state_labels.get(
                 move.payment_state, move.payment_state or ""
@@ -297,15 +355,19 @@ class LaplatineBillingReportXlsx:
             else:
                 _write_string(worksheet, row, 5, "", formats["text"])
 
-            worksheet.write_number(row, 6, amounts["amount_ht"], formats["amount"])
-            worksheet.write_number(row, 7, amounts["amount_tax"], formats["amount"])
-            worksheet.write_number(row, 8, amounts["amount_ttc"], formats["amount"])
-            worksheet.write_number(row, 9, amounts["amount_paid"], formats["amount"])
-            worksheet.write_number(row, 10, amounts["amount_due"], formats["amount"])
+            self._write_amount(worksheet, row, 6, amounts["amount_ht"], formats)
+            self._write_amount(worksheet, row, 7, amounts["amount_tax"], formats)
+            self._write_amount(worksheet, row, 8, amounts["amount_ttc"], formats)
+            self._write_amount(worksheet, row, 9, amounts["amount_paid"], formats)
+            self._write_amount(worksheet, row, 10, amounts["amount_due"], formats)
             _write_string(worksheet, row, 11, payment_label, formats["text"])
             row += 1
 
         return row
+
+    def _configure_column_widths(self, worksheet, widths):
+        for index, width in enumerate(widths):
+            worksheet.set_column(index, index, width)
 
     def _apply_print_setup(self, worksheet, headers, last_row):
         last_col = len(headers) - 1
@@ -320,46 +382,52 @@ class LaplatineBillingReportXlsx:
         worksheet.print_area(0, 0, last_row, last_col)
         worksheet.hide_gridlines(2)
 
-    def _write_ventes_sheet(self, workbook):
-        worksheet = workbook.add_worksheet("Ventes")
+    def _write_data_sheet(
+        self,
+        workbook,
+        sheet_name,
+        title,
+        headers,
+        column_widths,
+        moves,
+        amount_col_start,
+        write_rows_method,
+    ):
+        worksheet = workbook.add_worksheet(sheet_name)
         formats = self._build_formats(workbook)
-        self._write_meta_block(
-            worksheet,
-            formats,
+        self._write_meta_block(worksheet, formats, title, headers)
+        self._write_headers(worksheet, formats, headers)
+        write_rows_method(worksheet, formats, moves)
+        last_row, _totals = self._write_totals_row(
+            worksheet, formats, moves, amount_col_start
+        )
+        self._configure_column_widths(worksheet, column_widths)
+        self._apply_print_setup(worksheet, headers, last_row)
+        return worksheet
+
+    def _write_ventes_sheet(self, workbook):
+        self._write_data_sheet(
+            workbook,
+            "Ventes",
             "Rapport de facturation — Ventes",
             VENTES_HEADERS,
+            VENTES_COLUMN_WIDTHS,
+            self.sale_moves,
+            5,
+            self._write_ventes_rows,
         )
-        self._write_headers(worksheet, formats, VENTES_HEADERS)
-        self._write_ventes_rows(worksheet, formats, self.sale_moves)
-        last_row, _totals = self._write_totals_row(worksheet, formats, self.sale_moves, 5)
-        self._apply_print_setup(worksheet, VENTES_HEADERS, last_row)
-        worksheet.set_column(0, 0, 10)
-        worksheet.set_column(1, 1, 18)
-        worksheet.set_column(2, 2, 28)
-        worksheet.set_column(3, 4, 12)
-        worksheet.set_column(5, 9, 16)
-        worksheet.set_column(10, 10, 22)
 
     def _write_achats_sheet(self, workbook):
-        worksheet = workbook.add_worksheet("Achats")
-        formats = self._build_formats(workbook)
-        self._write_meta_block(
-            worksheet,
-            formats,
+        self._write_data_sheet(
+            workbook,
+            "Achats",
             "Rapport de facturation — Achats",
             ACHATS_HEADERS,
+            ACHATS_COLUMN_WIDTHS,
+            self.purchase_moves,
+            6,
+            self._write_achats_rows,
         )
-        self._write_headers(worksheet, formats, ACHATS_HEADERS)
-        self._write_achats_rows(worksheet, formats, self.purchase_moves)
-        last_row, _totals = self._write_totals_row(worksheet, formats, self.purchase_moves, 6)
-        self._apply_print_setup(worksheet, ACHATS_HEADERS, last_row)
-        worksheet.set_column(0, 0, 10)
-        worksheet.set_column(1, 1, 18)
-        worksheet.set_column(2, 2, 20)
-        worksheet.set_column(3, 3, 28)
-        worksheet.set_column(4, 5, 12)
-        worksheet.set_column(6, 10, 16)
-        worksheet.set_column(11, 11, 22)
 
 
 def generate_billing_report_xlsx(

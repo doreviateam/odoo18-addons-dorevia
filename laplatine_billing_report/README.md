@@ -28,3 +28,4 @@ Générer un fichier Excel `.xlsx` (onglets **Ventes** et **Achats**) pour trans
 ## Documentation
 
 - Spécification V1 : [`SPECIFICATION_V1.md`](SPECIFICATION_V1.md)
+- Recette impression slice D : [`docs/recette/RECETTE_SLICE_D_IMPRESSION.md`](docs/recette/RECETTE_SLICE_D_IMPRESSION.md)
