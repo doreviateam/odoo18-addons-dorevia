@@ -5,7 +5,7 @@
         name="La Platine"
         parent="account.menu_finance"
         groups="account.group_account_invoice"
-        sequence="90"
+        sequence="3"
     />
     <menuitem
         id="menu_laplatine_billing_report"

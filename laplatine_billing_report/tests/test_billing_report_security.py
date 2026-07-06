@@ -108,3 +108,23 @@ class TestLaplatineBillingReportSecurity(TransactionCase):
 
         workbook = load_workbook(BytesIO(base64.b64decode(wizard.report_file)))
         self.assertEqual(workbook.sheetnames, ["Ventes", "Achats"])
+
+    def test_e08_laplatine_menu_between_vendors_and_accounting(self):
+        """Menu La Platine entre Fournisseurs et Comptabilité sous Facturation."""
+        parent = self.env.ref("account.menu_finance")
+        vendors = self.env.ref("account.menu_finance_payables")
+        accounting = self.env.ref("account.menu_finance_entries")
+        laplatine = self.menu_billing.parent_id
+
+        siblings = self.env["ir.ui.menu"].search(
+            [("parent_id", "=", parent.id)], order="sequence, id"
+        )
+        sibling_ids = siblings.ids
+        vendors_idx = sibling_ids.index(vendors.id)
+        laplatine_idx = sibling_ids.index(laplatine.id)
+        accounting_idx = sibling_ids.index(accounting.id)
+
+        self.assertLess(vendors_idx, laplatine_idx)
+        self.assertLess(laplatine_idx, accounting_idx)
+        self.assertGreaterEqual(laplatine.sequence, vendors.sequence)
+        self.assertLess(laplatine.sequence, accounting.sequence)
