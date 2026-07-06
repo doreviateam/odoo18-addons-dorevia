@@ -113,7 +113,7 @@ class LaplatineBillingReportXlsx:
         buffer = BytesIO()
         workbook = xlsxwriter.Workbook(buffer, {"in_memory": True})
         self._write_ventes_sheet(workbook)
-        self._write_achats_stub_sheet(workbook)
+        self._write_achats_sheet(workbook)
         workbook.close()
         buffer.seek(0)
         return buffer.read()
@@ -257,6 +257,56 @@ class LaplatineBillingReportXlsx:
 
         return row
 
+    def _write_achats_rows(self, worksheet, formats, moves):
+        row = FIRST_DATA_ROW
+        if not moves:
+            worksheet.merge_range(
+                EMPTY_MESSAGE_ROW,
+                0,
+                EMPTY_MESSAGE_ROW,
+                len(ACHATS_HEADERS) - 1,
+                EMPTY_SHEET_MESSAGE,
+                formats["empty_message"],
+            )
+            return row + 1
+
+        for move in moves:
+            amounts = signed_move_amounts(move)
+            payment_label = self.payment_state_labels.get(
+                move.payment_state, move.payment_state or ""
+            )
+
+            _write_string(
+                worksheet, row, 0, document_type_label(move.move_type), formats["text"]
+            )
+            _write_string(worksheet, row, 1, move.name, formats["text"])
+            _write_string(worksheet, row, 2, move.ref, formats["text"])
+            _write_string(
+                worksheet, row, 3, move.partner_id.display_name, formats["text"]
+            )
+
+            invoice_dt = _date_to_datetime(move.invoice_date)
+            if invoice_dt:
+                worksheet.write_datetime(row, 4, invoice_dt, formats["date"])
+            else:
+                _write_string(worksheet, row, 4, "", formats["text"])
+
+            due_dt = _date_to_datetime(move.invoice_date_due)
+            if due_dt:
+                worksheet.write_datetime(row, 5, due_dt, formats["date"])
+            else:
+                _write_string(worksheet, row, 5, "", formats["text"])
+
+            worksheet.write_number(row, 6, amounts["amount_ht"], formats["amount"])
+            worksheet.write_number(row, 7, amounts["amount_tax"], formats["amount"])
+            worksheet.write_number(row, 8, amounts["amount_ttc"], formats["amount"])
+            worksheet.write_number(row, 9, amounts["amount_paid"], formats["amount"])
+            worksheet.write_number(row, 10, amounts["amount_due"], formats["amount"])
+            _write_string(worksheet, row, 11, payment_label, formats["text"])
+            row += 1
+
+        return row
+
     def _apply_print_setup(self, worksheet, headers, last_row):
         last_col = len(headers) - 1
         worksheet.set_landscape()
@@ -290,8 +340,7 @@ class LaplatineBillingReportXlsx:
         worksheet.set_column(5, 9, 16)
         worksheet.set_column(10, 10, 22)
 
-    def _write_achats_stub_sheet(self, workbook):
-        """Slice B — en-têtes Achats, contenu métier en slice C."""
+    def _write_achats_sheet(self, workbook):
         worksheet = workbook.add_worksheet("Achats")
         formats = self._build_formats(workbook)
         self._write_meta_block(
@@ -301,18 +350,16 @@ class LaplatineBillingReportXlsx:
             ACHATS_HEADERS,
         )
         self._write_headers(worksheet, formats, ACHATS_HEADERS)
-        worksheet.merge_range(
-            EMPTY_MESSAGE_ROW,
-            0,
-            EMPTY_MESSAGE_ROW,
-            len(ACHATS_HEADERS) - 1,
-            EMPTY_SHEET_MESSAGE,
-            formats["empty_message"],
-        )
-        last_row, _totals = self._write_totals_row(
-            worksheet, formats, self.purchase_moves.browse(), 6
-        )
+        self._write_achats_rows(worksheet, formats, self.purchase_moves)
+        last_row, _totals = self._write_totals_row(worksheet, formats, self.purchase_moves, 6)
         self._apply_print_setup(worksheet, ACHATS_HEADERS, last_row)
+        worksheet.set_column(0, 0, 10)
+        worksheet.set_column(1, 1, 18)
+        worksheet.set_column(2, 2, 20)
+        worksheet.set_column(3, 3, 28)
+        worksheet.set_column(4, 5, 12)
+        worksheet.set_column(6, 10, 16)
+        worksheet.set_column(11, 11, 22)
 
 
 def generate_billing_report_xlsx(
