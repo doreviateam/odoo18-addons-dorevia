@@ -11,7 +11,7 @@
 | **Commit production connu (avant intervention)** | `2af0fc1b14d7b9ff1552eb61d72c62613babff43` *(à reconfirmer sur site)* |
 | **URL production** | `https://prod.sarl-la-platine.fr` |
 | **Fenêtre d'intervention** | **Nuit du 6 au 7 juillet 2026** — **00 h 30 – 01 h 00** (France métropole) = **18 h 30 – 19 h 00** (Guadeloupe) |
-| **Statut** | **PRÉPARÉ — ne pas exécuter avant le créneau** |
+| **Statut** | **DÉPLOYÉ** — 2026-07-07 00 h 18 FR — rapport [`recette_qa/PROD-FACT-REPORT-20260707/`](recette_qa/PROD-FACT-REPORT-20260707/) |
 
 ---
 

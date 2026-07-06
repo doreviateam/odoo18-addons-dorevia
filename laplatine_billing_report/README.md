@@ -14,7 +14,7 @@ Module Odoo 18 CE — **Rapport de facturation Ventes / Achats** pour la SARL La
 | Recette lab | **GO** — 42 méthodes de test, QA visuelle GO_R06 |
 | Rapport MOA clôture lab | [`docs/recette/RAPPORT_MOA_LP_FACT_REPORT_001.md`](docs/recette/RAPPORT_MOA_LP_FACT_REPORT_001.md) |
 | Déploiement production | [`DEPLOIEMENT_PRODUCTION.md`](DEPLOIEMENT_PRODUCTION.md) — **prévu 07/07/2026 00 h 30 FR** |
-| Production | **STOP** — prérequis P1 (Excel natif) + P2 (Véréna/Ethel) avant GO prod |
+| Production | **DÉPLOYÉ** `18.0.1.0.0` — 2026-07-07 — P1/P2 MOA en attente |
 
 ## Objectif
 

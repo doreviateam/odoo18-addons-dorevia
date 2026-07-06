@@ -64,6 +64,7 @@ menu_order_ok = (
 record("menu_order", menu_order_ok, "Fournisseurs → La Platine → Comptabilité")
 
 # 3. Droits groupe Facturation (modèle wizard chargé)
+Wizard = env["laplatine.billing.report.wizard"]
 record(
     "wizard_model_loaded",
     Wizard._name in env.registry,
@@ -71,7 +72,6 @@ record(
 )
 
 # 4. Génération export M-1 (période courte — mois calendaire précédent simulé)
-Wizard = env["laplatine.billing.report.wizard"]
 first_this_month = date.today().replace(day=1)
 period_to = first_this_month - timedelta(days=1)
 period_from = period_to.replace(day=1)
