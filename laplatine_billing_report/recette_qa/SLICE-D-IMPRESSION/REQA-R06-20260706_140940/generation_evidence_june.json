@@ -1,0 +1,15 @@
+{
+  "module": {
+    "installed_version": "18.0.1.0.0",
+    "latest_version": "18.0.1.0.0",
+    "state": "installed"
+  },
+  "database": "laplatine_prod",
+  "date_from": "2026-06-01",
+  "date_to": "2026-06-30",
+  "filename": "Rapport_facturation_La_Platine_2026-06-01_2026-06-30.xlsx",
+  "output_path": "/tmp/laplatine_billing_report_slice_d_visual_qa/Rapport_facturation_La_Platine_2026-06-01_2026-06-30.xlsx",
+  "sale_count": 44,
+  "purchase_count": 47,
+  "production": "STOP - lab uniquement"
+}

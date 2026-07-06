@@ -1,0 +1,74 @@
+{
+  "june_2026": {
+    "Ventes": {
+      "column_a_width": 22.7109375,
+      "totals_row": 51,
+      "label": "Nombre de documents",
+      "document_count": 44,
+      "amount_ht": "33695.23",
+      "tva": "701.60",
+      "amount_ttc": "34396.83",
+      "paid_or_sold": "4313.99",
+      "residual_or_balance": "30082.84"
+    },
+    "Achats": {
+      "column_a_width": 22.7109375,
+      "totals_row": 54,
+      "label": "Nombre de documents",
+      "document_count": 47,
+      "amount_ht": "23701.24",
+      "tva": "836.87",
+      "amount_ttc": "24538.11",
+      "paid_or_sold": "18890.23",
+      "residual_or_balance": "5647.88"
+    }
+  },
+  "empty_2099_12": {
+    "Ventes": {
+      "column_a_width": 22.7109375,
+      "totals_row": 8,
+      "label": "Nombre de documents",
+      "document_count": 0,
+      "amount_ht": "0.00",
+      "tva": "0.00",
+      "amount_ttc": "0.00",
+      "paid_or_sold": "0.00",
+      "residual_or_balance": "0.00"
+    },
+    "Achats": {
+      "column_a_width": 22.7109375,
+      "totals_row": 8,
+      "label": "Nombre de documents",
+      "document_count": 0,
+      "amount_ht": "0.00",
+      "tva": "0.00",
+      "amount_ttc": "0.00",
+      "paid_or_sold": "0.00",
+      "residual_or_balance": "0.00"
+    }
+  },
+  "unchanged_against_initial_qa": {
+    "june_2026_counts_and_totals": true,
+    "empty_2099_12_counts_and_totals": true
+  },
+  "initial_qa_reference_column_a_widths": {
+    "june_2026": {
+      "Ventes": 10.7109375,
+      "Achats": 10.7109375
+    },
+    "empty_2099_12": {
+      "Ventes": 10.7109375,
+      "Achats": 10.7109375
+    }
+  },
+  "re_qa_column_a_widths": {
+    "june_2026": {
+      "Ventes": 22.7109375,
+      "Achats": 22.7109375
+    },
+    "empty_2099_12": {
+      "Ventes": 22.7109375,
+      "Achats": 22.7109375
+    }
+  }
+}

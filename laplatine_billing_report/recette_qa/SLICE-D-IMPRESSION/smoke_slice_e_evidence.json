@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-07-06T12:00:21.888291",
+  "database": "laplatine_prod",
+  "production": "STOP - lab uniquement",
+  "invoice_user": "qa_fact_report_invoice_20260706",
+  "denied_user": "qa_fact_report_denied_20260706",
+  "invoice_menu_visible": true,
+  "denied_menu_visible": false,
+  "invoice_export_ok": true,
+  "empty_period": {
+    "date_from": "2099-12-01",
+    "date_to": "2099-12-31",
+    "filename": "Rapport_facturation_La_Platine_2099-12-01_2099-12-31.xlsx",
+    "xlsx_path": "/tmp/laplatine_billing_report_slice_d_visual_qa/Rapport_facturation_La_Platine_2099-12-01_2099-12-31.xlsx"
+  },
+  "denied_create_blocked": true
+}
