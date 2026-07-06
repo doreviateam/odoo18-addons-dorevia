@@ -13,6 +13,8 @@ from odoo.tests import TransactionCase, tagged
 from ..report.billing_report_xlsx import (
     ACHATS_COLUMN_WIDTHS,
     ACHATS_HEADERS,
+    EMPTY_MESSAGE_ROW,
+    EMPTY_SHEET_MESSAGE,
     FIRST_DATA_ROW,
     HEADER_ROW,
     VENTES_COLUMN_WIDTHS,
@@ -124,11 +126,11 @@ class TestLaplatineBillingReportWizard(TransactionCase):
         move.action_post()
         return move
 
-    def _create_vendor_move(self, amount=80.0, invoice_date=None, vendor_ref=None):
+    def _create_vendor_move(self, amount=80.0, invoice_date=None, vendor_ref=None, partner=None):
         invoice_date = invoice_date or self.period_from
         values = {
             "move_type": "in_invoice",
-            "partner_id": self.vendor.id,
+            "partner_id": (partner or self.vendor).id,
             "invoice_date": invoice_date,
             "journal_id": self.purchase_journal.id,
             "invoice_line_ids": [
@@ -195,6 +197,29 @@ class TestLaplatineBillingReportWizard(TransactionCase):
 
     def _achats_data_rows(self, worksheet):
         return self._data_rows(worksheet, len(ACHATS_HEADERS))
+
+    def _find_totals_row(self, worksheet):
+        for row_idx in range(FIRST_DATA_ROW + 1, worksheet.max_row + 1):
+            if worksheet.cell(row_idx, 1).value == "Nombre de documents":
+                return row_idx
+        return None
+
+    def _assert_text_cell_not_formula(self, cell, expected_value):
+        self.assertEqual(cell.value, expected_value)
+        self.assertNotEqual(cell.data_type, "f")
+
+    def _assert_empty_sheet(self, worksheet, headers, amount_total_col):
+        self.assertEqual(
+            self._sheet_headers(worksheet, headers),
+            headers,
+        )
+        self.assertEqual(worksheet.cell(EMPTY_MESSAGE_ROW + 1, 1).value, EMPTY_SHEET_MESSAGE)
+        totals_row = self._find_totals_row(worksheet)
+        self.assertIsNotNone(totals_row)
+        self.assertEqual(worksheet.cell(totals_row, 1).value, "Nombre de documents")
+        self.assertEqual(worksheet.cell(totals_row, 2).value, 0)
+        for col in range(amount_total_col, amount_total_col + 5):
+            self.assertEqual(worksheet.cell(totals_row, col).value, 0)
 
     def test_t01_default_period_is_previous_calendar_month(self):
         """T01 — ouverture wizard : mois M-1 complet."""
@@ -537,6 +562,120 @@ class TestLaplatineBillingReportWizard(TransactionCase):
         worksheet = self._load_ventes_sheet(wizard)
         self.assertEqual(self._ventes_headers(worksheet), VENTES_HEADERS)
 
+
+@tagged("post_install", "-at_install", "laplatine_billing_report")
+class TestLaplatineBillingReportSliceE(TestLaplatineBillingReportWizard):
+    """Slice E — onglets vides, anti-formule Excel, non-régression présentation."""
+
+    def _generate_workbook(self, date_from, date_to):
+        wizard = self._wizard(date_from=date_from, date_to=date_to)
+        wizard.action_generate_xlsx()
+        return self._load_workbook(wizard)
+
+    def test_t18_both_sheets_empty(self):
+        """T18 — aucun document : message, totaux à 0, deux feuilles présentes."""
+        workbook = self._generate_workbook(
+            fields.Date.from_string("2099-11-01"),
+            fields.Date.from_string("2099-11-30"),
+        )
+        self.assertEqual(workbook.sheetnames, ["Ventes", "Achats"])
+        self._assert_empty_sheet(workbook["Ventes"], VENTES_HEADERS, 6)
+        self._assert_empty_sheet(workbook["Achats"], ACHATS_HEADERS, 7)
+
+    def test_e01_ventes_empty_achats_with_data(self):
+        """Slice E — Ventes vide, Achats avec écritures."""
+        period_from = fields.Date.from_string("2099-07-01")
+        period_to = fields.Date.from_string("2099-07-31")
+        self._create_vendor_move(
+            amount=120.0,
+            invoice_date=period_from,
+            vendor_ref="REF-E01",
+        )
+        workbook = self._generate_workbook(period_from, period_to)
+        ventes = workbook["Ventes"]
+        achats = workbook["Achats"]
+        self._assert_empty_sheet(ventes, VENTES_HEADERS, 6)
+        self.assertEqual(len(self._achats_data_rows(achats)), 1)
+        totals_row = self._find_totals_row(achats)
+        self.assertEqual(achats.cell(totals_row, 2).value, 1)
+
+    def test_e02_achats_empty_ventes_with_data(self):
+        """Slice E — Achats vide, Ventes avec écritures."""
+        period_from = fields.Date.from_string("2099-09-01")
+        period_to = fields.Date.from_string("2099-09-30")
+        self._create_customer_move(invoice_date=period_from, amount=150.0)
+        workbook = self._generate_workbook(period_from, period_to)
+        ventes = workbook["Ventes"]
+        achats = workbook["Achats"]
+        self.assertEqual(len(self._ventes_data_rows(ventes)), 1)
+        self._assert_empty_sheet(achats, ACHATS_HEADERS, 7)
+        totals_row = self._find_totals_row(ventes)
+        self.assertEqual(ventes.cell(totals_row, 2).value, 1)
+
+    def test_t20_nombre_de_documents_label(self):
+        """T20 — libellé exact « Nombre de documents » sur les deux onglets."""
+        workbook = self._generate_workbook(
+            fields.Date.from_string("2099-11-01"),
+            fields.Date.from_string("2099-11-30"),
+        )
+        for sheet_name in ("Ventes", "Achats"):
+            totals_row = self._find_totals_row(workbook[sheet_name])
+            self.assertEqual(
+                workbook[sheet_name].cell(totals_row, 1).value,
+                "Nombre de documents",
+            )
+
+    def test_t21_excel_formula_injection_written_as_text(self):
+        """T21 — valeurs =1+1, +CMD, -TEST, @REF restent du texte, pas des formules."""
+        evil_customer = self.env["res.partner"].create(
+            {"name": "=1+1", "customer_rank": 1}
+        )
+        evil_vendor = self.env["res.partner"].create(
+            {"name": "+CMD", "supplier_rank": 1}
+        )
+        customer_move = self._create_customer_move(partner=evil_customer)
+        vendor_move = self._create_vendor_move(
+            partner=evil_vendor,
+            vendor_ref="-TEST",
+        )
+        vendor_move_ref = self._create_vendor_move(vendor_ref="@REF", amount=45.0)
+
+        wizard = self._wizard()
+        wizard.action_generate_xlsx()
+        ventes = self._load_ventes_sheet(wizard)
+        achats = self._load_achats_sheet(wizard)
+
+        ventes_row = next(
+            row_idx
+            for row_idx in self._ventes_data_rows(ventes)
+            if ventes.cell(row_idx, 2).value == customer_move.name
+        )
+        self._assert_text_cell_not_formula(ventes.cell(ventes_row, 3), "=1+1")
+
+        achats_row = next(
+            row_idx
+            for row_idx in self._achats_data_rows(achats)
+            if achats.cell(row_idx, 2).value == vendor_move.name
+        )
+        self._assert_text_cell_not_formula(achats.cell(achats_row, 3), "-TEST")
+        self._assert_text_cell_not_formula(achats.cell(achats_row, 4), "+CMD")
+
+        achats_ref_row = next(
+            row_idx
+            for row_idx in self._achats_data_rows(achats)
+            if achats.cell(row_idx, 2).value == vendor_move_ref.name
+        )
+        self._assert_text_cell_not_formula(achats.cell(achats_ref_row, 3), "@REF")
+
+    def test_e04_slice_d_print_setup_preserved_on_empty_export(self):
+        """Slice E — mise en page slice D conservée sur export sans document."""
+        workbook = self._generate_workbook(
+            fields.Date.from_string("2099-11-01"),
+            fields.Date.from_string("2099-11-30"),
+        )
+        presentation = TestLaplatineBillingReportPresentation()
+        for sheet_name in ("Ventes", "Achats"):
+            presentation._assert_sheet_print_setup(workbook[sheet_name])
 
 @tagged("post_install", "-at_install", "laplatine_billing_report")
 class TestLaplatineBillingReportPresentation(TransactionCase):

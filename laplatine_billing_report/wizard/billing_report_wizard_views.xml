@@ -27,5 +27,6 @@
         <field name="res_model">laplatine.billing.report.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
+        <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
     </record>
 </odoo>
