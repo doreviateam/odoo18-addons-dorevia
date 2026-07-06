@@ -3,7 +3,7 @@
 **Référence** : `LP-FACT-REPORT-001`  
 **Date** : 2026-07-06  
 **Environnement** : `laplatine-odoo18-lab` / base `laplatine_prod`  
-**Commit** : `b3a20d7`  
+**Commit** : `ddad53b`  
 **Production** : **STOP**
 
 ## Périmètre slice D
