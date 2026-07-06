@@ -9,8 +9,10 @@ Module Odoo 18 CE — **Rapport de facturation Ventes / Achats** pour la SARL La
 | Référence | `LP-FACT-REPORT-001` |
 | Version cible | `18.0.1.0.0` |
 | Spécification | [`SPECIFICATION_V1.md`](SPECIFICATION_V1.md) — **MOA validée** |
-| Développement lab | **Autorisé** — slices A → E |
-| Production | **STOP** |
+| Développement lab | **Clôturé** — slices A → E, commit `ddad53b` |
+| Recette lab | **GO technique** — 42 tests + QA visuelle (GO_R06) |
+| Rapport MOA | [`docs/recette/RAPPORT_MOA_LP_FACT_REPORT_001.md`](docs/recette/RAPPORT_MOA_LP_FACT_REPORT_001.md) |
+| Production | **STOP** — GO MOA production distinct requis |
 
 ## Objectif
 
@@ -29,3 +31,4 @@ Générer un fichier Excel `.xlsx` (onglets **Ventes** et **Achats**) pour trans
 
 - Spécification V1 : [`SPECIFICATION_V1.md`](SPECIFICATION_V1.md)
 - Recette impression slice D : [`docs/recette/RECETTE_SLICE_D_IMPRESSION.md`](docs/recette/RECETTE_SLICE_D_IMPRESSION.md)
+- Rapport MOA clôture lab : [`docs/recette/RAPPORT_MOA_LP_FACT_REPORT_001.md`](docs/recette/RAPPORT_MOA_LP_FACT_REPORT_001.md)
